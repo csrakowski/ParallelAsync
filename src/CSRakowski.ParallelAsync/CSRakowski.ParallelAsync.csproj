@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Christiaan Rakowski</Authors>
+    <Company />
+    <Description>A .NET utility library for running async methods in parallel batches</Description>
+    <Copyright>Christiaan Rakowski - 2017</Copyright>
+    <PackageProjectUrl>https://github.com/csrakowski/ParallelAsync</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/csrakowski/ParallelAsync/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/csrakowski/ParallelAsync</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>Parallel, Async, Batching</PackageTags>
+  </PropertyGroup>
+
+</Project>
