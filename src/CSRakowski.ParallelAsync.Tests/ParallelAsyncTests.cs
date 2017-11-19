@@ -9,7 +9,7 @@ using CSRakowski.ParallelAsync;
 
 namespace CSRakowski.ParallelAsync.Tests
 {
-    [TestFixture]
+    [TestFixture, Category("ParallelAsync Base Tests")]
     public class ParallelAsyncTests
     {
         [Test]

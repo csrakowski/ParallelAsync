@@ -39,6 +39,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ParallelAsyncBenchmarks.cs" />
     <Compile Include="ParallelAsyncTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
