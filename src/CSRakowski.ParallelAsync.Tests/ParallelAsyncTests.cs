@@ -248,7 +248,6 @@ namespace CSRakowski.ParallelAsync.Tests
 
             var results = await Parallel.ForEachAsync(input, (el) =>
             {
-
                 var r = el + Interlocked.Increment(ref callCount);
 
                 return Task.FromResult(r);
