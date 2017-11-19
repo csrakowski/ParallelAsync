@@ -80,7 +80,7 @@ namespace CSRakowski.ParallelAsync.Tests
                 var batchResults = await Parallel.ForEachAsync(numbers, JustAddOne, maxBatchSize, outOfOrder, numberOfItemsInCollection, CancellationToken.None).ConfigureAwait(false);
 
                 timer.Stop();
-                var resultCount = batchResults.ToList().Count;
+                var resultCount = batchResults.Count();
                 var elapsed = timer.Elapsed.TotalMilliseconds;
 
                 var testResult = new TestResult(runCount, numberOfItemsInCollection, resultCount, elapsed);
