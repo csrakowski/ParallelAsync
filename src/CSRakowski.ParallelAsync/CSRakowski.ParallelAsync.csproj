@@ -12,6 +12,7 @@
     <RepositoryUrl>https://github.com/csrakowski/ParallelAsync</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>Parallel, Async, Batching</PackageTags>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
 </Project>
