@@ -7,8 +7,8 @@
     <ProjectGuid>{8EDF4429-251A-416D-BB68-93F227191BCF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CSRakowski.ParallelAsync.Tests</RootNamespace>
-    <AssemblyName>CSRakowski.ParallelAsync.Tests</AssemblyName>
+    <RootNamespace>CSRakowski.Parallel.Tests</RootNamespace>
+    <AssemblyName>CSRakowski.Parallel.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -39,6 +39,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtensionMethodsTests.cs" />
     <Compile Include="ParallelAsyncBenchmarks.cs" />
     <Compile Include="ParallelAsyncTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

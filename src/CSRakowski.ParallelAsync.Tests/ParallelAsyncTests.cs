@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CSRakowski.Parallel;
 
-namespace CSRakowski.Tests
+namespace CSRakowski.Parallel.Tests
 {
     [TestFixture, Category("ParallelAsync Base Tests")]
     public class ParallelAsyncTests

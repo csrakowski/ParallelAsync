@@ -20,8 +20,11 @@
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
     <PackageReleaseNotes>* Renamed class to ParallelAsync to prevent naming conflicts with the System.Threading.Tasks.Parallel.
-* Renamed namespace to CSRakowski.Parallel to prevent ambiguous name conflicts between the class and the namespace.</PackageReleaseNotes>
+* Renamed namespace to CSRakowski.Parallel to prevent ambiguous name conflicts between the class and the namespace.
+* Added new extension methods to allow for fluent sytax usage</PackageReleaseNotes>
     <Version>1.1.0</Version>
+    <RootNamespace>CSRakowski.Parallel</RootNamespace>
+    <AssemblyName>CSRakowski.Parallel</AssemblyName>
   </PropertyGroup>
 
 </Project>

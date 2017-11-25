@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using CSRakowski.Parallel;
 using System.Diagnostics;
 
-namespace CSRakowski.Tests
+namespace CSRakowski.Parallel.Tests
 {
     [TestFixture, Category("ParallelAsync Performance Degradation Tests")]
     public class ParallelAsyncBenchmarks
