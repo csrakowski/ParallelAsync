@@ -1,14 +1,15 @@
-﻿using System;
+﻿using CSRakowski.Parallel.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CSRakowski.ParallelAsync
+namespace CSRakowski.Parallel
 {
     /// <summary>
     /// Helper class to assist with running async workloads in a parallel/batched manner.
     /// </summary>
-    public static partial class Parallel
+    public static partial class ParallelAsync
     {
         #region Helpers
 

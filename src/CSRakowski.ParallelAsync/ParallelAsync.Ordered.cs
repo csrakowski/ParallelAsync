@@ -1,11 +1,12 @@
-﻿using System;
+﻿using CSRakowski.Parallel.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CSRakowski.ParallelAsync
+namespace CSRakowski.Parallel
 {
-    public static partial class Parallel
+    public static partial class ParallelAsync
     {
         private static async Task<IEnumerable<TResult>> ForEachAsyncImplOrdered<TResult, TIn>(IEnumerable<TIn> collection, CancellationToken cancellationToken, int batchSize, int estimatedResultSize, Func<TIn, Task<TResult>> func)
         {

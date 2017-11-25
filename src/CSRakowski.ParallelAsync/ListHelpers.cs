@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CSRakowski.ParallelAsync
+namespace CSRakowski.Parallel.Helpers
 {
     /// <summary>
     /// A collection of helpers to get a <see cref="List{T}"/> of the right size
     /// </summary>
     /// <remarks>
-    /// These helpers are used by the <see cref="Parallel"/> class to get a <see cref="List{T}"/> big enough to hold the result collection
+    /// These helpers are used by the <see cref="ParallelAsync"/> class to get a <see cref="List{T}"/> big enough to hold the result collection
     /// </remarks>
     public static class ListHelpers
     {

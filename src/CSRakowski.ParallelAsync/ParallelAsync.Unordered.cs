@@ -1,13 +1,14 @@
-﻿using System;
+﻿using CSRakowski.Parallel.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CSRakowski.ParallelAsync
+namespace CSRakowski.Parallel
 {
-    public static partial class Parallel
+    public static partial class ParallelAsync
     {
         //TODO: #37 - Look into using Arrays directly, instead of relying on Adding/Removing using List (Perf/GC overhead)
 

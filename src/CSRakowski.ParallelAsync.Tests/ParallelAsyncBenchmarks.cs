@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using CSRakowski.ParallelAsync;
+using CSRakowski.Parallel;
 using System.Diagnostics;
 
-namespace CSRakowski.ParallelAsync.Tests
+namespace CSRakowski.Tests
 {
     [TestFixture, Category("ParallelAsync Performance Degradation Tests")]
     public class ParallelAsyncBenchmarks
@@ -63,7 +63,7 @@ namespace CSRakowski.ParallelAsync.Tests
 
             Console.WriteLine("Single runs to pre-jit it all");
 
-            await Parallel.ForEachAsync(numbers, JustAddOne, maxBatchSize, outOfOrder, numberOfItemsInCollection, CancellationToken.None).ConfigureAwait(false);
+            await ParallelAsync.ForEachAsync(numbers, JustAddOne, maxBatchSize, outOfOrder, numberOfItemsInCollection, CancellationToken.None).ConfigureAwait(false);
 
             Console.ForegroundColor = defaultColor;
 
@@ -77,7 +77,7 @@ namespace CSRakowski.ParallelAsync.Tests
             {
                 var timer = Stopwatch.StartNew();
 
-                var batchResults = await Parallel.ForEachAsync(numbers, JustAddOne, maxBatchSize, outOfOrder, numberOfItemsInCollection, CancellationToken.None).ConfigureAwait(false);
+                var batchResults = await ParallelAsync.ForEachAsync(numbers, JustAddOne, maxBatchSize, outOfOrder, numberOfItemsInCollection, CancellationToken.None).ConfigureAwait(false);
 
                 timer.Stop();
                 var resultCount = batchResults.Count();
