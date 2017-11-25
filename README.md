@@ -6,27 +6,27 @@ Available on NuGet: [![NuGet](https://img.shields.io/nuget/v/CSRakowski.Parallel
 
 Example usage:
 
-	using CSRakowski.Parallel;
+    using CSRakowski.Parallel;
 
-	List<string> fileUrls = ...;
+    List<string> fileUrls = ...;
 
-	var files = await ParallelAsync.ForEachAsync(fileUrls, (url) =>
-	{
+    var files = await ParallelAsync.ForEachAsync(fileUrls, (url) =>
+    {
         return DownloadFileAsync(url);
-	}, maxBatchSize: 8, allowOutOfOrderProcessing: true);
+    }, maxBatchSize: 8, allowOutOfOrderProcessing: true);
 
 
 As of version 1.1 a fluent syntax is also available:
 
-	using CSRakowski.Parallel;
+    using CSRakowski.Parallel;
 
-	List<string> fileUrls = ...;
+    List<string> fileUrls = ...;
 
-	var files = await fileUrls
+    var files = await fileUrls
                         .AsParallelAsync()
                         .WithMaxDegreeOfParallelism(8)
                         .WithOutOfOrderProcessing(false)
                         .ForEachAsync(fileUrls, (url) =>
                         {
-                        	return DownloadFileAsync(url);
+                            return DownloadFileAsync(url);
                         });
