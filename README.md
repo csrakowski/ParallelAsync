@@ -18,7 +18,7 @@ Example usage:
 
 As of version 1.1 a fluent syntax is also available:
 
-    using CSRakowski.Parallel;
+    using CSRakowski.Parallel.Extensions;
 
     List<string> fileUrls = ...;
 
