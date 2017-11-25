@@ -17,10 +17,11 @@
     <LangVersion>latest</LangVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>CSRakowski.ParallelAsync.pfx</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
-    <PackageReleaseNotes>Enabled Strong Naming</PackageReleaseNotes>
-    <Version>1.0.1</Version>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <PackageReleaseNotes>* Renamed class to ParallelAsync to prevent naming conflicts with the System.Threading.Tasks.Parallel.
+* Renamed namespace to CSRakowski.Parallel to prevent ambiguous name conflicts between the class and the namespace.</PackageReleaseNotes>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
 </Project>
