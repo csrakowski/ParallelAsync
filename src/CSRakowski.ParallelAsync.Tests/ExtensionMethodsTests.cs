@@ -64,5 +64,21 @@ namespace CSRakowski.Parallel.Tests
                 Assert.AreEqual(expected, list[i]);
             }
         }
+
+        [Test]
+        public void ParallelAsync_Handles_Invalid_Input_As_Expected()
+        {
+            Assert.Throws<ArgumentNullException>(() => ParallelAsyncEx.AsParallelAsync<int>(null));
+
+            var testCol = new List<int>().AsParallelAsync();
+
+            Assert.Throws<ArgumentNullException>(() => ParallelAsyncEx.WithOutOfOrderProcessing<int>(null, true));
+
+            Assert.Throws<ArgumentNullException>(() => ParallelAsyncEx.WithEstimatedResultSize<int>(null, 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => testCol.WithEstimatedResultSize(-1));
+
+            Assert.Throws<ArgumentNullException>(() => ParallelAsyncEx.WithMaxDegreeOfParallelism<int>(null, 1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => testCol.WithMaxDegreeOfParallelism(-1));
+        }
     }
 }
