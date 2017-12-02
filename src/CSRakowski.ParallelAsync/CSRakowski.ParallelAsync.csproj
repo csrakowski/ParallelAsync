@@ -27,4 +27,9 @@
     <AssemblyName>CSRakowski.Parallel</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
 </Project>
