@@ -45,6 +45,8 @@ namespace CSRakowski.Parallel.Helpers
                     return col.Count;
                 case ICollection col:
                     return col.Count;
+                case IReadOnlyCollection<T> col:
+                    return col.Count;
                 default:
                     return estimatedResultSize;
             }
