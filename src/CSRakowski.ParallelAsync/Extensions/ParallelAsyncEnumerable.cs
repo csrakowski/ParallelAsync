@@ -34,7 +34,7 @@ namespace CSRakowski.Parallel.Extensions
         /// Instantiates a new <see cref="ParallelAsyncEnumerable{T}"/> that wraps the specified <paramref name="enumerable"/>
         /// </summary>
         /// <param name="enumerable">The <see cref="IEnumerable{T}"/> to wrap</param>
-        internal ParallelAsyncEnumerable(IEnumerable<T> enumerable)
+        internal ParallelAsyncEnumerable(in IEnumerable<T> enumerable)
         {
             Enumerable = enumerable ?? throw new ArgumentNullException(nameof(enumerable));
             MaxDegreeOfParallelism = 0;

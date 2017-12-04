@@ -19,7 +19,7 @@ namespace CSRakowski.Parallel
         /// <param name="maxBatchSize">The maximum batch size to allow. Use 0 to default to <c>Environment.ProcessorCount</c></param>
         /// <returns>The batch size to use</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxBatchSize"/> is a negative number.</exception>
-        private static int DetermineBatchSizeToUse(int maxBatchSize)
+        private static int DetermineBatchSizeToUse(in int maxBatchSize)
         {
             if (maxBatchSize < 0)
             {
@@ -65,7 +65,7 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static Task<IEnumerable<TResult>> ForEachAsync<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
+        public static Task<IEnumerable<TResult>> ForEachAsync<TResult, TIn>(in IEnumerable<TIn> collection, in Func<TIn, Task<TResult>> func, in int maxBatchSize = 0, in bool allowOutOfOrderProcessing = false, in int estimatedResultSize = 0, in CancellationToken cancellationToken = default)
         {
             if (collection == null)
             {
@@ -77,19 +77,19 @@ namespace CSRakowski.Parallel
                 throw new ArgumentNullException(nameof(func));
             }
 
-            maxBatchSize = DetermineBatchSizeToUse(maxBatchSize);
+            int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
-            if (maxBatchSize == 1)
+            if (maxBatchSizeToUse == 1)
             {
                 return ForEachAsyncImplUnbatched<TResult, TIn>(collection, cancellationToken, estimatedResultSize, func);
             }
             else if (allowOutOfOrderProcessing)
             {
-                return ForEachAsyncImplUnordered<TResult, TIn>(collection, cancellationToken, maxBatchSize, estimatedResultSize, func);
+                return ForEachAsyncImplUnordered<TResult, TIn>(collection, cancellationToken, maxBatchSizeToUse, estimatedResultSize, func);
             }
             else
             {
-                return ForEachAsyncImplOrdered<TResult, TIn>(collection, cancellationToken, maxBatchSize, estimatedResultSize, func);
+                return ForEachAsyncImplOrdered<TResult, TIn>(collection, cancellationToken, maxBatchSizeToUse, estimatedResultSize, func);
             }
         }
 
@@ -121,7 +121,7 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static Task<IEnumerable<TResult>> ForEachAsync<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
+        public static Task<IEnumerable<TResult>> ForEachAsync<TResult, TIn>(in IEnumerable<TIn> collection, in Func<TIn, CancellationToken, Task<TResult>> func, in int maxBatchSize = 0, in bool allowOutOfOrderProcessing = false, in int estimatedResultSize = 0, in CancellationToken cancellationToken = default)
         {
             if (collection == null)
             {
@@ -133,19 +133,19 @@ namespace CSRakowski.Parallel
                 throw new ArgumentNullException(nameof(func));
             }
 
-            maxBatchSize = DetermineBatchSizeToUse(maxBatchSize);
+            int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
-            if (maxBatchSize == 1)
+            if (maxBatchSizeToUse == 1)
             {
                 return ForEachAsyncImplUnbatched<TResult, TIn>(collection, cancellationToken, estimatedResultSize, func);
             }
             else if (allowOutOfOrderProcessing)
             {
-                return ForEachAsyncImplUnordered<TResult, TIn>(collection, cancellationToken, maxBatchSize, estimatedResultSize, func);
+                return ForEachAsyncImplUnordered<TResult, TIn>(collection, cancellationToken, maxBatchSizeToUse, estimatedResultSize, func);
             }
             else
             {
-                return ForEachAsyncImplOrdered<TResult, TIn>(collection, cancellationToken, maxBatchSize, estimatedResultSize, func);
+                return ForEachAsyncImplOrdered<TResult, TIn>(collection, cancellationToken, maxBatchSizeToUse, estimatedResultSize, func);
             }
         }
 
@@ -170,7 +170,7 @@ namespace CSRakowski.Parallel
         /// As with all performance scenario's, do your own testing and pick what works for you.
         /// </para>
         /// </remarks>
-        public static Task ForEachAsync<TIn>(IEnumerable<TIn> collection, Func<TIn, Task> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, CancellationToken cancellationToken = default)
+        public static Task ForEachAsync<TIn>(in IEnumerable<TIn> collection, in Func<TIn, Task> func, in int maxBatchSize = 0, in bool allowOutOfOrderProcessing = false, in CancellationToken cancellationToken = default)
         {
             if (collection == null)
             {
@@ -182,19 +182,19 @@ namespace CSRakowski.Parallel
                 throw new ArgumentNullException(nameof(func));
             }
 
-            maxBatchSize = DetermineBatchSizeToUse(maxBatchSize);
+            int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
-            if (maxBatchSize == 1)
+            if (maxBatchSizeToUse == 1)
             {
                 return ForEachAsyncImplUnbatched<TIn>(collection, cancellationToken, func);
             }
             else if (allowOutOfOrderProcessing)
             {
-                return ForEachAsyncImplUnordered<TIn>(collection, cancellationToken, maxBatchSize, func);
+                return ForEachAsyncImplUnordered<TIn>(collection, cancellationToken, maxBatchSizeToUse, func);
             }
             else
             {
-                return ForEachAsyncImplOrdered<TIn>(collection, cancellationToken, maxBatchSize, func);
+                return ForEachAsyncImplOrdered<TIn>(collection, cancellationToken, maxBatchSizeToUse, func);
             }
         }
 
@@ -219,7 +219,7 @@ namespace CSRakowski.Parallel
         /// As with all performance scenario's, do your own testing and pick what works for you.
         /// </para>
         /// </remarks>
-        public static Task ForEachAsync<TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, CancellationToken cancellationToken = default)
+        public static Task ForEachAsync<TIn>(in IEnumerable<TIn> collection, in Func<TIn, CancellationToken, Task> func, in int maxBatchSize = 0, in bool allowOutOfOrderProcessing = false, in CancellationToken cancellationToken = default)
         {
             if (collection == null)
             {
@@ -231,19 +231,19 @@ namespace CSRakowski.Parallel
                 throw new ArgumentNullException(nameof(func));
             }
 
-            maxBatchSize = DetermineBatchSizeToUse(maxBatchSize);
+            int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
-            if (maxBatchSize == 1)
+            if (maxBatchSizeToUse == 1)
             {
                 return ForEachAsyncImplUnbatched<TIn>(collection, cancellationToken, func);
             }
             else if (allowOutOfOrderProcessing)
             {
-                return ForEachAsyncImplUnordered<TIn>(collection, cancellationToken, maxBatchSize, func);
+                return ForEachAsyncImplUnordered<TIn>(collection, cancellationToken, maxBatchSizeToUse, func);
             }
             else
             {
-                return ForEachAsyncImplOrdered<TIn>(collection, cancellationToken, maxBatchSize, func);
+                return ForEachAsyncImplOrdered<TIn>(collection, cancellationToken, maxBatchSizeToUse, func);
             }
         }
     }
