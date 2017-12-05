@@ -5,28 +5,29 @@ Available on NuGet: [![NuGet](https://img.shields.io/nuget/v/CSRakowski.Parallel
  and GitHub: [![GitHub stars](https://img.shields.io/github/stars/csrakowski/ParallelAsync.svg)](https://github.com/csrakowski/ParallelAsync/)
 
 Example usage:
+```cs
+using CSRakowski.Parallel;
 
-    using CSRakowski.Parallel;
+List<string> fileUrls = GetFileUrls();
 
-    List<string> fileUrls = ...;
-
-    var files = await ParallelAsync.ForEachAsync(fileUrls, (url) =>
-    {
-        return DownloadFileAsync(url);
-    }, maxBatchSize: 8, allowOutOfOrderProcessing: true);
-
+var files = await ParallelAsync.ForEachAsync(fileUrls, (url) =>
+{
+    return DownloadFileAsync(url);
+}, maxBatchSize: 8, allowOutOfOrderProcessing: true);
+```
 
 As of version 1.1 a fluent syntax is also available:
+```cs
+using CSRakowski.Parallel.Extensions;
 
-    using CSRakowski.Parallel.Extensions;
+List<string> fileUrls = GetFileUrls();
 
-    List<string> fileUrls = ...;
-
-    var files = await fileUrls
-                        .AsParallelAsync()
-                        .WithMaxDegreeOfParallelism(8)
-                        .WithOutOfOrderProcessing(false)
-                        .ForEachAsync(fileUrls, (url) =>
-                        {
-                            return DownloadFileAsync(url);
-                        });
+var files = await fileUrls
+                    .AsParallelAsync()
+                    .WithMaxDegreeOfParallelism(8)
+                    .WithOutOfOrderProcessing(false)
+                    .ForEachAsync(fileUrls, (url) =>
+                    {
+                        return DownloadFileAsync(url);
+                    });
+```
