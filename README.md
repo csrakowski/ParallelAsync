@@ -10,8 +10,7 @@ using CSRakowski.Parallel;
 
 List<string> fileUrls = GetFileUrls();
 
-var files = await ParallelAsync.ForEachAsync(fileUrls, (url) =>
-{
+var files = await ParallelAsync.ForEachAsync(fileUrls, (url) => {
     return DownloadFileAsync(url);
 }, maxBatchSize: 8, allowOutOfOrderProcessing: true);
 ```
@@ -26,8 +25,7 @@ var files = await fileUrls
                     .AsParallelAsync()
                     .WithMaxDegreeOfParallelism(8)
                     .WithOutOfOrderProcessing(false)
-                    .ForEachAsync(fileUrls, (url) =>
-                    {
+                    .ForEachAsync((url) => {
                         return DownloadFileAsync(url);
                     });
 ```
