@@ -21,7 +21,7 @@ namespace CSRakowski.Parallel.Helpers
         /// <param name="enumerable">The collection</param>
         /// <param name="estimatedResultSize">The fallback value</param>
         /// <returns>The list</returns>
-        public static List<TResult> GetList<TResult, TIn>(in IEnumerable<TIn> enumerable, int estimatedResultSize)
+        public static List<TResult> GetList<TResult, TIn>(IEnumerable<TIn> enumerable, int estimatedResultSize)
         {
             var size = DetermineResultSize(enumerable, estimatedResultSize);
             return GetList<TResult>(size);
@@ -35,7 +35,7 @@ namespace CSRakowski.Parallel.Helpers
         /// <param name="enumerable">The collection</param>
         /// <param name="estimatedResultSize">The fallback value</param>
         /// <returns>The size of the collection, or the fallback value</returns>
-        public static int DetermineResultSize<T>(in IEnumerable<T> enumerable, int estimatedResultSize)
+        public static int DetermineResultSize<T>(IEnumerable<T> enumerable, int estimatedResultSize)
         {
             switch (enumerable)
             {

@@ -44,7 +44,7 @@ namespace CSRakowski.Parallel.Extensions
         /// <param name="maxDegreeOfParallelism">The maximum batch size to allow. Use 0 to default to <c>Environment.ProcessorCount</c></param>
         /// <returns>The configured collections</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxDegreeOfParallelism"/> is a negative number.</exception>
-        public static IParallelAsyncEnumerable<T> WithMaxDegreeOfParallelism<T>(this IParallelAsyncEnumerable<T> parallelAsync, in int maxDegreeOfParallelism)
+        public static IParallelAsyncEnumerable<T> WithMaxDegreeOfParallelism<T>(this IParallelAsyncEnumerable<T> parallelAsync, int maxDegreeOfParallelism)
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
@@ -72,7 +72,7 @@ namespace CSRakowski.Parallel.Extensions
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </remarks>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="estimatedResultSize"/> is a negative number.</exception>
-        public static IParallelAsyncEnumerable<T> WithEstimatedResultSize<T>(this IParallelAsyncEnumerable<T> parallelAsync, in int estimatedResultSize)
+        public static IParallelAsyncEnumerable<T> WithEstimatedResultSize<T>(this IParallelAsyncEnumerable<T> parallelAsync, int estimatedResultSize)
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
@@ -99,7 +99,7 @@ namespace CSRakowski.Parallel.Extensions
         /// When each run takes roughly the same amount of time, running in out of order mode can/will actually perform worse.
         /// As with all performance scenario's, do your own testing and pick what works for you.
         /// </remarks>
-        public static IParallelAsyncEnumerable<T> WithOutOfOrderProcessing<T>(this IParallelAsyncEnumerable<T> parallelAsync, in bool allowOutOfOrderProcessing)
+        public static IParallelAsyncEnumerable<T> WithOutOfOrderProcessing<T>(this IParallelAsyncEnumerable<T> parallelAsync, bool allowOutOfOrderProcessing)
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
@@ -123,7 +123,7 @@ namespace CSRakowski.Parallel.Extensions
         /// <returns>The results of the operations</returns>
         /// <exception cref="ArgumentNullException">Thrown when either <paramref name="parallelAsync"/> or <paramref name="func"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the configured maximum batch size is a negative number.</exception>
-        public static Task<IEnumerable<TResult>> ForEachAsync<TInput, TResult>(this IParallelAsyncEnumerable<TInput> parallelAsync, in Func<TInput, Task<TResult>> func, in CancellationToken cancellationToken = default)
+        public static Task<IEnumerable<TResult>> ForEachAsync<TInput, TResult>(this IParallelAsyncEnumerable<TInput> parallelAsync, Func<TInput, Task<TResult>> func, CancellationToken cancellationToken = default)
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
@@ -141,7 +141,7 @@ namespace CSRakowski.Parallel.Extensions
         /// <returns>The results of the operations</returns>
         /// <exception cref="ArgumentNullException">Thrown when either <paramref name="parallelAsync"/> or <paramref name="func"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the configured maximum batch size is a negative number.</exception>
-        public static Task<IEnumerable<TResult>> ForEachAsync<TInput, TResult>(this IParallelAsyncEnumerable<TInput> parallelAsync, in Func<TInput, CancellationToken, Task<TResult>> func, in CancellationToken cancellationToken = default)
+        public static Task<IEnumerable<TResult>> ForEachAsync<TInput, TResult>(this IParallelAsyncEnumerable<TInput> parallelAsync, Func<TInput, CancellationToken, Task<TResult>> func, CancellationToken cancellationToken = default)
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
@@ -158,7 +158,7 @@ namespace CSRakowski.Parallel.Extensions
         /// <returns>The results of the operations</returns>
         /// <exception cref="ArgumentNullException">Thrown when either <paramref name="parallelAsync"/> or <paramref name="func"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the configured maximum batch size is a negative number.</exception>
-        public static Task ForEachAsync<TInput>(this IParallelAsyncEnumerable<TInput> parallelAsync, in Func<TInput, Task> func, in CancellationToken cancellationToken = default)
+        public static Task ForEachAsync<TInput>(this IParallelAsyncEnumerable<TInput> parallelAsync, Func<TInput, Task> func, CancellationToken cancellationToken = default)
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
@@ -175,7 +175,7 @@ namespace CSRakowski.Parallel.Extensions
         /// <returns>The results of the operations</returns>
         /// <exception cref="ArgumentNullException">Thrown when either <paramref name="parallelAsync"/> or <paramref name="func"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the configured maximum batch size is a negative number.</exception>
-        public static Task ForEachAsync<TInput>(this IParallelAsyncEnumerable<TInput> parallelAsync, in Func<TInput, CancellationToken, Task> func, in CancellationToken cancellationToken = default)
+        public static Task ForEachAsync<TInput>(this IParallelAsyncEnumerable<TInput> parallelAsync, Func<TInput, CancellationToken, Task> func, CancellationToken cancellationToken = default)
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
@@ -193,7 +193,7 @@ namespace CSRakowski.Parallel.Extensions
         /// <param name="parallelAsync">The <see cref="IParallelAsyncEnumerable{T}"/> to check</param>
         /// <returns>The <see cref="ParallelAsyncEnumerable{T}"/></returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="parallelAsync"/> is not a valid <see cref="ParallelAsyncEnumerable{T}"/></exception>
-        private static ParallelAsyncEnumerable<T> EnsureValidEnumerable<T>(in IParallelAsyncEnumerable<T> parallelAsync)
+        private static ParallelAsyncEnumerable<T> EnsureValidEnumerable<T>(IParallelAsyncEnumerable<T> parallelAsync)
         {
             var obj = parallelAsync as ParallelAsyncEnumerable<T>;
             if (obj == null)
