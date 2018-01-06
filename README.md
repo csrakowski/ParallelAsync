@@ -29,3 +29,24 @@ var files = await fileUrls
                         return DownloadFileAsync(url);
                     });
 ```
+
+# Release notes
+
+### 1.2
+* Added an `EventSource` to expose some diagnostic information.
+* Changed minimum supported NetStandard from 1.0 to 1.1 (Because of the `EventSource`).
+
+### 1.1.1
+* Added support for `IReadOnlyCollection<T>` to the `ListHelper`.
+* Added more XmlDoc to methods and classes.
+
+### 1.1
+* Renamed class to `ParallelAsync` to prevent naming conflicts with the `System.Threading.Tasks.Parallel`.
+* Renamed namespace to `CSRakowski.Parallel` to prevent ambiguous name conflicts between the class and the namespace.
+* Added new extension methods to allow for fluent sytax usage.
+
+### 1.0.1
+* Enabled Strong Naming.
+
+### 1.0
+* Initial release.
