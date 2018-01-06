@@ -12,7 +12,7 @@ namespace CSRakowski.Parallel
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
 
-            EventSource.RunStart();
+            EventSource.RunStart(batchSize, false, estimatedResultSize);
 
             using (var enumerator = collection.GetEnumerator())
             {
@@ -69,7 +69,7 @@ namespace CSRakowski.Parallel
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
 
-            EventSource.RunStart();
+            EventSource.RunStart(batchSize, false, estimatedResultSize);
 
             using (var enumerator = collection.GetEnumerator())
             {
@@ -124,7 +124,7 @@ namespace CSRakowski.Parallel
 
         private static async Task ForEachAsyncImplOrdered<TIn>(IEnumerable<TIn> collection, CancellationToken cancellationToken, int batchSize, Func<TIn, Task> func)
         {
-            EventSource.RunStart();
+            EventSource.RunStart(batchSize, false, 0);
 
             using (var enumerator = collection.GetEnumerator())
             {
@@ -176,7 +176,7 @@ namespace CSRakowski.Parallel
 
         private static async Task ForEachAsyncImplOrdered<TIn>(IEnumerable<TIn> collection, CancellationToken cancellationToken, int batchSize, Func<TIn, CancellationToken, Task> func)
         {
-            EventSource.RunStart();
+            EventSource.RunStart(batchSize, false, 0);
 
             using (var enumerator = collection.GetEnumerator())
             {

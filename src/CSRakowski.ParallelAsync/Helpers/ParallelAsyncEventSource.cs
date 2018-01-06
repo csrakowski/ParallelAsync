@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 namespace CSRakowski.Parallel.Helpers
 {
     [EventSource(Name = nameof(ParallelAsync))]
-    internal class ParallelAsyncEventSource : EventSource
+    public sealed class ParallelAsyncEventSource : EventSource
     {
-        [Event(1, Message = "Starting", Opcode = EventOpcode.Start, Level = EventLevel.Informational)]
-        public void RunStart()
+        [Event(1, Opcode = EventOpcode.Start, Level = EventLevel.Informational)]
+        public void RunStart(int maxBatchSize, bool allowOutOfOrderProcessing, int estimatedResultSize)
         {
-            WriteEvent(1);
+            WriteEvent(1, maxBatchSize, allowOutOfOrderProcessing, estimatedResultSize);
         }
 
-        [Event(2, Message = "Done", Opcode = EventOpcode.Stop, Level = EventLevel.Informational)]
+        [Event(2, Opcode = EventOpcode.Stop, Level = EventLevel.Informational)]
         public void RunStop()
         {
             WriteEvent(2);
         }
 
-        [Event(3, Message = "Starting batch of {0}", Opcode = EventOpcode.Start, Level = EventLevel.Informational)]
+        [Event(3, Opcode = EventOpcode.Start, Level = EventLevel.Informational)]
         public void BatchStart(int batchSize)
         {
             if (IsEnabled())
@@ -31,7 +31,7 @@ namespace CSRakowski.Parallel.Helpers
             }
         }
 
-        [Event(4, Message = "Batch done", Opcode = EventOpcode.Stop, Level = EventLevel.Informational)]
+        [Event(4, Opcode = EventOpcode.Stop, Level = EventLevel.Informational)]
         public void BatchStop()
         {
             if (IsEnabled())
