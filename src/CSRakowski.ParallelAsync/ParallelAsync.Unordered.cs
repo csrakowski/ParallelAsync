@@ -16,6 +16,8 @@ namespace CSRakowski.Parallel
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
 
+            EventSource.RunStart(batchSize, true, estimatedResultSize);
+
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
@@ -43,6 +45,8 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
+                    EventSource.BatchStart(taskList.Count);
+
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
                     var completed = taskList.Where(t => t.IsCompleted).ToList();
@@ -51,8 +55,12 @@ namespace CSRakowski.Parallel
                         result.Add(t.Result);
                         taskList.Remove(t);
                     }
+
+                    EventSource.BatchStop();
                 }
             }
+
+            EventSource.RunStop();
 
             return result;
         }
@@ -61,6 +69,8 @@ namespace CSRakowski.Parallel
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
 
+            EventSource.RunStart(batchSize, true, estimatedResultSize);
+
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
@@ -88,6 +98,8 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
+                    EventSource.BatchStart(taskList.Count);
+
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
                     var completed = taskList.Where(t => t.IsCompleted).ToList();
@@ -96,14 +108,20 @@ namespace CSRakowski.Parallel
                         result.Add(t.Result);
                         taskList.Remove(t);
                     }
+
+                    EventSource.BatchStop();
                 }
             }
+
+            EventSource.RunStop();
 
             return result;
         }
 
         private static async Task ForEachAsyncImplUnordered<TIn>(IEnumerable<TIn> collection, CancellationToken cancellationToken, int batchSize, Func<TIn, Task> func)
         {
+            EventSource.RunStart(batchSize, true, 0);
+
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
@@ -131,6 +149,8 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
+                    EventSource.BatchStart(taskList.Count);
+
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
                     var completed = taskList.Where(t => t.IsCompleted).ToList();
@@ -138,12 +158,18 @@ namespace CSRakowski.Parallel
                     {
                         taskList.Remove(t);
                     }
+
+                    EventSource.BatchStop();
                 }
             }
+
+            EventSource.RunStop();
         }
 
         private static async Task ForEachAsyncImplUnordered<TIn>(IEnumerable<TIn> collection, CancellationToken cancellationToken, int batchSize, Func<TIn, CancellationToken, Task> func)
         {
+            EventSource.RunStart(batchSize, true, 0);
+
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
@@ -171,6 +197,8 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
+                    EventSource.BatchStart(taskList.Count);
+
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
                     var completed = taskList.Where(t => t.IsCompleted).ToList();
@@ -178,8 +206,12 @@ namespace CSRakowski.Parallel
                     {
                         taskList.Remove(t);
                     }
+
+                    EventSource.BatchStop();
                 }
             }
+
+            EventSource.RunStop();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSRakowski.ParallelAsync", "src\CSRakowski.ParallelAsync\CSRakowski.ParallelAsync.csproj", "{A7EAE71C-5122-41D5-81CE-8CD626F861AF}"
 EndProject
@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2DA84356-AD1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1C224AEE-DF65-40FE-86C6-47DFF972D702}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSRakowski.ParallelAsync.Benchmarks", "tests\CSRakowski.ParallelAsync.Benchmarks\CSRakowski.ParallelAsync.Benchmarks.csproj", "{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A7EAE71C-5122-41D5-81CE-8CD626F861AF} = {2DA84356-AD18-4DC9-91AF-45C018372075}
 		{8EDF4429-251A-416D-BB68-93F227191BCF} = {1C224AEE-DF65-40FE-86C6-47DFF972D702}
+		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52} = {1C224AEE-DF65-40FE-86C6-47DFF972D702}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D0D0442-0469-4C2F-A36A-16F825704000}
