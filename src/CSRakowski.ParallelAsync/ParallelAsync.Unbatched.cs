@@ -12,11 +12,13 @@ namespace CSRakowski.Parallel
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
 
-            EventSource.RunStart(1, false, estimatedResultSize);
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, 1, false, estimatedResultSize);
 
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
+                long batchId = 0;
 
                 while (hasNext && !cancellationToken.IsCancellationRequested)
                 {
@@ -27,17 +29,19 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    EventSource.BatchStart(1);
+                    EventSource.BatchStart(batchId, 1);
 
                     var element = enumerator.Current;
                     var resultElement = await func(element).ConfigureAwait(false);
                     result.Add(resultElement);
 
-                    EventSource.BatchStop();
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
                 }
             }
 
-            EventSource.RunStop();
+            EventSource.RunStop(runId);
 
             return result;
         }
@@ -46,11 +50,13 @@ namespace CSRakowski.Parallel
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
 
-            EventSource.RunStart(1, false, estimatedResultSize);
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, 1, false, estimatedResultSize);
 
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
+                long batchId = 0;
 
                 while (hasNext && !cancellationToken.IsCancellationRequested)
                 {
@@ -61,26 +67,32 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    EventSource.BatchStart(1);
+                    EventSource.BatchStart(batchId, 1);
 
                     var element = enumerator.Current;
                     var resultElement = await func(element, cancellationToken).ConfigureAwait(false);
                     result.Add(resultElement);
 
-                    EventSource.BatchStop();
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
                 }
             }
+
+            EventSource.RunStop(runId);
 
             return result;
         }
 
         private static async Task ForEachAsyncImplUnbatched<TIn>(IEnumerable<TIn> collection, CancellationToken cancellationToken, Func<TIn, Task> func)
         {
-            EventSource.RunStart(1, false, 0);
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, 1, false, 0);
 
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
+                long batchId = 0;
 
                 while (hasNext && !cancellationToken.IsCancellationRequested)
                 {
@@ -91,25 +103,29 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    EventSource.BatchStart(1);
+                    EventSource.BatchStart(batchId, 1);
 
                     var element = enumerator.Current;
                     await func(element).ConfigureAwait(false);
 
-                    EventSource.BatchStop();
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
                 }
             }
 
-            EventSource.RunStop();
+            EventSource.RunStop(runId);
         }
 
         private static async Task ForEachAsyncImplUnbatched<TIn>(IEnumerable<TIn> collection, CancellationToken cancellationToken, Func<TIn, CancellationToken, Task> func)
         {
-            EventSource.RunStart(1, false, 0);
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, 1, false, 0);
 
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
+                long batchId = 0;
 
                 while (hasNext && !cancellationToken.IsCancellationRequested)
                 {
@@ -120,16 +136,18 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    EventSource.BatchStart(1);
+                    EventSource.BatchStart(batchId, 1);
 
                     var element = enumerator.Current;
                     await func(element, cancellationToken).ConfigureAwait(false);
 
-                    EventSource.BatchStop();
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
                 }
             }
 
-            EventSource.RunStop();
+            EventSource.RunStop(runId);
         }
     }
 }
