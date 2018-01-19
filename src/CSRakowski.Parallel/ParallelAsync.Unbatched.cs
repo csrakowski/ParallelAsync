@@ -8,6 +8,8 @@ namespace CSRakowski.Parallel
 {
     public static partial class ParallelAsync
     {
+        #region IEnumerable<T>
+        
         /// <summary>
         /// Implementation to run the specified async method for each item of the input collection in an unbatched manner.
         /// </summary>
@@ -269,5 +271,92 @@ namespace CSRakowski.Parallel
 
             ParallelAsyncEventSource.Log.RunStop(runId);
         }
+
+        #endregion IEnumerable<T>
+
+        #region IAsyncEnumerable<T>
+
+        private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnbatched<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, CancellationToken cancellationToken)
+        {
+            var result = ListHelpers.GetList<TResult>(estimatedResultSize);
+
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, 1, false, estimatedResultSize);
+
+            var enumerator = collection.GetAsyncEnumerator();
+            try
+            {
+                var hasNext = true;
+                long batchId = 0;
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    hasNext = await enumerator.MoveNextAsync().ConfigureAwait(false);
+
+                    if (!hasNext)
+                    {
+                        break;
+                    }
+
+                    EventSource.BatchStart(batchId, 1);
+
+                    var element = enumerator.Current;
+                    var resultElement = await func(element, cancellationToken).ConfigureAwait(false);
+                    result.Add(resultElement);
+
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync();
+            }
+
+            EventSource.RunStop(runId);
+
+            return result;
+        }
+
+        private static async Task ForEachAsyncImplUnbatched<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, CancellationToken cancellationToken)
+        {
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, 1, false, 0);
+
+            var enumerator = collection.GetAsyncEnumerator();
+            try
+            {
+                var hasNext = true;
+                long batchId = 0;
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    hasNext = await enumerator.MoveNextAsync().ConfigureAwait(false);
+
+                    if (!hasNext)
+                    {
+                        break;
+                    }
+
+                    EventSource.BatchStart(batchId, 1);
+
+                    var element = enumerator.Current;
+                    await func(element, cancellationToken).ConfigureAwait(false);
+
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync();
+            }
+
+            EventSource.RunStop(runId);
+        }
+
+        #endregion IAsyncEnumerable<T>
     }
 }
