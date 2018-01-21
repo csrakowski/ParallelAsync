@@ -72,30 +72,13 @@ namespace CSRakowski.Parallel
         /// </remarks>
         public static Task<IEnumerable<TResult>> ForEachAsync<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
         {
-            if (collection == null)
-            {
-                throw new ArgumentNullException(nameof(collection));
-            }
-
             if (func == null)
             {
                 throw new ArgumentNullException(nameof(func));
             }
 
-            int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
-
-            if (maxBatchSizeToUse == 1)
-            {
-                return ForEachAsyncImplUnbatched<TResult, TIn>(collection, cancellationToken, estimatedResultSize, func);
-            }
-            else if (allowOutOfOrderProcessing)
-            {
-                return ForEachAsyncImplUnordered<TResult, TIn>(collection, cancellationToken, maxBatchSizeToUse, estimatedResultSize, func);
-            }
-            else
-            {
-                return ForEachAsyncImplOrdered<TResult, TIn>(collection, cancellationToken, maxBatchSizeToUse, estimatedResultSize, func);
-            }
+            var funcWithCancellationToken = new Func<TIn, CancellationToken, Task<TResult>>((arg, ct) => func(arg));
+            return ForEachAsync<TResult, TIn>(collection, funcWithCancellationToken, maxBatchSize, allowOutOfOrderProcessing, estimatedResultSize, cancellationToken);
         }
 
         /// <summary>
@@ -177,30 +160,13 @@ namespace CSRakowski.Parallel
         /// </remarks>
         public static Task ForEachAsync<TIn>(IEnumerable<TIn> collection, Func<TIn, Task> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, CancellationToken cancellationToken = default)
         {
-            if (collection == null)
-            {
-                throw new ArgumentNullException(nameof(collection));
-            }
-
             if (func == null)
             {
                 throw new ArgumentNullException(nameof(func));
             }
 
-            int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
-
-            if (maxBatchSizeToUse == 1)
-            {
-                return ForEachAsyncImplUnbatched<TIn>(collection, cancellationToken, func);
-            }
-            else if (allowOutOfOrderProcessing)
-            {
-                return ForEachAsyncImplUnordered<TIn>(collection, cancellationToken, maxBatchSizeToUse, func);
-            }
-            else
-            {
-                return ForEachAsyncImplOrdered<TIn>(collection, cancellationToken, maxBatchSizeToUse, func);
-            }
+            var funcWithCancellationToken = new Func<TIn, CancellationToken, Task>((arg, ct) => func(arg));
+            return ForEachAsync<TIn>(collection, funcWithCancellationToken, maxBatchSize, allowOutOfOrderProcessing, cancellationToken);
         }
 
         /// <summary>
