@@ -12,6 +12,7 @@ namespace CSRakowski.Parallel.Benchmarks
     {
         static async Task Main(string[] args)
         {
+            // TODO: Rewrite to Benchmark.NET
             await Performance_Degradation_Run(0, 10000, true);
             await Performance_Degradation_Run(0, 10000, false);
             await Performance_Degradation_Run(1, 10000, true);
