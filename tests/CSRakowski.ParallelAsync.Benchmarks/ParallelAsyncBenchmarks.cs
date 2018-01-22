@@ -26,43 +26,162 @@ namespace CSRakowski.Parallel.Benchmarks
         #region Benchmarks: JustAddOne
 
         [Benchmark]
-        public async Task Unbatched_AsOrdered()
+        public async Task Run_JustAddOne_Unbatched_AsOrdered()
         {
             await Run_JustAddOne_With(maxBatchSize: 1, outOfOrder: false);
         }
 
         [Benchmark]
-        public async Task Unbatched_OutOfOrder()
+        public async Task Run_JustAddOne_Unbatched_OutOfOrder()
         {
             await Run_JustAddOne_With(maxBatchSize: 1, outOfOrder: true);
         }
 
         [Benchmark]
-        public async Task MaxBatch_2_AsOrdered()
+        public async Task Run_JustAddOne_MaxBatch_2_AsOrdered()
         {
             await Run_JustAddOne_With(maxBatchSize: 2, outOfOrder: false);
         }
 
         [Benchmark]
-        public async Task MaxBatch_2_OutOfOrder()
+        public async Task Run_JustAddOne_MaxBatch_2_OutOfOrder()
         {
             await Run_JustAddOne_With(maxBatchSize: 2, outOfOrder: true);
         }
 
         [Benchmark]
-        public async Task MaxBatch_4_AsOrdered()
+        public async Task Run_JustAddOne_MaxBatch_4_AsOrdered()
         {
             await Run_JustAddOne_With(maxBatchSize: 4, outOfOrder: false);
         }
 
         [Benchmark]
-        public async Task MaxBatch_4_OutOfOrder()
+        public async Task Run_JustAddOne_MaxBatch_4_OutOfOrder()
         {
             await Run_JustAddOne_With(maxBatchSize: 4, outOfOrder: true);
         }
 
         #endregion Benchmarks: JustAddOne
 
+        #region Benchmarks: JustAddOneWithCancellation
+
+        [Benchmark]
+        public async Task Run_JustAddOneWithCancellation_Unbatched_AsOrdered()
+        {
+            await Run_JustAddOneWithCancellation_With(maxBatchSize: 1, outOfOrder: false);
+        }
+
+        [Benchmark]
+        public async Task Run_JustAddOneWithCancellation_Unbatched_OutOfOrder()
+        {
+            await Run_JustAddOneWithCancellation_With(maxBatchSize: 1, outOfOrder: true);
+        }
+
+        [Benchmark]
+        public async Task Run_JustAddOneWithCancellation_MaxBatch_2_AsOrdered()
+        {
+            await Run_JustAddOneWithCancellation_With(maxBatchSize: 2, outOfOrder: false);
+        }
+
+        [Benchmark]
+        public async Task Run_JustAddOneWithCancellation_MaxBatch_2_OutOfOrder()
+        {
+            await Run_JustAddOneWithCancellation_With(maxBatchSize: 2, outOfOrder: true);
+        }
+
+        [Benchmark]
+        public async Task Run_JustAddOneWithCancellation_MaxBatch_4_AsOrdered()
+        {
+            await Run_JustAddOneWithCancellation_With(maxBatchSize: 4, outOfOrder: false);
+        }
+
+        [Benchmark]
+        public async Task Run_JustAddOneWithCancellation_MaxBatch_4_OutOfOrder()
+        {
+            await Run_JustAddOneWithCancellation_With(maxBatchSize: 4, outOfOrder: true);
+        }
+
+        #endregion Benchmarks: JustAddOneWithCancellation
+
+        #region Benchmarks: ReturnTaskCompletedTask
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTask_Unbatched_AsOrdered()
+        {
+            await Run_ReturnTaskCompletedTask_With(maxBatchSize: 1, outOfOrder: false);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTask_Unbatched_OutOfOrder()
+        {
+            await Run_ReturnTaskCompletedTask_With(maxBatchSize: 1, outOfOrder: true);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTask_MaxBatch_2_AsOrdered()
+        {
+            await Run_ReturnTaskCompletedTask_With(maxBatchSize: 2, outOfOrder: false);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTask_MaxBatch_2_OutOfOrder()
+        {
+            await Run_ReturnTaskCompletedTask_With(maxBatchSize: 2, outOfOrder: true);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTask_MaxBatch_4_AsOrdered()
+        {
+            await Run_ReturnTaskCompletedTask_With(maxBatchSize: 4, outOfOrder: false);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTask_MaxBatch_4_OutOfOrder()
+        {
+            await Run_ReturnTaskCompletedTask_With(maxBatchSize: 4, outOfOrder: true);
+        }
+
+        #endregion Benchmarks: ReturnTaskCompletedTask
+
+        #region Benchmarks: ReturnTaskCompletedTaskWithCancellation
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTaskWithCancellation_Unbatched_AsOrdered()
+        {
+            await Run_ReturnTaskCompletedTaskWithCancellation_With(maxBatchSize: 1, outOfOrder: false);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTaskWithCancellation_Unbatched_OutOfOrder()
+        {
+            await Run_ReturnTaskCompletedTaskWithCancellation_With(maxBatchSize: 1, outOfOrder: true);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTaskWithCancellation_MaxBatch_2_AsOrdered()
+        {
+            await Run_ReturnTaskCompletedTaskWithCancellation_With(maxBatchSize: 2, outOfOrder: false);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTaskWithCancellation_MaxBatch_2_OutOfOrder()
+        {
+            await Run_ReturnTaskCompletedTaskWithCancellation_With(maxBatchSize: 2, outOfOrder: true);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTaskWithCancellation_MaxBatch_4_AsOrdered()
+        {
+            await Run_ReturnTaskCompletedTaskWithCancellation_With(maxBatchSize: 4, outOfOrder: false);
+        }
+
+        [Benchmark]
+        public async Task Run_ReturnTaskCompletedTaskWithCancellation_MaxBatch_4_OutOfOrder()
+        {
+            await Run_ReturnTaskCompletedTaskWithCancellation_With(maxBatchSize: 4, outOfOrder: true);
+        }
+
+        #endregion Benchmarks: ReturnTaskCompletedTaskWithCancellation
 
         #region Helpers
 

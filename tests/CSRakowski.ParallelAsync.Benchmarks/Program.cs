@@ -16,7 +16,6 @@ namespace CSRakowski.Parallel.Benchmarks
     {
         public static void Main(string[] args)
         {
-            // TODO: Rewrite to Benchmark.NET
             var summary = BenchmarkRunner.Run<ParallelAsyncBenchmarks>();
         }
     }
