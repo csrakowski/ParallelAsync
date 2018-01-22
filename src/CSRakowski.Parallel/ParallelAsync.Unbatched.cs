@@ -319,7 +319,7 @@ namespace CSRakowski.Parallel
             return result;
         }
 
-        private static async Task ForEachAsyncImplUnbatched<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, CancellationToken cancellationToken)
+        private static async Task ForEachAsyncImplUnbatched<TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, CancellationToken cancellationToken)
         {
             long runId = EventSource.GetRunId();
             EventSource.RunStart(runId, 1, false, 0);

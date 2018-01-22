@@ -10,6 +10,8 @@ namespace CSRakowski.Parallel
 {
     public static partial class ParallelAsync
     {
+        #region IEnumerable<T>
+
         /// <summary>
         /// Implementation to run the specified async method for each item of the input collection in an batched manner, allowing out of order processing.
         /// </summary>
@@ -134,5 +136,131 @@ namespace CSRakowski.Parallel
 
             ParallelAsyncEventSource.Log.RunStop(runId);
         }
+
+
+        #endregion IEnumerable<T>
+
+        #region IAsyncEnumerable<T>
+
+        private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnordered<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, CancellationToken cancellationToken)
+        {
+            var result = ListHelpers.GetList<TResult>(estimatedResultSize);
+
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, batchSize, true, estimatedResultSize);
+
+            var enumerator = collection.GetAsyncEnumerator();
+            try
+            {
+                var hasNext = true;
+                long batchId = 0;
+                var taskList = ListHelpers.GetList<Task<TResult>>(batchSize);
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    // check the hasNext from the previous run, if false; don't call MoveNext() again
+                    // call MoveNext() and assign it to the hasNext variable, then check if this run still had a next
+                    if (hasNext && (hasNext = await enumerator.MoveNextAsync().ConfigureAwait(false)))
+                    {
+                        var element = enumerator.Current;
+
+                        var task = func(element, cancellationToken);
+                        taskList.Add(task);
+
+                        if (taskList.Count < batchSize)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (!hasNext && taskList.Count == 0)
+                    {
+                        break;
+                    }
+
+                    EventSource.BatchStart(batchId, taskList.Count);
+
+                    await Task.WhenAny(taskList).ConfigureAwait(false);
+
+                    var completed = taskList.Where(t => t.IsCompleted).ToList();
+                    foreach (var t in completed)
+                    {
+                        result.Add(t.Result);
+                        taskList.Remove(t);
+                    }
+
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync();
+            }
+
+            EventSource.RunStop(runId);
+
+            return result;
+        }
+
+        private static async Task ForEachAsyncImplUnordered<TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, int batchSize, CancellationToken cancellationToken)
+        {
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, batchSize, true, 0);
+
+            var enumerator = collection.GetAsyncEnumerator();
+            try
+            {
+                var hasNext = true;
+                long batchId = 0;
+                var taskList = ListHelpers.GetList<Task>(batchSize);
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    // check the hasNext from the previous run, if false; don't call MoveNext() again
+                    // call MoveNext() and assign it to the hasNext variable, then check if this run still had a next
+                    if (hasNext && (hasNext = await enumerator.MoveNextAsync().ConfigureAwait(false)))
+                    {
+                        var element = enumerator.Current;
+
+                        var task = func(element, cancellationToken);
+                        taskList.Add(task);
+
+                        if (taskList.Count < batchSize)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (!hasNext && taskList.Count == 0)
+                    {
+                        break;
+                    }
+
+                    EventSource.BatchStart(batchId, taskList.Count);
+
+                    await Task.WhenAny(taskList).ConfigureAwait(false);
+
+                    var completed = taskList.Where(t => t.IsCompleted).ToList();
+                    foreach (var t in completed)
+                    {
+                        taskList.Remove(t);
+                    }
+
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync();
+            }
+
+            EventSource.RunStop(runId);
+        }
+
+        #endregion IAsyncEnumerable<T>
     }
 }

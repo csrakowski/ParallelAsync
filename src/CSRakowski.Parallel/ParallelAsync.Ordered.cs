@@ -8,6 +8,8 @@ namespace CSRakowski.Parallel
 {
     public static partial class ParallelAsync
     {
+        #region IEnumerable<T>
+
         /// <summary>
         /// Implementation to run the specified async method for each item of the input collection in an batched manner, whilst preserving ordering as much as possible.
         /// </summary>
@@ -314,5 +316,139 @@ namespace CSRakowski.Parallel
 
             ParallelAsyncEventSource.Log.RunStop(runId);
         }
+
+
+        #endregion IEnumerable<T>
+
+        #region IAsyncEnumerable<T>
+
+        private static async Task<IEnumerable<TResult>> ForEachAsyncImplOrdered<TResult, TIn>(IAsyncEnumerable<TIn> collection,  Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, CancellationToken cancellationToken)
+        {
+            var result = ListHelpers.GetList<TResult>(estimatedResultSize);
+
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, batchSize, false, estimatedResultSize);
+
+            var enumerator = collection.GetAsyncEnumerator();
+            try
+            {
+                var hasNext = true;
+                long batchId = 0;
+
+                while (hasNext && !cancellationToken.IsCancellationRequested)
+                {
+                    var taskList = new Task<TResult>[batchSize];
+
+                    int threadIndex;
+                    for (threadIndex = 0; threadIndex < batchSize; threadIndex++)
+                    {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
+
+                        hasNext = await enumerator.MoveNextAsync().ConfigureAwait(false);
+
+                        if (!hasNext)
+                        {
+                            break;
+                        }
+
+                        var element = enumerator.Current;
+
+                        var task = func(element, cancellationToken);
+                        taskList[threadIndex] = task;
+                    }
+
+                    // If we reach the end, we need to ensure there are no NULLs in the taskList as Task.WhenAll breaks on those.
+                    if (threadIndex < batchSize)
+                    {
+                        var temp = new Task<TResult>[threadIndex];
+                        Array.Copy(taskList, temp, threadIndex);
+                        taskList = temp;
+                    }
+
+                    EventSource.BatchStart(batchId, taskList.Length);
+
+                    var batchResults = await Task.WhenAll(taskList).ConfigureAwait(false);
+                    result.AddRange(batchResults);
+
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync();
+            }
+
+            EventSource.RunStop(runId);
+
+            return result;
+        }
+
+        private static async Task ForEachAsyncImplOrdered<TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, int batchSize, CancellationToken cancellationToken)
+        {
+            long runId = EventSource.GetRunId();
+            EventSource.RunStart(runId, batchSize, false, 0);
+
+            var enumerator = collection.GetAsyncEnumerator();
+            try
+            {
+                var hasNext = true;
+                long batchId = 0;
+
+                while (hasNext && !cancellationToken.IsCancellationRequested)
+                {
+                    var taskList = new Task[batchSize];
+
+                    int threadIndex;
+                    for (threadIndex = 0; threadIndex < batchSize; threadIndex++)
+                    {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
+
+                        hasNext = await enumerator.MoveNextAsync().ConfigureAwait(false);
+
+                        if (!hasNext)
+                        {
+                            break;
+                        }
+
+                        var element = enumerator.Current;
+
+                        var task = func(element, cancellationToken);
+                        taskList[threadIndex] = task;
+                    }
+
+                    // If we reach the end, we need to ensure there are no NULLs in the taskList as Task.WhenAll breaks on those.
+                    if (threadIndex < batchSize)
+                    {
+                        var temp = new Task[threadIndex];
+                        Array.Copy(taskList, temp, threadIndex);
+                        taskList = temp;
+                    }
+
+                    EventSource.BatchStart(batchId, taskList.Length);
+
+                    await Task.WhenAll(taskList).ConfigureAwait(false);
+
+                    EventSource.BatchStop(batchId);
+
+                    batchId++;
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync();
+            }
+
+            EventSource.RunStop(runId);
+        }
+
+        #endregion IAsyncEnumerable<T>
     }
 }

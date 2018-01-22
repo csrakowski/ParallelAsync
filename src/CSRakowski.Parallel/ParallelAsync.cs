@@ -310,7 +310,18 @@ namespace CSRakowski.Parallel
 
             int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
-            return ForEachAsyncImplUnbatched<TResult, TIn>(collection, cancellationToken, estimatedResultSize, func);
+            if (maxBatchSizeToUse == 1)
+            {
+                return ForEachAsyncImplUnbatched<TResult, TIn>(collection, func, estimatedResultSize, cancellationToken);
+            }
+            else if (allowOutOfOrderProcessing)
+            {
+                return ForEachAsyncImplUnordered<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
+            }
+            else
+            {
+                return ForEachAsyncImplOrdered<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
+            }
         }
 
         /// <summary>
@@ -380,7 +391,18 @@ namespace CSRakowski.Parallel
 
             int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
-            return ForEachAsyncImplUnbatched<TIn>(collection, cancellationToken, func);
+            if (maxBatchSizeToUse == 1)
+            {
+                return ForEachAsyncImplUnbatched<TIn>(collection, func, cancellationToken);
+            }
+            else if (allowOutOfOrderProcessing)
+            {
+                return ForEachAsyncImplUnordered<TIn>(collection, func, maxBatchSizeToUse, cancellationToken);
+            }
+            else
+            {
+                return ForEachAsyncImplOrdered<TIn>(collection, func, maxBatchSizeToUse, cancellationToken);
+            }
         }
 
         #endregion IAsyncEnumerable<T>
