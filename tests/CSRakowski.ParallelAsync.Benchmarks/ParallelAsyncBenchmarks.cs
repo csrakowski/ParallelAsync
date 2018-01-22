@@ -40,7 +40,7 @@ namespace CSRakowski.Parallel.Benchmarks
             var batchResults = await ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne")]
+        [Benchmark, BenchmarkCategory("JustAddOne")]
         public async Task JustAddOne_WithCancellation()
         {
             var batchResults = await ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne_WithCancellation, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None).ConfigureAwait(false);
@@ -52,7 +52,7 @@ namespace CSRakowski.Parallel.Benchmarks
             await ParallelAsync.ForEachAsync(InputNumbers, Func_ReturnTaskCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark(Baseline = true), BenchmarkCategory("ReturnTaskCompletedTask")]
+        [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
         public async Task ReturnTaskCompletedTask_WithCancellation()
         {
             await ParallelAsync.ForEachAsync(InputNumbers, Func_ReturnTaskCompletedTask_WithCancellation, MaxBatchSize, AllowOutOfOrder, CancellationToken.None).ConfigureAwait(false);
@@ -64,7 +64,7 @@ namespace CSRakowski.Parallel.Benchmarks
             var batchResults = await ParallelAsync.ForEachAsync(InputNumbers2, Func_JustAddOne_WithDelay, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection2, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne_WithDelay")]
+        [Benchmark, BenchmarkCategory("JustAddOne_WithDelay")]
         public async Task JustAddOne_WithCancellation_WithDelay()
         {
             var batchResults = await ParallelAsync.ForEachAsync(InputNumbers2, Func_JustAddOne_WithCancellation_WithDelay, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection2, CancellationToken.None).ConfigureAwait(false);
@@ -76,7 +76,7 @@ namespace CSRakowski.Parallel.Benchmarks
             await ParallelAsync.ForEachAsync(InputNumbers2, Func_ReturnTaskCompletedTask_WithDelay, MaxBatchSize, AllowOutOfOrder, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark(Baseline = true), BenchmarkCategory("ReturnTaskCompletedTask_WithDelay")]
+        [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask_WithDelay")]
         public async Task ReturnTaskCompletedTask_WithCancellation_WithDelay()
         {
             await ParallelAsync.ForEachAsync(InputNumbers2, Func_ReturnTaskCompletedTask_WithCancellation_WithDelay, MaxBatchSize, AllowOutOfOrder, CancellationToken.None).ConfigureAwait(false);
