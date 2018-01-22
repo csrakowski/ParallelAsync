@@ -16,7 +16,7 @@ namespace CSRakowski.Parallel.Helpers
         /// <summary>
         /// The <see cref="ParallelAsyncEventSource"/> instance used for logging
         /// </summary>
-        public static ParallelAsyncEventSource Log = new ParallelAsyncEventSource();
+        public static readonly ParallelAsyncEventSource Log = new ParallelAsyncEventSource();
 
         /// <summary>
         /// Get's a unique number to use as the RunId
