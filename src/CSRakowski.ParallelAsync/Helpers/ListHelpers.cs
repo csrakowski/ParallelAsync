@@ -1,7 +1,6 @@
 ﻿// TODO: FInd out if enabling the AggressiveInlining option has any impact. (It probably won't matter all that much, as the ListHelper is not called in the innermost loops. )
 //#define USE_INLINE
 
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -77,14 +76,9 @@ namespace CSRakowski.Parallel.Helpers
 #endif
         public static List<T> GetList<T>(int capacity)
         {
-            if (capacity > 0)
-            {
-                return new List<T>(capacity);
-            }
-            else
-            {
-                return new List<T>();
-            }
+            return (capacity > 0)
+                ? new List<T>(capacity)
+                : new List<T>();
         }
     }
 }
