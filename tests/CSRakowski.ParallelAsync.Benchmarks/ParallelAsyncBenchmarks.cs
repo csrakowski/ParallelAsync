@@ -15,8 +15,8 @@ namespace CSRakowski.Parallel.Benchmarks
     public class ParallelAsyncBenchmarks
     {
         private const int NumberOfItemsInCollection = 10000;
-        private const int NumberOfItemsInCollection2 = 1000;
-        private const int DelayTime = 10;
+        private const int NumberOfItemsInCollection2 = 10;
+        private const int DelayTime = 1;
 
         private readonly List<int> InputNumbers;
         private readonly List<int> InputNumbers2;
