@@ -6,7 +6,7 @@ namespace CSRakowski.Parallel.Extensions
     /// Empty marker interface, used by the <see cref="ParallelAsyncEx"/>
     /// </summary>
     /// <typeparam name="T">The element type</typeparam>
-    public interface IParallelAsyncEnumerable<T> : IEnumerable<T>
+    public interface IParallelAsyncEnumerable<out T> : IEnumerable<T>
     {
     }
 }
