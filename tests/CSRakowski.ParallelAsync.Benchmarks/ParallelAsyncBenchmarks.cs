@@ -12,6 +12,7 @@ using BenchmarkDotNet.Attributes;
 
 namespace CSRakowski.Parallel.Benchmarks
 {
+    [MemoryDiagnoser]
     public class ParallelAsyncBenchmarks
     {
         private const int NumberOfItemsInCollection = 10000;
@@ -33,49 +34,49 @@ namespace CSRakowski.Parallel.Benchmarks
         [Params(false, true)]
         public bool AllowOutOfOrder { get; set; }
 
-        [Benchmark]
+        [Benchmark, BenchmarkCategory("JustAddOne")]
         public async Task JustAddOne()
         {
             var batchResults = await ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne")]
         public async Task JustAddOne_WithCancellation()
         {
             var batchResults = await ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne_WithCancellation, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark]
+        [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
         public async Task ReturnTaskCompletedTask()
         {
             await ParallelAsync.ForEachAsync(InputNumbers, Func_ReturnTaskCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true), BenchmarkCategory("ReturnTaskCompletedTask")]
         public async Task ReturnTaskCompletedTask_WithCancellation()
         {
             await ParallelAsync.ForEachAsync(InputNumbers, Func_ReturnTaskCompletedTask_WithCancellation, MaxBatchSize, AllowOutOfOrder, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark]
+        [Benchmark, BenchmarkCategory("JustAddOne_WithDelay")]
         public async Task JustAddOne_WithDelay()
         {
             var batchResults = await ParallelAsync.ForEachAsync(InputNumbers2, Func_JustAddOne_WithDelay, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection2, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne_WithDelay")]
         public async Task JustAddOne_WithCancellation_WithDelay()
         {
             var batchResults = await ParallelAsync.ForEachAsync(InputNumbers2, Func_JustAddOne_WithCancellation_WithDelay, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection2, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark]
+        [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask_WithDelay")]
         public async Task ReturnTaskCompletedTask_WithDelay()
         {
             await ParallelAsync.ForEachAsync(InputNumbers2, Func_ReturnTaskCompletedTask_WithDelay, MaxBatchSize, AllowOutOfOrder, CancellationToken.None).ConfigureAwait(false);
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true), BenchmarkCategory("ReturnTaskCompletedTask_WithDelay")]
         public async Task ReturnTaskCompletedTask_WithCancellation_WithDelay()
         {
             await ParallelAsync.ForEachAsync(InputNumbers2, Func_ReturnTaskCompletedTask_WithCancellation_WithDelay, MaxBatchSize, AllowOutOfOrder, CancellationToken.None).ConfigureAwait(false);
