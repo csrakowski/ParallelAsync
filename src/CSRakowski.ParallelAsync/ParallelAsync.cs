@@ -35,11 +35,10 @@ namespace CSRakowski.Parallel
             }
         }
 
-
         /// <summary>
         /// The <see cref="ParallelAsyncEventSource"/> instance used for logging
         /// </summary>
-        private static ParallelAsyncEventSource EventSource = ParallelAsyncEventSource.Log;
+        private static readonly ParallelAsyncEventSource EventSource = ParallelAsyncEventSource.Log;
 
         #endregion Helpers
 
