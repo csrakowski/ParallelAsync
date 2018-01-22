@@ -242,12 +242,13 @@ namespace CSRakowski.Parallel.Tests
         public void ParallelAsync_Throws_On_Invalid_Inputs()
         {
             var empty = new int[0];
+            IEnumerable<int> nullEnumerable = null;
 
-            var ex1 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(null, (e) => TaskHelper.CompletedTask));
-            var ex2 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(null, (e, ct) => TaskHelper.CompletedTask));
+            var ex1 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e) => TaskHelper.CompletedTask));
+            var ex2 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e, ct) => TaskHelper.CompletedTask));
 
-            var ex3 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(null, (e) => Task.FromResult(e)));
-            var ex4 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(null, (e, ct) => Task.FromResult(e)));
+            var ex3 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(nullEnumerable, (e) => Task.FromResult(e)));
+            var ex4 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(nullEnumerable, (e, ct) => Task.FromResult(e)));
 
             var ex5 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(empty, (Func<int, Task>)null));
             var ex6 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(empty, (Func<int, CancellationToken, Task>)null));
