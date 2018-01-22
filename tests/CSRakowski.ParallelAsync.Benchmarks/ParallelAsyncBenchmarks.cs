@@ -9,6 +9,8 @@ using BenchmarkDotNet;
 using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes.Jobs;
+using BenchmarkDotNet.Attributes.Columns;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
@@ -17,7 +19,8 @@ namespace CSRakowski.Parallel.Benchmarks
 {
     [MemoryDiagnoser]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-    //[SimpleJob]
+    [CategoriesColumn]
+    //[SimpleJob(invocationCount: 8)]
     public class ParallelAsyncBenchmarks
     {
         private const int NumberOfItemsInCollection = 10000;
