@@ -20,7 +20,7 @@ namespace CSRakowski.Parallel
                 var hasNext = true;
                 long batchId = 0;
 
-                while (hasNext && !cancellationToken.IsCancellationRequested)
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     hasNext = enumerator.MoveNext();
 
@@ -58,7 +58,7 @@ namespace CSRakowski.Parallel
                 var hasNext = true;
                 long batchId = 0;
 
-                while (hasNext && !cancellationToken.IsCancellationRequested)
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     hasNext = enumerator.MoveNext();
 
@@ -94,7 +94,7 @@ namespace CSRakowski.Parallel
                 var hasNext = true;
                 long batchId = 0;
 
-                while (hasNext && !cancellationToken.IsCancellationRequested)
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     hasNext = enumerator.MoveNext();
 
@@ -127,7 +127,7 @@ namespace CSRakowski.Parallel
                 var hasNext = true;
                 long batchId = 0;
 
-                while (hasNext && !cancellationToken.IsCancellationRequested)
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     hasNext = enumerator.MoveNext();
 
