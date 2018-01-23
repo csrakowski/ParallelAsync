@@ -32,7 +32,10 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.10.12" />
-    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.10.12" Condition=" '$(TargetFramework)' == 'net47' " />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' ">
+    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.10.12" />
   </ItemGroup>
 
   <ItemGroup>
