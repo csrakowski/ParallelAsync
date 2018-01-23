@@ -9,6 +9,34 @@ using CSRakowski.Parallel;
 
 namespace CSRakowski.Parallel.Tests
 {
+    /// <summary>
+    /// As Task.CompletedTask is not available on 4.5, I slightly modified the code found here: http://referencesource.microsoft.com/#mscorlib/system/threading/Tasks/Task.cs,66f1c3e3e272f591
+    /// </summary>
+    static class TaskHelper
+    {
+        /// <summary>
+        /// A task that's already been completed successfully.
+        /// </summary>
+        private static Task s_completedTask;
+
+        /// <summary>Gets a task that's already been completed successfully.</summary>
+        /// <remarks>May not always return the same instance.</remarks>
+        public static Task CompletedTask
+        {
+            get
+            {
+                var completedTask = s_completedTask;
+                if (completedTask == null)
+#if NET45
+                    s_completedTask = completedTask = Task.FromResult(true);
+#else
+                    s_completedTask = completedTask = Task.CompletedTask;
+#endif
+                return completedTask;
+            }
+        }
+    }
+
     [TestFixture, Category("ParallelAsync Base Tests")]
     public class ParallelAsyncTests
     {
@@ -41,7 +69,7 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }, maxBatchSize: 1);
         }
 
@@ -102,7 +130,7 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }, maxBatchSize: 4, cancellationToken: cancellationToken);
         }
 
@@ -115,7 +143,7 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }, maxBatchSize: 4, cancellationToken: cancellationToken);
         }
 
@@ -213,8 +241,8 @@ namespace CSRakowski.Parallel.Tests
         {
             var empty = new int[0];
 
-            var ex1 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(null, (e) => Task.CompletedTask));
-            var ex2 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(null, (e, ct) => Task.CompletedTask));
+            var ex1 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(null, (e) => TaskHelper.CompletedTask));
+            var ex2 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(null, (e, ct) => TaskHelper.CompletedTask));
 
             var ex3 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(null, (e) => Task.FromResult(e)));
             var ex4 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(null, (e, ct) => Task.FromResult(e)));
@@ -265,7 +293,7 @@ namespace CSRakowski.Parallel.Tests
             {
                 var r = el + Interlocked.Increment(ref callCount);
 
-                return Task.CompletedTask;
+                return TaskHelper.CompletedTask;
             }, maxBatchSize: 9, allowOutOfOrderProcessing: true);
 
             Assert.AreEqual(numberOfElements, callCount);

@@ -21,6 +21,7 @@ namespace CSRakowski.Parallel.Benchmarks
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
     [CategoriesColumn]
     //[SimpleJob(launchCount: 1, invocationCount: 8)]
+    [ClrJob(isBaseline: true), CoreJob]
     public class ParallelAsyncBenchmarks
     {
         private const int NumberOfItemsInCollection = 10000;
