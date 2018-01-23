@@ -8,7 +8,7 @@ namespace CSRakowski.Parallel
 {
     public static partial class ParallelAsync
     {
-        private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnbatched<TResult, TIn>(IEnumerable<TIn> collection, CancellationToken cancellationToken, int estimatedResultSize, Func<TIn, CancellationToken, Task<TResult>> func)
+        private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnbatched<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, CancellationToken cancellationToken)
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
 
@@ -46,7 +46,7 @@ namespace CSRakowski.Parallel
             return result;
         }
 
-        private static async Task ForEachAsyncImplUnbatched<TIn>(IEnumerable<TIn> collection, CancellationToken cancellationToken, Func<TIn, CancellationToken, Task> func)
+        private static async Task ForEachAsyncImplUnbatched<TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, CancellationToken cancellationToken)
         {
             long runId = EventSource.GetRunId();
             EventSource.RunStart(runId, 1, false, 0);

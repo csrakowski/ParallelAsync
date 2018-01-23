@@ -121,19 +121,19 @@ namespace CSRakowski.Parallel
                 throw new ArgumentNullException(nameof(func));
             }
 
-            int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
+            var maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
             if (maxBatchSizeToUse == 1)
             {
-                return ForEachAsyncImplUnbatched<TResult, TIn>(collection, cancellationToken, estimatedResultSize, func);
+                return ForEachAsyncImplUnbatched<TResult, TIn>(collection, func, estimatedResultSize, cancellationToken);
             }
             else if (allowOutOfOrderProcessing)
             {
-                return ForEachAsyncImplUnordered<TResult, TIn>(collection, cancellationToken, maxBatchSizeToUse, estimatedResultSize, func);
+                return ForEachAsyncImplUnordered<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
             }
             else
             {
-                return ForEachAsyncImplOrdered<TResult, TIn>(collection, cancellationToken, maxBatchSizeToUse, estimatedResultSize, func);
+                return ForEachAsyncImplOrdered<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
             }
         }
 
@@ -202,19 +202,19 @@ namespace CSRakowski.Parallel
                 throw new ArgumentNullException(nameof(func));
             }
 
-            int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
+            var maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
             if (maxBatchSizeToUse == 1)
             {
-                return ForEachAsyncImplUnbatched<TIn>(collection, cancellationToken, func);
+                return ForEachAsyncImplUnbatched<TIn>(collection, func, cancellationToken);
             }
             else if (allowOutOfOrderProcessing)
             {
-                return ForEachAsyncImplUnordered<TIn>(collection, cancellationToken, maxBatchSizeToUse, func);
+                return ForEachAsyncImplUnordered<TIn>(collection, func, maxBatchSizeToUse, cancellationToken);
             }
             else
             {
-                return ForEachAsyncImplOrdered<TIn>(collection, cancellationToken, maxBatchSizeToUse, func);
+                return ForEachAsyncImplOrdered<TIn>(collection, func, maxBatchSizeToUse, cancellationToken);
             }
         }
     }
