@@ -32,6 +32,10 @@ var files = await fileUrls
 
 # Release notes
 
+### 1.2.1
+* Marked the `T` on the `IParallelAsyncEnumerable` as covariant
+* Changes to internal implementation details
+
 ### 1.2
 * Added an `EventSource` to expose some diagnostic information.
 * Changed minimum supported NetStandard from 1.0 to 1.1 (Because of the `EventSource`).
