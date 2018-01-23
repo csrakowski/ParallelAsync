@@ -237,7 +237,7 @@ namespace CSRakowski.Parallel.Tests
         }
 
         [Test]
-        public void ParallelAsync_Throws_On_Null()
+        public void ParallelAsync_Throws_On_Invalid_Inputs()
         {
             var empty = new int[0];
 
@@ -253,6 +253,8 @@ namespace CSRakowski.Parallel.Tests
             var ex7 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(empty, (Func<int, Task<int>>)null));
             var ex8 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(empty, (Func<int, CancellationToken, Task<int>>)null));
 
+            var ex9 = Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => ParallelAsync.ForEachAsync<int>(empty, (e) => TaskHelper.CompletedTask, -1));
+
             Assert.AreEqual("collection", ex1.ParamName);
             Assert.AreEqual("collection", ex2.ParamName);
             Assert.AreEqual("collection", ex3.ParamName);
@@ -262,6 +264,8 @@ namespace CSRakowski.Parallel.Tests
             Assert.AreEqual("func", ex6.ParamName);
             Assert.AreEqual("func", ex7.ParamName);
             Assert.AreEqual("func", ex8.ParamName);
+
+            Assert.AreEqual("maxBatchSize", ex9.ParamName);
         }
 
         [Test]

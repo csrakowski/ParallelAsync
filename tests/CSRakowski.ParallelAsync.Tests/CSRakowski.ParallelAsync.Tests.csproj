@@ -38,6 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HelpersTests.cs" />
     <Compile Include="ExtensionMethodsTests.cs" />
     <Compile Include="ParallelAsyncTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
