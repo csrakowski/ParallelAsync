@@ -36,7 +36,7 @@ namespace CSRakowski.Parallel.Benchmarks
             InputNumbers2 = Enumerable.Range(0, NumberOfItemsInCollection2).ToList();
         }
 
-        [Params(1, 2, 4, 8)]
+        [Params(1, 4, 8)]
         public int MaxBatchSize { get; set; }
 
         [Params(false, true)]
