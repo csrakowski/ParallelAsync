@@ -16,7 +16,7 @@
     <PackageTags>Parallel, Async, Batching</PackageTags>
     <LangVersion>latest</LangVersion>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>CSRakowski.ParallelAsync.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>CSRakowski.Parallel.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>1.2.1.0</AssemblyVersion>
     <FileVersion>1.2.1.0</FileVersion>
     <PackageReleaseNotes>

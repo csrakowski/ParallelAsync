@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CSRakowski.ParallelAsync\CSRakowski.ParallelAsync.csproj" />
+    <ProjectReference Include="..\..\src\CSRakowski.Parallel\CSRakowski.Parallel.csproj" />
   </ItemGroup>
 
 </Project>

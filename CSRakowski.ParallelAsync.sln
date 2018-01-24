@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSRakowski.ParallelAsync", "src\CSRakowski.ParallelAsync\CSRakowski.ParallelAsync.csproj", "{A7EAE71C-5122-41D5-81CE-8CD626F861AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSRakowski.Parallel", "src\CSRakowski.Parallel\CSRakowski.Parallel.csproj", "{A7EAE71C-5122-41D5-81CE-8CD626F861AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSRakowski.ParallelAsync.Tests", "tests\CSRakowski.ParallelAsync.Tests\CSRakowski.ParallelAsync.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSRakowski.Parallel.Tests", "tests\CSRakowski.Parallel.Tests\CSRakowski.Parallel.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{7A1BFA5A-BF85-4BF2-ADBB-D7DAD2464FAF}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2DA84356-AD1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1C224AEE-DF65-40FE-86C6-47DFF972D702}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSRakowski.ParallelAsync.Benchmarks", "tests\CSRakowski.ParallelAsync.Benchmarks\CSRakowski.ParallelAsync.Benchmarks.csproj", "{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSRakowski.Parallel.Benchmarks", "tests\CSRakowski.Parallel.Benchmarks\CSRakowski.Parallel.Benchmarks.csproj", "{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
