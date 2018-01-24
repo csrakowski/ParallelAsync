@@ -141,7 +141,9 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public void ParallelAsync_Handles_Invalid_Input_As_Expected()
         {
-            Assert.Throws<ArgumentNullException>(() => ParallelAsyncEx.AsParallelAsync<int>(null));
+            IEnumerable<int> nullEnumerable = null;
+
+            Assert.Throws<ArgumentNullException>(() => ParallelAsyncEx.AsParallelAsync<int>(nullEnumerable));
 
             var testCol = new List<int>().AsParallelAsync();
 

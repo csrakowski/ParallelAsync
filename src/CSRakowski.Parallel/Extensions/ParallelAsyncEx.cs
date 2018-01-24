@@ -37,6 +37,28 @@ namespace CSRakowski.Parallel.Extensions
         }
 
         /// <summary>
+        /// Wraps the collection as an <see cref="IParallelAsyncEnumerable{T}"/>
+        /// </summary>
+        /// <typeparam name="T">The element type</typeparam>
+        /// <param name="enumerable">The collection to wrap</param>
+        /// <returns>The wrapped collection</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="enumerable"/> is <c>null</c>.</exception>
+        public static IParallelAsyncEnumerable<T> AsParallelAsync<T>(this IAsyncEnumerable<T> enumerable)
+        {
+            if (enumerable == null)
+            {
+                throw new ArgumentNullException(nameof(enumerable));
+            }
+
+            if (enumerable is IParallelAsyncEnumerable<T> parallelAsync)
+            {
+                return parallelAsync;
+            }
+
+            return new ParallelAsyncEnumerable<T>(enumerable);
+        }
+
+        /// <summary>
         /// Configure a maximum batch size to allow.
         /// </summary>
         /// <typeparam name="T">The element type</typeparam>
@@ -127,7 +149,14 @@ namespace CSRakowski.Parallel.Extensions
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
-            return ParallelAsync.ForEachAsync(obj.Enumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, obj.EstimatedResultSize, cancellationToken);
+            if (obj.IsAsyncEnumerable)
+            {
+                return ParallelAsync.ForEachAsync(obj.AsyncEnumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, obj.EstimatedResultSize, cancellationToken);
+            }
+            else
+            {
+                return ParallelAsync.ForEachAsync(obj.Enumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, obj.EstimatedResultSize, cancellationToken);
+            }
         }
 
         /// <summary>
@@ -145,7 +174,14 @@ namespace CSRakowski.Parallel.Extensions
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
-            return ParallelAsync.ForEachAsync(obj.Enumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, obj.EstimatedResultSize, cancellationToken);
+            if (obj.IsAsyncEnumerable)
+            {
+                return ParallelAsync.ForEachAsync(obj.AsyncEnumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, obj.EstimatedResultSize, cancellationToken);
+            }
+            else
+            {
+                return ParallelAsync.ForEachAsync(obj.Enumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, obj.EstimatedResultSize, cancellationToken);
+            }
         }
 
         /// <summary>
@@ -162,7 +198,14 @@ namespace CSRakowski.Parallel.Extensions
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
-            return ParallelAsync.ForEachAsync(obj.Enumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, cancellationToken);
+            if (obj.IsAsyncEnumerable)
+            {
+                return ParallelAsync.ForEachAsync(obj.AsyncEnumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, cancellationToken);
+            }
+            else
+            {
+                return ParallelAsync.ForEachAsync(obj.Enumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, cancellationToken);
+            }
         }
 
         /// <summary>
@@ -179,7 +222,14 @@ namespace CSRakowski.Parallel.Extensions
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
-            return ParallelAsync.ForEachAsync(obj.Enumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, cancellationToken);
+            if (obj.IsAsyncEnumerable)
+            {
+                return ParallelAsync.ForEachAsync(obj.AsyncEnumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, cancellationToken);
+            }
+            else
+            {
+                return ParallelAsync.ForEachAsync(obj.Enumerable, func, obj.MaxDegreeOfParallelism, obj.AllowOutOfOrderProcessing, cancellationToken);
+            }
         }
 
         #endregion ForEachAsync overloads
