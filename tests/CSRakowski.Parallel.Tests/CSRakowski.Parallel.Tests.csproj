@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net47;net45;netcoreapp2.0;netcoreapp1.1</TargetFrameworks>
+
+    <IsPackable>false</IsPackable>
+
+    <Authors>Christiaan Rakowski</Authors>
+    <Copyright>Christiaan Rakowski - 2017-2018</Copyright>
+    <LangVersion>latest</LangVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0</Version>
+    <RootNamespace>CSRakowski.Parallel.Tests</RootNamespace>
+    <AssemblyName>CSRakowski.Parallel.Tests</AssemblyName>
+
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="nunit" Version="3.9.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CSRakowski.Parallel\CSRakowski.Parallel.csproj" />
+  </ItemGroup>
+
+</Project>
