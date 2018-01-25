@@ -1,14 +1,7 @@
-﻿// TODO: FInd out if enabling the AggressiveInlining option has any impact. (It probably won't matter all that much, as the ListHelper is not called in the innermost loops. )
-//#define USE_INLINE
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-
-#if USE_INLINE
-using System.Runtime.CompilerServices;
-#endif
 
 namespace CSRakowski.Parallel.Helpers
 {
@@ -28,9 +21,6 @@ namespace CSRakowski.Parallel.Helpers
         /// <param name="enumerable">The collection</param>
         /// <param name="estimatedResultSize">The fallback value</param>
         /// <returns>The list</returns>
-#if USE_INLINE
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         public static List<TResult> GetList<TResult, TIn>(IEnumerable<TIn> enumerable, int estimatedResultSize)
         {
             var size = DetermineResultSize(enumerable, estimatedResultSize);
@@ -71,9 +61,6 @@ namespace CSRakowski.Parallel.Helpers
         /// <remarks>
         /// Basically just calls the constructor overload with the specified capacity
         /// </remarks>
-#if USE_INLINE
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         public static List<T> GetList<T>(int capacity)
         {
             return (capacity > 0)
