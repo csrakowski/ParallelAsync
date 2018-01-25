@@ -8,58 +8,13 @@ using CSRakowski.Parallel;
 using NUnit.Framework;
 using CSRakowski.Parallel.Helpers;
 using System.Threading;
+using CSRakowski.Parallel.Tests.Helpers;
 
 namespace CSRakowski.Parallel.Tests
 {
     [TestFixture, Category("ParallelAsync Helpers Tests")]
     public class HelpersTests
     {
-        private class TestCollection<T> : IEnumerable<T>, ICollection
-        {
-            private readonly int _size;
-
-            public TestCollection(int size)
-            {
-                _size = size;
-            }
-
-            #region ICollection
-
-            public int Count => _size;
-
-            public Object SyncRoot => this;
-            public bool IsSynchronized => true;
-
-            public void CopyTo(Array array, int index) { }
-
-            IEnumerator IEnumerable.GetEnumerator() => null;
-
-            public IEnumerator<T> GetEnumerator() => null;
-
-            #endregion ICollection
-
-        }
-
-        private class TestReadOnlyCollection<T> : IReadOnlyCollection<T>
-        {
-            private readonly int _size;
-
-            public TestReadOnlyCollection(int size)
-            {
-                _size = size;
-            }
-
-            #region IReadOnlyCollection
-
-            public int Count => _size;
-
-            IEnumerator IEnumerable.GetEnumerator() => null;
-
-            public IEnumerator<T> GetEnumerator() => null;
-
-            #endregion IReadOnlyCollection
-        }
-
         [Test]
         public void ListHelper_Can_Determine_Sizes_Correctly()
         {
