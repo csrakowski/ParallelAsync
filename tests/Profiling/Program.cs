@@ -13,7 +13,8 @@ namespace Profiling
         static async Task<int> Main(string[] args)
         {
             var numberOfElements = 1000000;
-            var input = Enumerable.Range(1, numberOfElements);
+            var input = Enumerable.Range(1, numberOfElements).ToList();
+
             var results = await ParallelAsync.ForEachAsync(
                                 collection: input,
                                 func: AddOne,
