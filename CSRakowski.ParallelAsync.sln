@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSRakowski.Parallel", "src\CSRakowski.Parallel\CSRakowski.Parallel.csproj", "{A7EAE71C-5122-41D5-81CE-8CD626F861AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSRakowski.Parallel.Tests", "tests\CSRakowski.Parallel.Tests\CSRakowski.Parallel.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSRakowski.Parallel.Tests", "tests\CSRakowski.Parallel.Tests\CSRakowski.Parallel.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{7A1BFA5A-BF85-4BF2-ADBB-D7DAD2464FAF}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,7 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2DA84356-AD1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1C224AEE-DF65-40FE-86C6-47DFF972D702}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSRakowski.Parallel.Benchmarks", "tests\CSRakowski.Parallel.Benchmarks\CSRakowski.Parallel.Benchmarks.csproj", "{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSRakowski.Parallel.Benchmarks", "tests\CSRakowski.Parallel.Benchmarks\CSRakowski.Parallel.Benchmarks.csproj", "{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Profiling", "tests\Profiling\Profiling.csproj", "{695E8128-39A1-4C05-B182-E6FD18786B0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{695E8128-39A1-4C05-B182-E6FD18786B0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{695E8128-39A1-4C05-B182-E6FD18786B0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{695E8128-39A1-4C05-B182-E6FD18786B0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{695E8128-39A1-4C05-B182-E6FD18786B0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +51,7 @@ Global
 		{A7EAE71C-5122-41D5-81CE-8CD626F861AF} = {2DA84356-AD18-4DC9-91AF-45C018372075}
 		{8EDF4429-251A-416D-BB68-93F227191BCF} = {1C224AEE-DF65-40FE-86C6-47DFF972D702}
 		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52} = {1C224AEE-DF65-40FE-86C6-47DFF972D702}
+		{695E8128-39A1-4C05-B182-E6FD18786B0F} = {1C224AEE-DF65-40FE-86C6-47DFF972D702}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D0D0442-0469-4C2F-A36A-16F825704000}
