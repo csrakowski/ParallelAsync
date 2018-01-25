@@ -12,8 +12,8 @@ namespace CSRakowski.Parallel
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
 
-            long runId = EventSource.GetRunId();
-            EventSource.RunStart(runId, 1, false, estimatedResultSize);
+            long runId = ParallelAsyncEventSource.Log.GetRunId();
+            ParallelAsyncEventSource.Log.RunStart(runId, 1, false, estimatedResultSize);
 
             using (var enumerator = collection.GetEnumerator())
             {
@@ -29,27 +29,27 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    EventSource.BatchStart(batchId, 1);
+                    ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
 
                     var element = enumerator.Current;
                     var resultElement = await func(element, cancellationToken).ConfigureAwait(false);
                     result.Add(resultElement);
 
-                    EventSource.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(batchId);
 
                     batchId++;
                 }
             }
 
-            EventSource.RunStop(runId);
+            ParallelAsyncEventSource.Log.RunStop(runId);
 
             return result;
         }
 
         private static async Task ForEachAsyncImplUnbatched<TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, CancellationToken cancellationToken)
         {
-            long runId = EventSource.GetRunId();
-            EventSource.RunStart(runId, 1, false, 0);
+            long runId = ParallelAsyncEventSource.Log.GetRunId();
+            ParallelAsyncEventSource.Log.RunStart(runId, 1, false, 0);
 
             using (var enumerator = collection.GetEnumerator())
             {
@@ -65,18 +65,18 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    EventSource.BatchStart(batchId, 1);
+                    ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
 
                     var element = enumerator.Current;
                     await func(element, cancellationToken).ConfigureAwait(false);
 
-                    EventSource.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(batchId);
 
                     batchId++;
                 }
             }
 
-            EventSource.RunStop(runId);
+            ParallelAsyncEventSource.Log.RunStop(runId);
         }
     }
 }
