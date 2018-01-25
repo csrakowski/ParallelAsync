@@ -44,25 +44,25 @@ namespace CSRakowski.Parallel.Benchmarks
         [Params(false, true)]
         public bool AllowOutOfOrder { get; set; }
 
-        [Benchmark, BenchmarkCategory("JustAddOne")]
+        [Benchmark, BenchmarkCategory("JustAddOne", "QuickRun")]
         public Task JustAddOne()
         {
             return ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
-        [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne")]
+        [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne", "QuickRun")]
         public Task JustAddOne_WithCancellation()
         {
             return ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne_WithCancellation, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
-        [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
+        [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask", "QuickRun")]
         public Task ReturnTaskCompletedTask()
         {
             return ParallelAsync.ForEachAsync(InputNumbers, Func_ReturnTaskCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
 
-        [Benchmark(Baseline = true), BenchmarkCategory("ReturnTaskCompletedTask")]
+        [Benchmark(Baseline = true), BenchmarkCategory("ReturnTaskCompletedTask", "QuickRun")]
         public Task ReturnTaskCompletedTask_WithCancellation()
         {
             return ParallelAsync.ForEachAsync(InputNumbers, Func_ReturnTaskCompletedTask_WithCancellation, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);

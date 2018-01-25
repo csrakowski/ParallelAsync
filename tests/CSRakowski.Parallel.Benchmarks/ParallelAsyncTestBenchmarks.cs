@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using BenchmarkDotNet;
+using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Reports;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes.Jobs;
+using BenchmarkDotNet.Attributes.Columns;
+using BenchmarkDotNet.Columns;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Jobs;
+
+namespace CSRakowski.Parallel.Benchmarks
+{
+    [MemoryDiagnoser]
+    [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByMethod, BenchmarkLogicalGroupRule.ByParams)]
+    [ClrJob(isBaseline: true)]
+    [CoreJob(isBaseline: false)]
+    public class ParallelAsyncTestBenchmarks
+    {
+        private const int NumberOfItemsInCollection = 10000;
+
+        private readonly List<int> InputNumbers;
+
+        public ParallelAsyncTestBenchmarks()
+        {
+            InputNumbers = Enumerable.Range(0, NumberOfItemsInCollection).ToList();
+        }
+
+        [Params(4, 8)]
+        public int MaxBatchSize { get; set; }
+
+        [Params(false, true)]
+        public bool AllowOutOfOrder { get; set; }
+
+        [Benchmark, BenchmarkCategory("JustAddOne")]
+        public Task JustAddOne()
+        {
+            return ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+        }
+
+        [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
+        public Task ReturnTaskCompletedTask()
+        {
+            return ParallelAsync.ForEachAsync(InputNumbers, Func_ReturnTaskCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+        }
+
+        #region Delegates
+
+        private static Task<int> Func_JustAddOne(int number)
+        {
+            return Task.FromResult(number + 1);
+        }
+
+        private static Task Func_ReturnTaskCompletedTask(int number)
+        {
+            return Task.CompletedTask;
+        }
+
+        #endregion Delegates
+    }
+}

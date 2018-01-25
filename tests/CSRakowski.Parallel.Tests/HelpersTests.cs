@@ -73,7 +73,6 @@ namespace CSRakowski.Parallel.Tests
             IEnumerable<int> enumerable = Enumerable.Range(1, 10);
             IEnumerable<int> nullCollection = null;
 
-
             var listSize = ListHelpers.DetermineResultSize(list, -1);
             var readOnlyListSize = ListHelpers.DetermineResultSize(readOnlyCollection, -1);
             var collectionSize = ListHelpers.DetermineResultSize(collection, -1);
