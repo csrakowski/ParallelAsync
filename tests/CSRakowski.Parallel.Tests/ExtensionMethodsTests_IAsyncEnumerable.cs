@@ -8,6 +8,7 @@ using CSRakowski.Parallel;
 using NUnit.Framework;
 using CSRakowski.Parallel.Extensions;
 using System.Threading;
+using CSRakowski.Parallel.Helpers;
 using CSRakowski.Parallel.Tests.Helpers;
 
 namespace CSRakowski.Parallel.Tests

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CSRakowski.Parallel;
+using CSRakowski.Parallel.Helpers;
 using CSRakowski.Parallel.Tests.Helpers;
 
 namespace CSRakowski.Parallel.Tests
