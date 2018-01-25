@@ -264,7 +264,7 @@ namespace CSRakowski.Parallel
                 throw new ArgumentNullException(nameof(func));
             }
 
-            var funcWithCancellationToken = new Func<TIn, CancellationToken, Task<TResult>>((arg, ct) => func(arg));
+            var funcWithCancellationToken = WrapFunc(func);
             return ForEachAsync<TResult, TIn>(collection, funcWithCancellationToken, maxBatchSize, allowOutOfOrderProcessing, estimatedResultSize, cancellationToken);
         }
 
@@ -352,7 +352,7 @@ namespace CSRakowski.Parallel
                 throw new ArgumentNullException(nameof(func));
             }
 
-            var funcWithCancellationToken = new Func<TIn, CancellationToken, Task>((arg, ct) => func(arg));
+            var funcWithCancellationToken = WrapFunc(func);
             return ForEachAsync<TIn>(collection, funcWithCancellationToken, maxBatchSize, allowOutOfOrderProcessing, cancellationToken);
         }
 
