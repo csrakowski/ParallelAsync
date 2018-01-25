@@ -146,8 +146,8 @@ namespace CSRakowski.Parallel
         {
             var result = ListHelpers.GetList<TResult>(estimatedResultSize);
 
-            long runId = EventSource.GetRunId();
-            EventSource.RunStart(runId, batchSize, true, estimatedResultSize);
+            long runId = ParallelAsyncEventSource.Log.GetRunId();
+            ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, estimatedResultSize);
 
             var enumerator = collection.GetAsyncEnumerator();
             try
@@ -178,7 +178,7 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    EventSource.BatchStart(batchId, taskList.Count);
+                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Count);
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
@@ -189,7 +189,7 @@ namespace CSRakowski.Parallel
                         taskList.Remove(t);
                     }
 
-                    EventSource.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(batchId);
 
                     batchId++;
                 }
@@ -199,15 +199,15 @@ namespace CSRakowski.Parallel
                 await enumerator.DisposeAsync();
             }
 
-            EventSource.RunStop(runId);
+            ParallelAsyncEventSource.Log.RunStop(runId);
 
             return result;
         }
 
         private static async Task ForEachAsyncImplUnordered<TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, int batchSize, CancellationToken cancellationToken)
         {
-            long runId = EventSource.GetRunId();
-            EventSource.RunStart(runId, batchSize, true, 0);
+            long runId = ParallelAsyncEventSource.Log.GetRunId();
+            ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, 0);
 
             var enumerator = collection.GetAsyncEnumerator();
             try
@@ -238,7 +238,7 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    EventSource.BatchStart(batchId, taskList.Count);
+                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Count);
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
@@ -248,7 +248,7 @@ namespace CSRakowski.Parallel
                         taskList.Remove(t);
                     }
 
-                    EventSource.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(batchId);
 
                     batchId++;
                 }
@@ -258,7 +258,7 @@ namespace CSRakowski.Parallel
                 await enumerator.DisposeAsync();
             }
 
-            EventSource.RunStop(runId);
+            ParallelAsyncEventSource.Log.RunStop(runId);
         }
 
         #endregion IAsyncEnumerable<T>
