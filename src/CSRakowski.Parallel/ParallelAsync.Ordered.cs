@@ -18,7 +18,7 @@ namespace CSRakowski.Parallel
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
-                long batchId = 0;
+                int batchId = 0;
 
                 while (hasNext && !cancellationToken.IsCancellationRequested)
                 {
@@ -77,7 +77,7 @@ namespace CSRakowski.Parallel
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
-                long batchId = 0;
+                int batchId = 0;
 
                 while (hasNext && !cancellationToken.IsCancellationRequested)
                 {

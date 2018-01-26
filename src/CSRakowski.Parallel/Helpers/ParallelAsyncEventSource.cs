@@ -53,7 +53,7 @@ namespace CSRakowski.Parallel.Helpers
         /// <param name="batchId">The id of the current batch</param>
         /// <param name="batchSize">The size of the current batch</param>
         [Event(3, Message = "Starting a new batch (id: {0})", Opcode = EventOpcode.Start, Level = EventLevel.Informational)]
-        public void BatchStart(long batchId, int batchSize)
+        public void BatchStart(int batchId, int batchSize)
         {
             WriteEvent(3, batchId, batchSize);
         }
@@ -63,7 +63,7 @@ namespace CSRakowski.Parallel.Helpers
         /// </summary>
         /// <param name="batchId">The id of the current batch</param>
         [Event(4, Message = "Completed batch (id: {0})", Opcode = EventOpcode.Stop, Level = EventLevel.Informational)]
-        public void BatchStop(long batchId)
+        public void BatchStop(int batchId)
         {
             WriteEvent(4, batchId);
         }

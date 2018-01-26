@@ -16,7 +16,7 @@ namespace CSRakowski.Parallel.Benchmarks
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<ParallelAsyncTestBenchmarks>();
+            var summary = BenchmarkRunner.Run<UsingForEachForUnbatched>();
         }
     }
 }
