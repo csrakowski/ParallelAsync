@@ -10,7 +10,6 @@ namespace CSRakowski.Parallel
 {
     public static partial class ParallelAsync
     {
-        //TODO: #37 - Look into using Arrays directly, instead of relying on Adding/Removing using List (Perf/GC overhead)
 
         private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnordered<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, CancellationToken cancellationToken)
         {
@@ -51,7 +50,7 @@ namespace CSRakowski.Parallel
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
-                    var completed = taskList.Where(t => t.IsCompleted).ToList();
+                    var completed = taskList.FindAll(t => t.IsCompleted);
                     foreach (var t in completed)
                     {
                         result.Add(t.Result);
@@ -106,11 +105,7 @@ namespace CSRakowski.Parallel
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
-                    var completed = taskList.Where(t => t.IsCompleted).ToList();
-                    foreach (var t in completed)
-                    {
-                        taskList.Remove(t);
-                    }
+                    taskList.RemoveAll(t => t.IsCompleted);
 
                     ParallelAsyncEventSource.Log.BatchStop(batchId);
 

@@ -10,6 +10,9 @@ namespace CSRakowski.Parallel
     {
         private static async Task<IEnumerable<TResult>> ForEachAsyncImplOrdered<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, CancellationToken cancellationToken)
         {
+            // Using arrays is only marginally faster (in the best case, when the determined/estimated result size is correct)
+            // In cases where the resultsize is off, we inch closer to the speed offered by List (for obvious reasons)
+            // To prevent duplicating code, we are not going to be directly using arrays for the results collection here.
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
 
             long runId = ParallelAsyncEventSource.Log.GetRunId();
@@ -56,6 +59,7 @@ namespace CSRakowski.Parallel
                     ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Length);
 
                     var batchResults = await Task.WhenAll(taskList).ConfigureAwait(false);
+
                     result.AddRange(batchResults);
 
                     ParallelAsyncEventSource.Log.BatchStop(batchId);

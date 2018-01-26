@@ -58,6 +58,7 @@ namespace CSRakowski.Parallel
         {
             var collectionCount = collection.Count;
 
+            //TODO: Look into using Arrays directly, instead of relying on Adding using List (Perf/GC overhead)
             var result = ListHelpers.GetList<TResult>(collectionCount);
 
             long runId = ParallelAsyncEventSource.Log.GetRunId();
@@ -86,6 +87,7 @@ namespace CSRakowski.Parallel
 
         private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnbatched_Array<TResult, TIn>(TIn[] collection, Func<TIn, CancellationToken, Task<TResult>> func, CancellationToken cancellationToken)
         {
+            //TODO: Look into using Arrays directly, instead of relying on Adding using List (Perf/GC overhead)
             var result = ListHelpers.GetList<TResult>(collection.Length);
 
             long runId = ParallelAsyncEventSource.Log.GetRunId();
