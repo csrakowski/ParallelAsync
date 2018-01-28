@@ -32,6 +32,7 @@
 
   <PropertyGroup>
     <DebugSymbols>true</DebugSymbols>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CSRakowski.Parallel.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
