@@ -32,8 +32,8 @@ var files = await fileUrls
 
 # Release notes
 
-### 1.3-preview
-#### Changed assembly signing key
+### 1.3
+* Changed assembly signing key
 * Further changes to internal implementation details
 * Performance improvements when the input collection is a `T[]` or `IList<T>` and `maxBatchSize` is set to `1`
 * Performance improvements in the `allowOutOfOrder` code paths.
