@@ -10,7 +10,6 @@ namespace CSRakowski.Parallel
 {
     public static partial class ParallelAsync
     {
-
         private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnordered<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, CancellationToken cancellationToken)
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);

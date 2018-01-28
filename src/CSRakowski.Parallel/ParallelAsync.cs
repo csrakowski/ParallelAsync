@@ -38,8 +38,11 @@ namespace CSRakowski.Parallel
         /// <summary>
         /// Wraps the <paramref name="func"/> in a new <see cref="Func{T1, T2, TResult}"/> that accepts a <see cref="CancellationToken" /> as second argument.
         /// </summary>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <typeparam name="TResult">The result item type</typeparam>
         /// <param name="func">The delegate to wrap</param>
         /// <returns>The wrapped delegate</returns>
+        // TODO: Check if inline helps here [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private static Func<TIn, CancellationToken, TResult> WrapFunc<TIn, TResult>(Func<TIn, TResult> func)
         {
             return (arg, ct) => func(arg);
@@ -145,7 +148,6 @@ namespace CSRakowski.Parallel
         /// <summary>
         /// Runs the specified async method for each item of the input collection in a parallel/batched manner.
         /// </summary>
-        /// <typeparam name="TResult">The result item type</typeparam>
         /// <typeparam name="TIn">The input item type</typeparam>
         /// <param name="collection">The collection of items to use as input arguments</param>
         /// <param name="func">The async method to run for each item</param>
@@ -177,7 +179,6 @@ namespace CSRakowski.Parallel
         /// <summary>
         /// Runs the specified async method for each item of the input collection in a parallel/batched manner.
         /// </summary>
-        /// <typeparam name="TResult">The result item type</typeparam>
         /// <typeparam name="TIn">The input item type</typeparam>
         /// <param name="collection">The collection of items to use as input arguments</param>
         /// <param name="func">The async method to run for each item</param>
