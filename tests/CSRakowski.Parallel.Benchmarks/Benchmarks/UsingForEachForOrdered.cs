@@ -24,7 +24,7 @@ namespace CSRakowski.Parallel.Benchmarks
     [ClrJob]
     public class UsingForEachForOrdered
     {
-        private const int NumberOfItemsInCollection = 100;
+        private const int NumberOfItemsInCollection = 100000;
 
         private readonly int[] InputNumbersArray;
         private readonly List<int> InputNumbersList;
@@ -48,25 +48,25 @@ namespace CSRakowski.Parallel.Benchmarks
         [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_List()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersList, TestFunctions.JustAddOne_WithCancellationToken_WithDelay, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersList, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_ReadOnlyList()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersReadOnlyList, TestFunctions.JustAddOne_WithCancellationToken_WithDelay, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersReadOnlyList, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_Enumerable()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersEnumerable, TestFunctions.JustAddOne_WithCancellationToken_WithDelay, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersEnumerable, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_Array()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersArray, TestFunctions.JustAddOne_WithCancellationToken_WithDelay, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersArray, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
 
@@ -75,25 +75,25 @@ namespace CSRakowski.Parallel.Benchmarks
         [Benchmark(Baseline = true), BenchmarkCategory("ReturnTaskCompletedTask")]
         public Task ReturnTaskCompletedTask_List()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersList, TestFunctions.ReturnCompletedTask_WithCancellationToken_WithDelay, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersList, TestFunctions.ReturnCompletedTask_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
         public Task ReturnTaskCompletedTask_ReadOnlyList()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersReadOnlyList, TestFunctions.ReturnCompletedTask_WithCancellationToken_WithDelay, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersReadOnlyList, TestFunctions.ReturnCompletedTask_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
         public Task ReturnTaskCompletedTask_Enumerable()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersEnumerable, TestFunctions.ReturnCompletedTask_WithCancellationToken_WithDelay, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersEnumerable, TestFunctions.ReturnCompletedTask_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
         public Task ReturnTaskCompletedTask_Array()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersArray, TestFunctions.ReturnCompletedTask_WithCancellationToken_WithDelay, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersArray, TestFunctions.ReturnCompletedTask_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
     }
 }
