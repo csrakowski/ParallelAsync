@@ -10,6 +10,17 @@ namespace CSRakowski.Parallel
 {
     public static partial class ParallelAsync
     {
+        /// <summary>
+        /// Implementation to run the specified async method for each item of the input collection in an batched manner, allowing out of order processing.
+        /// </summary>
+        /// <typeparam name="TResult">The result item type</typeparam>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The collection of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="batchSize">The batch size to use</param>
+        /// <param name="estimatedResultSize">The estimated size of the result collection.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>The results of the operations</returns>
         private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnordered<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, CancellationToken cancellationToken)
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
@@ -67,6 +78,15 @@ namespace CSRakowski.Parallel
             return result;
         }
 
+        /// <summary>
+        /// Implementation to run the specified async method for each item of the input collection in an batched manner, allowing out of order processing.
+        /// </summary>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The collection of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="batchSize">The batch size to use</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>A <see cref="Task"/> signaling completion</returns>
         private static async Task ForEachAsyncImplUnordered<TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, int batchSize, CancellationToken cancellationToken)
         {
             long runId = ParallelAsyncEventSource.Log.GetRunId();
