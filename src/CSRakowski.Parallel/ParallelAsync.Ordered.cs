@@ -200,7 +200,6 @@ namespace CSRakowski.Parallel
         /// <param name="collection">The <see cref="IEnumerable{T}"/> of items to use as input arguments</param>
         /// <param name="func">The async method to run for each item</param>
         /// <param name="batchSize">The batch size to use</param>
-        /// <param name="estimatedResultSize">The estimated size of the result collection.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>A <see cref="Task"/> signaling completion</returns>
         private static async Task ForEachAsyncImplOrdered_IEnumerable<TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, int batchSize, CancellationToken cancellationToken)
