@@ -42,7 +42,6 @@ namespace CSRakowski.Parallel
         /// <typeparam name="TResult">The result item type</typeparam>
         /// <param name="func">The delegate to wrap</param>
         /// <returns>The wrapped delegate</returns>
-        // TODO: Check if inline helps here [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         private static Func<TIn, CancellationToken, TResult> WrapFunc<TIn, TResult>(Func<TIn, TResult> func)
         {
             return (arg, ct) => func(arg);
