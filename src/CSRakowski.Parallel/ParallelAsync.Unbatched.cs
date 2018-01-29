@@ -8,6 +8,16 @@ namespace CSRakowski.Parallel
 {
     public static partial class ParallelAsync
     {
+        /// <summary>
+        /// Implementation to run the specified async method for each item of the input collection in an unbatched manner.
+        /// </summary>
+        /// <typeparam name="TResult">The result item type</typeparam>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The collection of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="estimatedResultSize">The estimated size of the result collection.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>The results of the operations</returns>
         private static Task<IEnumerable<TResult>> ForEachAsyncImplUnbatched<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, CancellationToken cancellationToken)
         {
             if (collection is TIn[] array)
@@ -24,6 +34,16 @@ namespace CSRakowski.Parallel
             }
         }
 
+        /// <summary>
+        /// Default implementation to run the specified async method for each item of the input <see cref="IEnumerable{T}"/> in an unbatched manner.
+        /// </summary>
+        /// <typeparam name="TResult">The result item type</typeparam>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/> of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="estimatedResultSize">The estimated size of the result collection.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>The results of the operations</returns>
         private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnbatched_IEnumerable<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, CancellationToken cancellationToken)
         {
             var result = ListHelpers.GetList<TResult, TIn>(collection, estimatedResultSize);
@@ -54,6 +74,15 @@ namespace CSRakowski.Parallel
             return result;
         }
 
+        /// <summary>
+        /// Special case implementation to run the specified async method for each item of the input <see cref="IList{T}"/> in an unbatched manner.
+        /// </summary>
+        /// <typeparam name="TResult">The result item type</typeparam>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The <see cref="IList{T}"/> of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>The results of the operations</returns>
         private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnbatched_IList<TResult, TIn>(IList<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, CancellationToken cancellationToken)
         {
             var collectionCount = collection.Count;
@@ -84,6 +113,15 @@ namespace CSRakowski.Parallel
             return result;
         }
 
+        /// <summary>
+        /// Special case implementation to run the specified async method for each item of the input <c>T[]</c> in an unbatched manner.
+        /// </summary>
+        /// <typeparam name="TResult">The result item type</typeparam>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The <c>T[]</c> of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>The results of the operations</returns>
         private static async Task<IEnumerable<TResult>> ForEachAsyncImplUnbatched_Array<TResult, TIn>(TIn[] collection, Func<TIn, CancellationToken, Task<TResult>> func, CancellationToken cancellationToken)
         {
             var result = ListHelpers.GetList<TResult>(collection.Length);
@@ -112,6 +150,14 @@ namespace CSRakowski.Parallel
             return result;
         }
 
+        /// <summary>
+        /// Implementation to run the specified async method for each item of the input collection in an unbatched manner.
+        /// </summary>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The collection of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>A <see cref="Task"/> signaling completion</returns>
         private static Task ForEachAsyncImplUnbatched<TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, CancellationToken cancellationToken)
         {
             if (collection is TIn[] array)
@@ -128,6 +174,14 @@ namespace CSRakowski.Parallel
             }
         }
 
+        /// <summary>
+        /// Default implementation to run the specified async method for each item of the input <see cref="IEnumerable{T}"/> in an unbatched manner.
+        /// </summary>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/> of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>A <see cref="Task"/> signaling completion</returns>
         private static async Task ForEachAsyncImplUnbatched_IEnumerable<TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task> func, CancellationToken cancellationToken)
         {
             long runId = ParallelAsyncEventSource.Log.GetRunId();
@@ -153,6 +207,14 @@ namespace CSRakowski.Parallel
             ParallelAsyncEventSource.Log.RunStop(runId);
         }
 
+        /// <summary>
+        /// Special case implementation to run the specified async method for each item of the input <see cref="IList{T}"/> in an unbatched manner.
+        /// </summary>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The <see cref="IList{T}"/> of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>A <see cref="Task"/> signaling completion</returns>
         private static async Task ForEachAsyncImplUnbatched_IList<TIn>(IList<TIn> collection, Func<TIn, CancellationToken, Task> func, CancellationToken cancellationToken)
         {
             long runId = ParallelAsyncEventSource.Log.GetRunId();
@@ -177,6 +239,14 @@ namespace CSRakowski.Parallel
             ParallelAsyncEventSource.Log.RunStop(runId);
         }
 
+        /// <summary>
+        /// Special case implementation to run the specified async method for each item of the input <c>T[]</c> in an unbatched manner.
+        /// </summary>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The <c>T[]</c> of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>A <see cref="Task"/> signaling completion</returns>
         private static async Task ForEachAsyncImplUnbatched_Array<TIn>(TIn[] collection, Func<TIn, CancellationToken, Task> func, CancellationToken cancellationToken)
         {
             long runId = ParallelAsyncEventSource.Log.GetRunId();
