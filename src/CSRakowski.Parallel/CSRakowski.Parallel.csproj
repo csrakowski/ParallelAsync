@@ -17,15 +17,11 @@
     <LangVersion>latest</LangVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>CSRakowski.Parallel.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.3.0.1</AssemblyVersion>
-    <FileVersion>1.3.0.1</FileVersion>
-    <PackageReleaseNotes>
-* Changed assembly signing key
-* Further changes to internal implementation details
-* Performance improvements when the input collection is a `T[]` or `IList{T}` and `maxBatchSize` is set to `1`
-* Performance improvements in the `allowOutOfOrder` code paths.
+    <AssemblyVersion>1.3.1.0</AssemblyVersion>
+    <FileVersion>1.3.1.0</FileVersion>
+    <PackageReleaseNotes>* Reduced overhead in code paths where the input collection is a T[], maxBatchSize is greater than 1 and allowOutOfOrder is false
     </PackageReleaseNotes>
-    <Version>1.3</Version>
+    <Version>1.3.1</Version>
     <RootNamespace>CSRakowski.Parallel</RootNamespace>
     <AssemblyName>CSRakowski.Parallel</AssemblyName>
   </PropertyGroup>
