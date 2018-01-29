@@ -90,13 +90,13 @@ namespace CSRakowski.Parallel
                         taskList = temp;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Length);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Length);
 
                     var batchResults = await Task.WhenAll(taskList).ConfigureAwait(false);
 
                     result.AddRange(batchResults);
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }
@@ -156,13 +156,13 @@ namespace CSRakowski.Parallel
                     taskList = temp;
                 }
 
-                ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Length);
+                ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Length);
 
                 var batchResults = await Task.WhenAll(taskList).ConfigureAwait(false);
 
                 result.AddRange(batchResults);
 
-                ParallelAsyncEventSource.Log.BatchStop(batchId);
+                ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                 batchId++;
             }
@@ -245,11 +245,11 @@ namespace CSRakowski.Parallel
                         taskList = temp;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Length);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Length);
 
                     await Task.WhenAll(taskList).ConfigureAwait(false);
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }
@@ -303,11 +303,11 @@ namespace CSRakowski.Parallel
                     taskList = temp;
                 }
 
-                ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Length);
+                ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Length);
 
                 await Task.WhenAll(taskList).ConfigureAwait(false);
 
-                ParallelAsyncEventSource.Log.BatchStop(batchId);
+                ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                 batchId++;
             }

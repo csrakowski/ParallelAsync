@@ -56,7 +56,7 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Count);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Count);
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
@@ -67,7 +67,7 @@ namespace CSRakowski.Parallel
                         taskList.Remove(t);
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }
@@ -120,13 +120,13 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Count);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Count);
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
                     taskList.RemoveAll(t => t.IsCompleted);
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }

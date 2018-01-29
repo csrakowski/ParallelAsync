@@ -59,12 +59,12 @@ namespace CSRakowski.Parallel
                     break;
                 }
 
-                ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
+                ParallelAsyncEventSource.Log.BatchStart(runId, batchId, 1);
 
                 var resultElement = await func(element, cancellationToken).ConfigureAwait(false);
                 result.Add(resultElement);
 
-                ParallelAsyncEventSource.Log.BatchStop(batchId);
+                ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                 batchId++;
             }
@@ -99,13 +99,13 @@ namespace CSRakowski.Parallel
                     break;
                 }
 
-                ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
+                ParallelAsyncEventSource.Log.BatchStart(runId, batchId, 1);
 
                 var element = collection[batchId];
                 var resultElement = await func(element, cancellationToken).ConfigureAwait(false);
                 result.Add(resultElement);
 
-                ParallelAsyncEventSource.Log.BatchStop(batchId);
+                ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
             }
 
             ParallelAsyncEventSource.Log.RunStop(runId);
@@ -136,13 +136,13 @@ namespace CSRakowski.Parallel
                     break;
                 }
 
-                ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
+                ParallelAsyncEventSource.Log.BatchStart(runId, batchId, 1);
 
                 var element = collection[batchId];
                 var resultElement = await func(element, cancellationToken).ConfigureAwait(false);
                 result.Add(resultElement);
 
-                ParallelAsyncEventSource.Log.BatchStop(batchId);
+                ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
             }
 
             ParallelAsyncEventSource.Log.RunStop(runId);
@@ -195,11 +195,11 @@ namespace CSRakowski.Parallel
                     break;
                 }
 
-                ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
+                ParallelAsyncEventSource.Log.BatchStart(runId, batchId, 1);
 
                 await func(element, cancellationToken).ConfigureAwait(false);
 
-                ParallelAsyncEventSource.Log.BatchStop(batchId);
+                ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                 batchId++;
             }
@@ -228,12 +228,12 @@ namespace CSRakowski.Parallel
                     break;
                 }
 
-                ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
+                ParallelAsyncEventSource.Log.BatchStart(runId, batchId, 1);
 
                 var element = collection[batchId];
                 await func(element, cancellationToken).ConfigureAwait(false);
 
-                ParallelAsyncEventSource.Log.BatchStop(batchId);
+                ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
             }
 
             ParallelAsyncEventSource.Log.RunStop(runId);
@@ -259,12 +259,12 @@ namespace CSRakowski.Parallel
                     break;
                 }
 
-                ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
+                ParallelAsyncEventSource.Log.BatchStart(runId, batchId, 1);
 
                 var element = collection[batchId];
                 await func(element, cancellationToken).ConfigureAwait(false);
 
-                ParallelAsyncEventSource.Log.BatchStop(batchId);
+                ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
             }
 
             ParallelAsyncEventSource.Log.RunStop(runId);
