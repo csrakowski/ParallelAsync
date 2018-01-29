@@ -41,27 +41,13 @@ namespace CSRakowski.Parallel.Benchmarks
         [Benchmark, BenchmarkCategory("JustAddOne")]
         public Task JustAddOne()
         {
-            return ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbers, TestFunctions.JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
         public Task ReturnTaskCompletedTask()
         {
-            return ParallelAsync.ForEachAsync(InputNumbers, Func_ReturnTaskCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbers, TestFunctions.ReturnCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
-
-        #region Delegates
-
-        private static Task<int> Func_JustAddOne(int number)
-        {
-            return Task.FromResult(number + 1);
-        }
-
-        private static Task Func_ReturnTaskCompletedTask(int number)
-        {
-            return Task.CompletedTask;
-        }
-
-        #endregion Delegates
     }
 }

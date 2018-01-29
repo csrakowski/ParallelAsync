@@ -42,50 +42,26 @@ namespace CSRakowski.Parallel.Benchmarks
         [Benchmark, BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_Wrapped()
         {
-            return ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbers, TestFunctions.JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
         [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_NotWrapped()
         {
-            return ParallelAsync.ForEachAsync(InputNumbers, Func_JustAddOne_CT, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbers, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
 
         [Benchmark, BenchmarkCategory("CompletedTask")]
         public Task CompletedTask_Wrapped()
         {
-            return ParallelAsync.ForEachAsync(InputNumbers, Func_CompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbers, TestFunctions.ReturnCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
 
         [Benchmark(Baseline = true), BenchmarkCategory("CompletedTask")]
         public Task CompletedTask_NotWrapped()
         {
-            return ParallelAsync.ForEachAsync(InputNumbers, Func_CompletedTask_CT, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbers, TestFunctions.ReturnCompletedTask_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
-
-        #region Delegates
-
-        private static Task<int> Func_JustAddOne(int number)
-        {
-            return Task.FromResult(number + 1);
-        }
-
-        private static Task<int> Func_JustAddOne_CT(int number, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(number + 1);
-        }
-
-        private static Task Func_CompletedTask(int number)
-        {
-            return Task.CompletedTask;
-        }
-
-        private static Task Func_CompletedTask_CT(int number, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
-
-        #endregion Delegates
     }
 }

@@ -48,25 +48,25 @@ namespace CSRakowski.Parallel.Benchmarks
         [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_List()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersList, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersList, TestFunctions.JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_ReadOnlyList()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersReadOnlyList, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersReadOnlyList, TestFunctions.JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_Enumerable()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersEnumerable, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersEnumerable, TestFunctions.JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("JustAddOne")]
         public Task JustAddOne_Array()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersArray, Func_JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersArray, TestFunctions.JustAddOne, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
 
 
@@ -75,39 +75,25 @@ namespace CSRakowski.Parallel.Benchmarks
         [Benchmark(Baseline = true), BenchmarkCategory("ReturnTaskCompletedTask")]
         public Task ReturnTaskCompletedTask_List()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersList, Func_ReturnTaskCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersList, TestFunctions.ReturnCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
         public Task ReturnTaskCompletedTask_ReadOnlyList()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersReadOnlyList, Func_ReturnTaskCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersReadOnlyList, TestFunctions.ReturnCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
         public Task ReturnTaskCompletedTask_Enumerable()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersEnumerable, Func_ReturnTaskCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersEnumerable, TestFunctions.ReturnCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
 
         [Benchmark, BenchmarkCategory("ReturnTaskCompletedTask")]
         public Task ReturnTaskCompletedTask_Array()
         {
-            return ParallelAsync.ForEachAsync(InputNumbersArray, Func_ReturnTaskCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
+            return ParallelAsync.ForEachAsync(InputNumbersArray, TestFunctions.ReturnCompletedTask, MaxBatchSize, AllowOutOfOrder, CancellationToken.None);
         }
-
-        #region Delegates
-
-        private static Task<int> Func_JustAddOne(int number)
-        {
-            return Task.FromResult(number + 1);
-        }
-
-        private static Task Func_ReturnTaskCompletedTask(int number)
-        {
-            return Task.CompletedTask;
-        }
-
-        #endregion Delegates
     }
 }
