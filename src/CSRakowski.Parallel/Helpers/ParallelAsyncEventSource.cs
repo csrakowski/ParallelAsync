@@ -50,6 +50,7 @@ namespace CSRakowski.Parallel.Helpers
         /// <summary>
         /// Writes a <c>BatchStart</c> event
         /// </summary>
+        /// <param name="runId">The id of the current run</param>
         /// <param name="batchId">The id of the current batch</param>
         /// <param name="batchSize">The size of the current batch</param>
         [Event(3, Message = "Starting a new batch (runId: {0}, batchId: {1})", Opcode = EventOpcode.Start, Level = EventLevel.Informational)]
@@ -61,6 +62,7 @@ namespace CSRakowski.Parallel.Helpers
         /// <summary>
         /// Writes a <c>BatchStop</c> event
         /// </summary>
+        /// <param name="runId">The id of the current run</param>
         /// <param name="batchId">The id of the current batch</param>
         [Event(4, Message = "Completed batch (runId: {0}, batchId: {1})", Opcode = EventOpcode.Stop, Level = EventLevel.Informational)]
         public void BatchStop(long runId, int batchId)
