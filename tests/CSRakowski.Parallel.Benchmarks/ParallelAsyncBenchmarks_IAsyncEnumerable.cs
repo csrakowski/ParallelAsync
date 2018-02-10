@@ -15,6 +15,7 @@ using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
 using CSRakowski.Parallel.Helpers;
+using CSRakowski.AsyncStreamsPreparations;
 
 namespace CSRakowski.Parallel.Benchmarks
 {

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CSRakowski.Parallel;
 using CSRakowski.Parallel.Helpers;
 using CSRakowski.Parallel.Tests.Helpers;
+using CSRakowski.AsyncStreamsPreparations;
 
 namespace CSRakowski.Parallel.Tests
 {

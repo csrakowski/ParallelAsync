@@ -40,4 +40,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.0.0" />
+  </ItemGroup>
 </Project>
