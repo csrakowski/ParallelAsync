@@ -317,7 +317,6 @@ namespace CSRakowski.Parallel
             ParallelAsyncEventSource.Log.RunStop(runId);
         }
 
-
         #endregion IEnumerable<T>
 
         #region IAsyncEnumerable<T>
@@ -333,7 +332,7 @@ namespace CSRakowski.Parallel
             try
             {
                 var hasNext = true;
-                long batchId = 0;
+                int batchId = 0;
 
                 while (hasNext && !cancellationToken.IsCancellationRequested)
                 {
@@ -368,12 +367,12 @@ namespace CSRakowski.Parallel
                         taskList = temp;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Length);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Length);
 
                     var batchResults = await Task.WhenAll(taskList).ConfigureAwait(false);
                     result.AddRange(batchResults);
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }
@@ -397,7 +396,7 @@ namespace CSRakowski.Parallel
             try
             {
                 var hasNext = true;
-                long batchId = 0;
+                int batchId = 0;
 
                 while (hasNext && !cancellationToken.IsCancellationRequested)
                 {
@@ -432,11 +431,11 @@ namespace CSRakowski.Parallel
                         taskList = temp;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Length);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Length);
 
                     await Task.WhenAll(taskList).ConfigureAwait(false);
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }

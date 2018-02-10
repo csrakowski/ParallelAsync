@@ -137,7 +137,6 @@ namespace CSRakowski.Parallel
             ParallelAsyncEventSource.Log.RunStop(runId);
         }
 
-
         #endregion IEnumerable<T>
 
         #region IAsyncEnumerable<T>
@@ -153,7 +152,7 @@ namespace CSRakowski.Parallel
             try
             {
                 var hasNext = true;
-                long batchId = 0;
+                int batchId = 0;
                 var taskList = ListHelpers.GetList<Task<TResult>>(batchSize);
 
                 while (!cancellationToken.IsCancellationRequested)
@@ -178,18 +177,18 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Count);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Count);
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
-                    var completed = taskList.Where(t => t.IsCompleted).ToList();
+                    var completed = taskList.FindAll(t => t.IsCompleted);
                     foreach (var t in completed)
                     {
                         result.Add(t.Result);
                         taskList.Remove(t);
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }
@@ -213,7 +212,7 @@ namespace CSRakowski.Parallel
             try
             {
                 var hasNext = true;
-                long batchId = 0;
+                int batchId = 0;
                 var taskList = ListHelpers.GetList<Task>(batchSize);
 
                 while (!cancellationToken.IsCancellationRequested)
@@ -238,17 +237,13 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, taskList.Count);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Count);
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
-                    var completed = taskList.Where(t => t.IsCompleted).ToList();
-                    foreach (var t in completed)
-                    {
-                        taskList.Remove(t);
-                    }
+                    taskList.RemoveAll(t => t.IsCompleted);
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }

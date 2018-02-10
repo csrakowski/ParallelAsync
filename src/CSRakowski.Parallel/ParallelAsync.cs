@@ -327,7 +327,6 @@ namespace CSRakowski.Parallel
         /// <summary>
         /// Runs the specified async method for each item of the input collection in a parallel/batched manner.
         /// </summary>
-        /// <typeparam name="TResult">The result item type</typeparam>
         /// <typeparam name="TIn">The input item type</typeparam>
         /// <param name="collection">The collection of items to use as input arguments</param>
         /// <param name="func">The async method to run for each item</param>
@@ -359,7 +358,6 @@ namespace CSRakowski.Parallel
         /// <summary>
         /// Runs the specified async method for each item of the input collection in a parallel/batched manner.
         /// </summary>
-        /// <typeparam name="TResult">The result item type</typeparam>
         /// <typeparam name="TIn">The input item type</typeparam>
         /// <param name="collection">The collection of items to use as input arguments</param>
         /// <param name="func">The async method to run for each item</param>

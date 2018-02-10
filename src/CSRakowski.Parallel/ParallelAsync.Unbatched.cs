@@ -9,7 +9,7 @@ namespace CSRakowski.Parallel
     public static partial class ParallelAsync
     {
         #region IEnumerable<T>
-        
+
         /// <summary>
         /// Implementation to run the specified async method for each item of the input collection in an unbatched manner.
         /// </summary>
@@ -287,7 +287,7 @@ namespace CSRakowski.Parallel
             try
             {
                 var hasNext = true;
-                long batchId = 0;
+                int batchId = 0;
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
@@ -298,13 +298,13 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, 1);
 
                     var element = enumerator.Current;
                     var resultElement = await func(element, cancellationToken).ConfigureAwait(false);
                     result.Add(resultElement);
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }
@@ -328,7 +328,7 @@ namespace CSRakowski.Parallel
             try
             {
                 var hasNext = true;
-                long batchId = 0;
+                int batchId = 0;
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
@@ -339,12 +339,12 @@ namespace CSRakowski.Parallel
                         break;
                     }
 
-                    ParallelAsyncEventSource.Log.BatchStart(batchId, 1);
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, 1);
 
                     var element = enumerator.Current;
                     await func(element, cancellationToken).ConfigureAwait(false);
 
-                    ParallelAsyncEventSource.Log.BatchStop(batchId);
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
                     batchId++;
                 }
