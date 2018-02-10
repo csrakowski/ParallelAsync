@@ -42,7 +42,6 @@ namespace CSRakowski.Parallel.Benchmarks
 
         public bool AllowOutOfOrder { get; set; } = false;
 
-
         // JustAddOne
 
         [Benchmark(Baseline = true), BenchmarkCategory("JustAddOne")]
@@ -68,7 +67,6 @@ namespace CSRakowski.Parallel.Benchmarks
         {
             return ParallelAsync.ForEachAsync(InputNumbersArray, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None);
         }
-
 
         // ReturnTaskCompletedTask
 

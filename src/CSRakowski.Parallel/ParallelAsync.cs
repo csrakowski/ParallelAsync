@@ -44,7 +44,7 @@ namespace CSRakowski.Parallel
         /// <returns>The wrapped delegate</returns>
         private static Func<TIn, CancellationToken, TResult> WrapFunc<TIn, TResult>(Func<TIn, TResult> func)
         {
-            return (arg, ct) => func(arg);
+            return (arg, _) => func(arg);
         }
 
         #endregion Helpers
