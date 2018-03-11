@@ -20,6 +20,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSRakowski.Parallel.Benchmarks", "tests\CSRakowski.Parallel.Benchmarks\CSRakowski.Parallel.Benchmarks.csproj", "{77A7B5F9-E2C0-428D-9AF0-390E8597CF52}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Profiling", "tests\Profiling\Profiling.csproj", "{695E8128-39A1-4C05-B182-E6FD18786B0F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A7EAE71C-5122-41D5-81CE-8CD626F861AF} = {A7EAE71C-5122-41D5-81CE-8CD626F861AF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
