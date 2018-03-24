@@ -18,11 +18,15 @@ namespace CSRakowski.Parallel.Helpers
         /// </summary>
         public static readonly ParallelAsyncEventSource Log = new ParallelAsyncEventSource();
 
+#pragma warning disable CA1822 // Mark members as static
+
         /// <summary>
         /// Get's a unique number to use as the RunId
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A unique number to be used as the RunId</returns>
         public long GetRunId() => DateTime.UtcNow.Ticks;
+
+#pragma warning restore CA1822 // Mark members as static
 
         /// <summary>
         /// Writes a <c>RunStart</c> event
