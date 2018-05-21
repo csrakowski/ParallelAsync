@@ -31,12 +31,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.10.13" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.10.14" />
     <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETFramework' ">
-    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.10.13" />
+    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.10.14" />
   </ItemGroup>
 
   <ItemGroup>
