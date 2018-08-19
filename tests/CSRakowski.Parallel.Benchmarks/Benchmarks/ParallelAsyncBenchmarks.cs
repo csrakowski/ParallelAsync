@@ -9,8 +9,6 @@ using BenchmarkDotNet;
 using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Jobs;
-using BenchmarkDotNet.Attributes.Columns;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
@@ -21,7 +19,7 @@ namespace CSRakowski.Parallel.Benchmarks
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
     [CategoriesColumn]
     //[SimpleJob(launchCount: 1, invocationCount: 8)]
-    [ClrJob(isBaseline: true)]
+    [ClrJob(baseline: true)]
     [CoreJob]
     public class ParallelAsyncBenchmarks
     {

@@ -9,8 +9,6 @@ using BenchmarkDotNet;
 using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Jobs;
-using BenchmarkDotNet.Attributes.Columns;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
@@ -19,8 +17,8 @@ namespace CSRakowski.Parallel.Benchmarks
 {
     [MemoryDiagnoser]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory, BenchmarkLogicalGroupRule.ByParams)]
-    [ClrJob(isBaseline: true)]
-    //[CoreJob(isBaseline: false)]
+    [ClrJob(baseline: true)]
+    //[CoreJob(baseline: false)]
     public class FuncOverloading
     {
         private const int NumberOfItemsInCollection = 10000;

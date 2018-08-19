@@ -11,8 +11,6 @@ using BenchmarkDotNet;
 using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Jobs;
-using BenchmarkDotNet.Attributes.Columns;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
