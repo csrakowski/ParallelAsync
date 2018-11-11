@@ -8,8 +8,6 @@
     <Authors>Christiaan Rakowski</Authors>
     <Copyright>Christiaan Rakowski - 2018</Copyright>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
     <Version>1.0.0</Version>
     <RootNamespace>CSRakowski.Parallel.Benchmarks</RootNamespace>
     <AssemblyName>CSRakowski.Parallel.Benchmarks</AssemblyName>
@@ -31,11 +29,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.11.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.11.2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETFramework' ">
-    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.11.1" />
+    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.11.2" />
   </ItemGroup>
 
   <ItemGroup>
