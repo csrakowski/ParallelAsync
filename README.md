@@ -32,6 +32,9 @@ var files = await fileUrls
 
 # Release notes
 
+### 1.3.2
+* Added the RunId to the BatchStart and BatchStop events
+
 ### 1.3.1
 * Reduced overhead in code paths where the input collection is a `T[]`, `maxBatchSize` is greater than `1` and `allowOutOfOrder` is `false`
 
