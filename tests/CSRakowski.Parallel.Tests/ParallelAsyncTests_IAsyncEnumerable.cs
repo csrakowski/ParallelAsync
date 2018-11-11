@@ -138,7 +138,7 @@ namespace CSRakowski.Parallel.Tests
             {
                 await Task.Delay(500);
                 Interlocked.Increment(ref numberOfCalls);
-            }, cancellationToken: cancellationToken);
+            }, cancellationToken: cancellationToken, maxBatchSize: 4);
 
             Assert.IsTrue(numberOfCalls < 10);
 
@@ -179,7 +179,7 @@ namespace CSRakowski.Parallel.Tests
 
                 Interlocked.Increment(ref numberOfCalls);
                 return el;
-            }, cancellationToken: cancellationToken);
+            }, cancellationToken: cancellationToken, maxBatchSize: 4);
 
             Assert.IsTrue(numberOfCalls < 10);
             var numberOfResults = results.Count();
@@ -295,7 +295,7 @@ namespace CSRakowski.Parallel.Tests
             {
                 await Task.Delay(500);
                 Interlocked.Increment(ref numberOfCalls);
-            }, allowOutOfOrderProcessing: true, cancellationToken: cancellationToken);
+            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken);
 
             Assert.IsTrue(numberOfCalls < 10);
 
@@ -320,7 +320,7 @@ namespace CSRakowski.Parallel.Tests
 
                 Interlocked.Increment(ref numberOfCalls);
                 return el;
-            }, allowOutOfOrderProcessing: true, cancellationToken: cancellationToken);
+            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken);
 
             Assert.IsTrue(numberOfCalls < 10);
             var numberOfResults = results.Count();
