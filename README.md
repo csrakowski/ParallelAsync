@@ -32,6 +32,9 @@ var files = await fileUrls
 
 # Release notes
 
+### 1.4
+* Added gist support for `IAsyncEnumberable<T>`
+
 ### 1.3.2
 * Added the RunId to the BatchStart and BatchStop events
 
