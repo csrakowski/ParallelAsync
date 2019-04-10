@@ -19,7 +19,7 @@
     <AssemblyOriginatorKeyFile>CSRakowski.Parallel.snk</AssemblyOriginatorKeyFile>
     <PackageReleaseNotes>* Added the RunId to the BatchStart and BatchStop events
     </PackageReleaseNotes>
-    <Version>1.3.2</Version>
+    <Version>1.3.3</Version>
     <RootNamespace>CSRakowski.Parallel</RootNamespace>
     <AssemblyName>CSRakowski.Parallel</AssemblyName>
   </PropertyGroup>
