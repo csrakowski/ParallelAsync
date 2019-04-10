@@ -6,19 +6,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CSRakowski.Parallel;
+using CSRakowski.Parallel.Helpers;
 using CSRakowski.Parallel.Tests.Helpers;
+using CSRakowski.AsyncStreamsPreparations;
 
 namespace CSRakowski.Parallel.Tests
 {
-    [TestFixture, Category("ParallelAsync Base Tests")]
-    public class ParallelAsyncTests
+    [TestFixture, Category("ParallelAsync IAsyncEnumerable Tests")]
+    public class ParallelAsyncTests_IAsyncEnumerable
     {
         [Test]
         public async Task ParallelAsync_Can_Batch_Basic_Work()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
-            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 1, estimatedResultSize: input.Length);
+            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 1, estimatedResultSize: 10);
 
             Assert.IsNotNull(results);
 
@@ -26,11 +28,11 @@ namespace CSRakowski.Parallel.Tests
 
             Assert.IsNotNull(list);
 
-            Assert.AreEqual(input.Length, list.Count);
+            Assert.AreEqual(10, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
-                var expected = 2 * input[i];
+                var expected = 2 * (1 + i);
                 Assert.AreEqual(expected, list[i]);
             }
         }
@@ -38,7 +40,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Can_Batch_Basic_Work_Void()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
@@ -49,11 +51,11 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Can_Handle_Misaligned_Sizing()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             var cancellationToken = CancellationToken.None;
 
-            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, estimatedResultSize: input.Length, cancellationToken: cancellationToken);
+            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, estimatedResultSize: 10, cancellationToken: cancellationToken);
 
             Assert.IsNotNull(results);
 
@@ -61,11 +63,11 @@ namespace CSRakowski.Parallel.Tests
 
             Assert.IsNotNull(list);
 
-            Assert.AreEqual(input.Length, list.Count);
+            Assert.AreEqual(10, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
-                var expected = 2 * input[i];
+                var expected = 2 * (1 + i);
                 Assert.AreEqual(expected, list[i]);
             }
         }
@@ -73,7 +75,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Can_Handle_Misaligned_Sizing_Without_EstimatedSize()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             var cancellationToken = CancellationToken.None;
 
@@ -85,11 +87,11 @@ namespace CSRakowski.Parallel.Tests
 
             Assert.IsNotNull(list);
 
-            Assert.AreEqual(input.Length, list.Count);
+            Assert.AreEqual(10, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
-                var expected = 2 * input[i];
+                var expected = 2 * (1 + i);
                 Assert.AreEqual(expected, list[i]);
             }
         }
@@ -97,7 +99,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Can_Handle_Misaligned_Sizing_Void()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             var cancellationToken = CancellationToken.None;
 
@@ -110,7 +112,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Can_Handle_Misaligned_Sizing_Void_Without_EstimatedSize()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             var cancellationToken = CancellationToken.None;
 
@@ -123,7 +125,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Can_Handle_Propagating_CancellationTokens()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
@@ -146,7 +148,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Can_Handle_Using_Default_CancellationTokens()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             int numberOfCalls = 0;
 
@@ -162,7 +164,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_TaskT_Can_Handle_Propagating_CancellationTokens()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
@@ -189,7 +191,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_TaskT_No_Batching()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
@@ -212,8 +214,8 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public void ParallelAsync_Throws_On_Invalid_Inputs()
         {
-            var empty = new int[0];
-            IEnumerable<int> nullEnumerable = null;
+            var empty = new int[0].AsAsyncEnumerable();
+            IAsyncEnumerable<int> nullEnumerable = null;
 
             var ex1 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e) => TaskHelper.CompletedTask));
             var ex2 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e, ct) => TaskHelper.CompletedTask));
@@ -247,14 +249,14 @@ namespace CSRakowski.Parallel.Tests
         {
             const int numberOfElements = 100;
             var callCount = 0;
-            var input = Enumerable.Range(1, numberOfElements).ToArray();
+            var input = Enumerable.Range(1, numberOfElements).ToArray().AsAsyncEnumerable();
 
             var results = await ParallelAsync.ForEachAsync(input, (el) =>
             {
                 var r = el + Interlocked.Increment(ref callCount);
 
                 return Task.FromResult(r);
-            }, maxBatchSize: 9, allowOutOfOrderProcessing: true, estimatedResultSize: input.Length);
+            }, maxBatchSize: 9, allowOutOfOrderProcessing: true, estimatedResultSize: numberOfElements);
 
             Assert.AreEqual(numberOfElements, callCount);
             Assert.AreEqual(numberOfElements, results.Count());
@@ -265,7 +267,7 @@ namespace CSRakowski.Parallel.Tests
         {
             const int numberOfElements = 100;
             var callCount = 0;
-            var input = Enumerable.Range(1, numberOfElements).ToArray();
+            var input = Enumerable.Range(1, numberOfElements).ToArray().AsAsyncEnumerable();
 
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
@@ -280,7 +282,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Can_Handle_Propagating_CancellationTokens_Unordered()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
@@ -303,7 +305,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_TaskT_Can_Handle_Propagating_CancellationTokens_Unordered()
         {
-            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;

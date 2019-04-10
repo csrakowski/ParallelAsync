@@ -8,17 +8,19 @@ using CSRakowski.Parallel;
 using NUnit.Framework;
 using CSRakowski.Parallel.Extensions;
 using System.Threading;
+using CSRakowski.Parallel.Helpers;
 using CSRakowski.Parallel.Tests.Helpers;
+using CSRakowski.AsyncStreamsPreparations;
 
 namespace CSRakowski.Parallel.Tests
 {
-    [TestFixture, Category("ParallelAsync Extension Methods Tests")]
-    public class ExtensionMethodsTests
+    [TestFixture, Category("ParallelAsync IAsyncEnumerable Extension Methods Tests")]
+    public class ExtensionMethodsTests_IAsyncEnumerable
     {
         [Test]
         public async Task ParallelAsync_Runs_With_Default_Settings()
         {
-            var input = Enumerable.Range(1, 10).ToList();
+            var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
 
             var parallelAsync = input.AsParallelAsync();
 
@@ -32,11 +34,11 @@ namespace CSRakowski.Parallel.Tests
 
             Assert.IsNotNull(list);
 
-            Assert.AreEqual(input.Count, list.Count);
+            Assert.AreEqual(10, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
-                var expected = 2 * input[i];
+                var expected = 2 * (1 + i);
                 Assert.AreEqual(expected, list[i]);
             }
         }
@@ -44,7 +46,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Runs_With_Default_Settings2()
         {
-            var input = Enumerable.Range(1, 10).ToList();
+            var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
 
             var parallelAsync = input.AsParallelAsync();
 
@@ -58,11 +60,11 @@ namespace CSRakowski.Parallel.Tests
 
             Assert.IsNotNull(list);
 
-            Assert.AreEqual(input.Count, list.Count);
+            Assert.AreEqual(10, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
-                var expected = 2 * input[i];
+                var expected = 2 * (1 + i);
                 Assert.AreEqual(expected, list[i]);
             }
         }
@@ -73,7 +75,7 @@ namespace CSRakowski.Parallel.Tests
             int sum = 0;
             int count = 0;
 
-            var input = Enumerable.Range(1, 10).ToList();
+            var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
 
             var parallelAsync = input.AsParallelAsync();
 
@@ -96,7 +98,7 @@ namespace CSRakowski.Parallel.Tests
             int sum = 0;
             int count = 0;
 
-            var input = Enumerable.Range(1, 10).ToList();
+            var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
 
             var parallelAsync = input.AsParallelAsync();
 
@@ -118,6 +120,7 @@ namespace CSRakowski.Parallel.Tests
         {
             var results =  await Enumerable
                                     .Range(1, 10)
+                                    .AsAsyncEnumerable()
                                     .AsParallelAsync()
                                     .WithEstimatedResultSize(10)
                                     .WithMaxDegreeOfParallelism(2)
@@ -142,11 +145,11 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public void ParallelAsync_Handles_Invalid_Input_As_Expected()
         {
-            IEnumerable<int> nullEnumerable = null;
+            IAsyncEnumerable<int> nullEnumerable = null;
 
             Assert.Throws<ArgumentNullException>(() => ParallelAsyncEx.AsParallelAsync<int>(nullEnumerable));
 
-            var testCol = new List<int>().AsParallelAsync();
+            var testCol = new List<int>().AsAsyncEnumerable().AsParallelAsync();
 
             Assert.Throws<ArgumentNullException>(() => ParallelAsyncEx.WithOutOfOrderProcessing<int>(null, true));
 
@@ -160,7 +163,7 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public void ParallelAsync_Handles_Double_Calls_Correctly()
         {
-            var testCol = new List<int>().AsParallelAsync();
+            var testCol = new List<int>().AsAsyncEnumerable().AsParallelAsync();
 
             var testCol2 = testCol.AsParallelAsync();
 
@@ -168,34 +171,16 @@ namespace CSRakowski.Parallel.Tests
         }
 
         [Test]
-        public void ParallelAsync_IParallelAsyncEnumerable_Can_Still_Be_Casted_To_IEnumerable_Correctly()
+        public void ParallelAsync_IParallelAsyncEnumerable_Throws_NotSupportedException_When_Casted_Into_IEnumerable()
         {
-            var input = Enumerable.Range(1, 10).ToList();
+            var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
             var testCol = input.AsParallelAsync();
 
-            int count = 0;
-            int sum = 0;
-
-            foreach (var item in testCol)
-            {
-                Interlocked.Add(ref sum, item);
-                Interlocked.Increment(ref count);
-            }
-
-            Assert.AreEqual(55, sum);
-            Assert.AreEqual(10, count);
-
+            Assert.Throws<NotSupportedException>(() => testCol.GetEnumerator());
 
             IEnumerable enumerable = testCol;
 
-            int count2 = 0;
-
-            foreach (var item in enumerable)
-            {
-                Interlocked.Increment(ref count2);
-            }
-
-            Assert.AreEqual(10, count2);
+            Assert.Throws<NotSupportedException>(() => enumerable.GetEnumerator());
         }
     }
 }
