@@ -32,6 +32,9 @@ var files = await fileUrls
 
 # Release notes
 
+### 1.4.1
+* Updated dependencies
+ 
 ### 1.4
 * Added gist support for `IAsyncEnumberable<T>`
 
