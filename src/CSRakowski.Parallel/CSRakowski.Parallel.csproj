@@ -41,6 +41,7 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
 
+  <!--<ItemGroup Condition="! ( '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'netcoreapp3.0' or '$(TargetFramework)' == 'netstandard2.1' )">-->
   <ItemGroup>
     <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.3.2" />
   </ItemGroup>
