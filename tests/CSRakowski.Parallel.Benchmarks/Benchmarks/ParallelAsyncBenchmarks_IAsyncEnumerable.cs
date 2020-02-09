@@ -20,9 +20,8 @@ namespace CSRakowski.Parallel.Benchmarks
     [MemoryDiagnoser]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
     [CategoriesColumn]
-    //[SimpleJob(launchCount: 1, invocationCount: 8)]
-    [ClrJob(baseline: true)]
-    [CoreJob]
+    [SimpleJob(RuntimeMoniker.Net47, baseline: true)]
+    [SimpleJob(RuntimeMoniker.NetCoreApp30, baseline: false)]
     public class ParallelAsyncBenchmarks_IAsyncEnumerable
     {
         private const int NumberOfItemsInCollection = 10000;
