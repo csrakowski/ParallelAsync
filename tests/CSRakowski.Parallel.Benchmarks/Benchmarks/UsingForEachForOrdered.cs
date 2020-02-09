@@ -19,7 +19,8 @@ namespace CSRakowski.Parallel.Benchmarks
 {
     [MemoryDiagnoser]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-    [ClrJob]
+    [SimpleJob(RuntimeMoniker.Net47, baseline: true)]
+    [SimpleJob(RuntimeMoniker.NetCoreApp30, baseline: false)]
     public class UsingForEachForOrdered
     {
         private const int NumberOfItemsInCollection = 100000;
