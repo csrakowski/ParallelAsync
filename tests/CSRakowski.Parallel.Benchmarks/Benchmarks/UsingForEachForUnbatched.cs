@@ -19,8 +19,9 @@ namespace CSRakowski.Parallel.Benchmarks
 {
     [MemoryDiagnoser]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
-    [SimpleJob(RuntimeMoniker.Net47, baseline: true)]
-    [SimpleJob(RuntimeMoniker.NetCoreApp30, baseline: false)]
+    [SimpleJob(RuntimeMoniker.Net48, baseline: true)]
+    [SimpleJob(RuntimeMoniker.NetCoreApp31, baseline: false)]
+    [SimpleJob(RuntimeMoniker.NetCoreApp50, baseline: false)]
     public class UsingForEachForUnbatched
     {
         private const int NumberOfItemsInCollection = 1000000;
