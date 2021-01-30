@@ -32,6 +32,9 @@ var files = await fileUrls
 
 # Release notes
 
+### 1.5.1
+* Updated target frameworks
+
 ### 1.5.0
 * Updated target frameworks
 
