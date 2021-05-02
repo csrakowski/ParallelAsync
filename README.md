@@ -32,6 +32,9 @@ var files = await fileUrls
 
 # Release notes
 
+### 1.5.2
+* Fixed dependency misconfiguration on net50
+
 ### 1.5.1
 * Updated target frameworks
 
