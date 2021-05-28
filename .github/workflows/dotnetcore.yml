@@ -6,25 +6,39 @@ jobs:
   build:
 
     runs-on: windows-latest
-    #env:
-      #ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-    strategy:
-      matrix:
-        dotnet-version: [ '3.1.x', '5.0.x' ]
     steps:
     - uses: actions/checkout@master
     - name: Setup .NET Core ${{ matrix.dotnet-version }}
       uses: actions/setup-dotnet@v1.8.0
       with:
-        dotnet-version: ${{ matrix.dotnet-version }}
-        #dotnet-version: '5.0.x'
+        dotnet-version: '5.0.x'
     - name: Install dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore --framework net50
-      if: ${{ startsWith(matrix.dotnet-version, '5.0') }}
-    - name: Build
-      run: dotnet build --configuration Release --no-restore --framework netcoreapp3.1
-      if: ${{ startsWith(matrix.dotnet-version, '3.1') }}
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+
+
+  #buildMatrix:
+
+  #  runs-on: windows-latest
+  #  strategy:
+  #    matrix:
+  #      dotnet-version: [ '3.1.x', '5.0.x' ]
+  #  steps:
+  #  - uses: actions/checkout@master
+  #  - name: Setup .NET Core ${{ matrix.dotnet-version }}
+  #    uses: actions/setup-dotnet@v1.8.0
+  #    with:
+  #      dotnet-version: ${{ matrix.dotnet-version }}
+  #  - name: Install dependencies
+  #    run: dotnet restore
+  #  - name: Build
+  #    run: dotnet build --configuration Release --no-restore --framework net50
+  #    if: ${{ startsWith(matrix.dotnet-version, '5.0') }}
+  #  - name: Build
+  #    run: dotnet build --configuration Release --no-restore --framework netcoreapp3.1
+  #    if: ${{ startsWith(matrix.dotnet-version, '3.1') }}
+  #  - name: Test
+  #    run: dotnet test --no-restore --verbosity normal
