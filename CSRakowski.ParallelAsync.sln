@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSRakowski.Parallel", "src\CSRakowski.Parallel\CSRakowski.Parallel.csproj", "{A7EAE71C-5122-41D5-81CE-8CD626F861AF}"
 EndProject
@@ -22,6 +22,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Profiling", "tests\Profiling\Profiling.csproj", "{695E8128-39A1-4C05-B182-E6FD18786B0F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A7EAE71C-5122-41D5-81CE-8CD626F861AF} = {A7EAE71C-5122-41D5-81CE-8CD626F861AF}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{72274E52-335B-45D7-A85A-194A4AC886AA}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{41D6F74A-4D0E-471E-864A-339A8CBAF6E7}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
 	EndProjectSection
 EndProject
 Global
@@ -55,6 +65,8 @@ Global
 		{8EDF4429-251A-416D-BB68-93F227191BCF} = {1C224AEE-DF65-40FE-86C6-47DFF972D702}
 		{77A7B5F9-E2C0-428D-9AF0-390E8597CF52} = {1C224AEE-DF65-40FE-86C6-47DFF972D702}
 		{695E8128-39A1-4C05-B182-E6FD18786B0F} = {1C224AEE-DF65-40FE-86C6-47DFF972D702}
+		{72274E52-335B-45D7-A85A-194A4AC886AA} = {7A1BFA5A-BF85-4BF2-ADBB-D7DAD2464FAF}
+		{41D6F74A-4D0E-471E-864A-339A8CBAF6E7} = {72274E52-335B-45D7-A85A-194A4AC886AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D0D0442-0469-4C2F-A36A-16F825704000}
