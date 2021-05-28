@@ -19,7 +19,7 @@ namespace CSRakowski.Parallel.Benchmarks
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory, BenchmarkLogicalGroupRule.ByParams)]
     [SimpleJob(RuntimeMoniker.Net48, baseline: true)]
     [SimpleJob(RuntimeMoniker.NetCoreApp31, baseline: false)]
-    [SimpleJob(RuntimeMoniker.NetCoreApp50, baseline: false)]
+    [SimpleJob(RuntimeMoniker.Net50, baseline: false)]
     public class FuncOverloading
     {
         private const int NumberOfItemsInCollection = 10000;
