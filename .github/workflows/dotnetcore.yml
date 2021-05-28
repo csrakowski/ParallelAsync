@@ -21,10 +21,10 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore -framework net50
+      run: dotnet build --configuration Release --no-restore --framework net50
       if: ${{ startsWith(matrix.dotnet-version, '5.0') }}
     - name: Build
-      run: dotnet build --configuration Release --no-restore -framework netcoreapp3.1
+      run: dotnet build --configuration Release --no-restore --framework netcoreapp3.1
       if: ${{ startsWith(matrix.dotnet-version, '3.1') }}
     - name: Test
       run: dotnet test --no-restore --verbosity normal
