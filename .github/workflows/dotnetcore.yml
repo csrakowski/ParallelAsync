@@ -20,6 +20,57 @@ jobs:
       run: dotnet test --no-restore --verbosity normal --framework net50
 
 
+
+
+  build-linux:
+    name: Build and test on Linux
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        framework: ['netcoreapp3.1', 'netcoreapp2.1', 'net50']
+    steps:
+
+    - name: Check out code onto host
+      uses: actions/checkout@master
+
+    - name: Setup .Net 2.1
+      uses: actions/setup-dotnet@v1.8.0
+      with:
+        dotnet-version: '2.1.801' # SDK Version to use.
+      #if: matrix.framework == 'netcoreapp2.1'
+
+    - name: Setup .Net 3.1
+      uses: actions/setup-dotnet@v1.8.0
+      with:
+        dotnet-version: '3.1.300' # SDK Version to use.
+      #if: matrix.framework == 'netcoreapp3.1'
+
+    - name: Setup .Net 5.0
+      uses: actions/setup-dotnet@v1.8.0
+      with:
+        dotnet-version: '5.0.x' # SDK Version to use.
+      #if: matrix.framework == 'net50'
+
+    - name: Dotnet info
+      run: |
+        dotnet --version
+        dotnet --info
+
+    - name: Clear nuget cache
+      run: |
+        dotnet clean
+        dotnet nuget locals all --clear
+
+    - name: Run unit tests
+      run: |
+        dotnet build --configuration Release --no-restore --framework ${{ matrix.framework }}
+        dotnet test --no-restore --verbosity normal --framework=${{ matrix.framework }}
+
+
+
   #buildMatrix:
 
   #  runs-on: windows-latest
@@ -35,10 +86,6 @@ jobs:
   #  - name: Install dependencies
   #    run: dotnet restore
   #  - name: Build
-  #    run: dotnet build --configuration Release --no-restore --framework net50
-  #    if: ${{ startsWith(matrix.dotnet-version, '5.0') }}
-  #  - name: Build
-  #    run: dotnet build --configuration Release --no-restore --framework netcoreapp3.1
-  #    if: ${{ startsWith(matrix.dotnet-version, '3.1') }}
+  #    run: dotnet build --configuration Release --no-restore --framework ${{ matrix.framework }}
   #  - name: Test
   #    run: dotnet test --no-restore --verbosity normal
