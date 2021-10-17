@@ -4,48 +4,23 @@ on: [push, pull_request]
 
 jobs:
   build:
-
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Setup .NET 5.0
-      uses: actions/setup-dotnet@v1.8.0
-      with:
-        dotnet-version: '5.0.x'
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore --framework net50
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal --framework net50
-
-
-
-
-  build-linux:
-    name: Build and test on Linux
+    name: Build and test
 
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [windows-latest, ubuntu-latest]
-        framework: ['netcoreapp3.1', 'netcoreapp2.1', 'net50']
+        framework: ['netcoreapp3.1', 'net50']
     steps:
 
     - name: Check out code onto host
       uses: actions/checkout@master
 
-    - name: Setup .Net 2.1
-      uses: actions/setup-dotnet@v1.8.0
-      with:
-        dotnet-version: '2.1.801' # SDK Version to use.
-      if: matrix.framework == 'netcoreapp2.1'
-
     - name: Setup .Net 3.1
       uses: actions/setup-dotnet@v1.8.0
       with:
-        dotnet-version: '3.1.300' # SDK Version to use.
+        dotnet-version: '3.1.x' # SDK Version to use.
       if: matrix.framework == 'netcoreapp3.1'
 
     - name: Setup .Net 5.0
@@ -63,13 +38,13 @@ jobs:
       run: |
         dotnet clean
         dotnet nuget locals all --clear
-        dotnet restore
 
-    - name: Run unit tests
+    - name: Build and Run unit tests
       run: |
-        dotnet build --configuration Release --no-restore --framework ${{ matrix.framework }}
+        dotnet restore
         dotnet test --no-restore --verbosity normal --framework=${{ matrix.framework }}
 
+    #dotnet build --configuration Release --no-restore --framework ${{ matrix.framework }}
 
 
   #buildMatrix:
