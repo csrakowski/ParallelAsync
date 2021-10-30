@@ -46,3 +46,7 @@ jobs:
     - name: Build and Run unit tests
       run: |
         dotnet test --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }}
+
+    - name: Run Benchmarks
+      run: |
+        dotnet run --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }} --project .\tests\CSRakowski.Parallel.Benchmarks\
