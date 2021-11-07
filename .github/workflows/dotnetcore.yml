@@ -18,13 +18,13 @@ jobs:
       uses: actions/checkout@master
 
     - name: Setup .Net 3.1
-      uses: actions/setup-dotnet@v1.8.0
+      uses: actions/setup-dotnet@v1.8.2
       with:
         dotnet-version: '3.1.x' # SDK Version to use.
       if: matrix.framework == 'netcoreapp3.1'
 
     - name: Setup .Net 5.0
-      uses: actions/setup-dotnet@v1.8.0
+      uses: actions/setup-dotnet@v1.8.2
       with:
         dotnet-version: '5.0.x' # SDK Version to use.
       if: matrix.framework == 'net50'
@@ -47,6 +47,12 @@ jobs:
       run: |
         dotnet test --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }}
 
+  #benchmark:
+  #  name: Run benchmarks
+
+  #  runs-on: ${{ matrix.os }}
+  #  needs: build
+  #  steps:
     - name: Run Benchmarks
       run: |
         dotnet run --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }} --project ./tests/CSRakowski.Parallel.Benchmarks/
