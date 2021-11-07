@@ -56,3 +56,4 @@ jobs:
     - name: Run Benchmarks
       run: |
         dotnet run --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }} --project ./tests/CSRakowski.Parallel.Benchmarks/
+      if: matrix.framework == 'net50'
