@@ -62,12 +62,18 @@ namespace CSRakowski.Parallel
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
+#pragma warning disable PH_S026 // Blocking Wait in Async Method
+#pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
+
                     var completed = taskList.FindAll(t => t.IsCompleted);
                     foreach (var t in completed)
                     {
                         result.Add(t.Result);
                         taskList.Remove(t);
                     }
+
+#pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method
+#pragma warning restore PH_S026 // Blocking Wait in Async Method
 
                     ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
@@ -148,7 +154,7 @@ namespace CSRakowski.Parallel
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, estimatedResultSize);
 
-            var enumerator = collection.GetAsyncEnumerator();
+            var enumerator = collection.GetAsyncEnumerator(cancellationToken);
             try
             {
                 var hasNext = true;
@@ -181,12 +187,18 @@ namespace CSRakowski.Parallel
 
                     await Task.WhenAny(taskList).ConfigureAwait(false);
 
+#pragma warning disable PH_S026 // Blocking Wait in Async Method
+#pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
+
                     var completed = taskList.FindAll(t => t.IsCompleted);
                     foreach (var t in completed)
                     {
                         result.Add(t.Result);
                         taskList.Remove(t);
                     }
+
+#pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method
+#pragma warning restore PH_S026 // Blocking Wait in Async Method
 
                     ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
@@ -208,7 +220,7 @@ namespace CSRakowski.Parallel
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, 0);
 
-            var enumerator = collection.GetAsyncEnumerator();
+            var enumerator = collection.GetAsyncEnumerator(cancellationToken);
             try
             {
                 var hasNext = true;

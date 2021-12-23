@@ -12,7 +12,7 @@ using BenchmarkDotNet.Attributes;
 
 namespace CSRakowski.Parallel.Benchmarks
 {
-    class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

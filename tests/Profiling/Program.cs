@@ -8,23 +8,25 @@ using CSRakowski.Parallel;
 
 namespace Profiling
 {
-    class Program
+    public static class Program
     {
-        static async Task<int> Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
-            var numberOfElements = 1000000;
-            var batchSize = 64;
-            var outOfOrder = false;
+            const int numberOfElements = 1000000;
+            const int batchSize = 64;
+            const bool outOfOrder = false;
             var input = Enumerable.Range(1, numberOfElements).ToList();
 
             //await ParallelAsync.ForEachAsync(
             var results = await ParallelAsync.ForEachAsync(
-                                collection: input,
-                                func: AddOne,
-                                maxBatchSize: batchSize,
-                                allowOutOfOrderProcessing: outOfOrder,
-                                estimatedResultSize: numberOfElements,
-                                cancellationToken: CancellationToken.None);
+                                    collection: input,
+                                    func: AddOne,
+                                    maxBatchSize: batchSize,
+                                    allowOutOfOrderProcessing: outOfOrder,
+                                    estimatedResultSize: numberOfElements,
+                                    cancellationToken: CancellationToken.None
+                                )
+                                .ConfigureAwait(false);
 
             /*/
             return 1;
@@ -34,12 +36,12 @@ namespace Profiling
             //*/
         }
 
-        static Task<int> AddOne(int input)
+        private static Task<int> AddOne(int input)
         {
             return Task.FromResult(1 + input);
         }
 
-        static Task CompletedTask(int input)
+        private static Task CompletedTask(int input)
         {
             return Task.CompletedTask;
         }
