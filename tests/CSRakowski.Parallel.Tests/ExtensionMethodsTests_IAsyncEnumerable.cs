@@ -26,7 +26,7 @@ namespace CSRakowski.Parallel.Tests
 
             Assert.IsNotNull(parallelAsync);
 
-            var results = await parallelAsync.ForEachAsync((el) => Task.FromResult(el * 2));
+            var results = await parallelAsync.ForEachAsync((el) => Task.FromResult(el * 2)).ConfigureAwait(false);
 
             Assert.IsNotNull(results);
 
@@ -52,7 +52,7 @@ namespace CSRakowski.Parallel.Tests
 
             Assert.IsNotNull(parallelAsync);
 
-            var results = await parallelAsync.ForEachAsync((el, ct) => Task.FromResult(el * 2));
+            var results = await parallelAsync.ForEachAsync((el, ct) => Task.FromResult(el * 2)).ConfigureAwait(false);
 
             Assert.IsNotNull(results);
 
@@ -86,7 +86,7 @@ namespace CSRakowski.Parallel.Tests
                 Interlocked.Increment(ref count);
 
                 return TaskHelper.CompletedTask;
-            });
+            }).ConfigureAwait(false);
 
             Assert.AreEqual(55, sum);
             Assert.AreEqual(10, count);
@@ -109,7 +109,7 @@ namespace CSRakowski.Parallel.Tests
                 Interlocked.Increment(ref count);
 
                 return TaskHelper.CompletedTask;
-            });
+            }).ConfigureAwait(false);
 
             Assert.AreEqual(55, sum);
             Assert.AreEqual(10, count);
@@ -125,7 +125,8 @@ namespace CSRakowski.Parallel.Tests
                                     .WithEstimatedResultSize(10)
                                     .WithMaxDegreeOfParallelism(2)
                                     .WithOutOfOrderProcessing(false)
-                                    .ForEachAsync((el) => Task.FromResult(el * 2), CancellationToken.None);
+                                    .ForEachAsync((el) => Task.FromResult(el * 2), CancellationToken.None)
+                                    .ConfigureAwait(false);
 
             Assert.IsNotNull(results);
 

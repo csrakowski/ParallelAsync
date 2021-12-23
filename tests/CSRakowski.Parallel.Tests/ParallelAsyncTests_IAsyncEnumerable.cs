@@ -20,7 +20,7 @@ namespace CSRakowski.Parallel.Tests
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsAsyncEnumerable();
 
-            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 1, estimatedResultSize: 10);
+            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 1, estimatedResultSize: 10).ConfigureAwait(false);
 
             Assert.IsNotNull(results);
 
@@ -45,7 +45,8 @@ namespace CSRakowski.Parallel.Tests
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
                 return TaskHelper.CompletedTask;
-            }, maxBatchSize: 1);
+            }, maxBatchSize: 1)
+            .ConfigureAwait(false);
         }
 
         [Test]
@@ -55,7 +56,7 @@ namespace CSRakowski.Parallel.Tests
 
             var cancellationToken = CancellationToken.None;
 
-            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, estimatedResultSize: 10, cancellationToken: cancellationToken);
+            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, estimatedResultSize: 10, cancellationToken: cancellationToken).ConfigureAwait(false);
 
             Assert.IsNotNull(results);
 
@@ -79,7 +80,7 @@ namespace CSRakowski.Parallel.Tests
 
             var cancellationToken = CancellationToken.None;
 
-            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, cancellationToken: cancellationToken);
+            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, cancellationToken: cancellationToken).ConfigureAwait(false);
 
             Assert.IsNotNull(results);
 
@@ -106,7 +107,8 @@ namespace CSRakowski.Parallel.Tests
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
                 return TaskHelper.CompletedTask;
-            }, maxBatchSize: 4, cancellationToken: cancellationToken);
+            }, maxBatchSize: 4, cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
         }
 
         [Test]
@@ -119,7 +121,8 @@ namespace CSRakowski.Parallel.Tests
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
                 return TaskHelper.CompletedTask;
-            }, maxBatchSize: 4, cancellationToken: cancellationToken);
+            }, maxBatchSize: 4, cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
         }
 
         [Test]
@@ -136,9 +139,10 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, async (el, ct) =>
             {
-                await Task.Delay(500);
+                await Task.Delay(500).ConfigureAwait(false);
                 Interlocked.Increment(ref numberOfCalls);
-            }, cancellationToken: cancellationToken, maxBatchSize: 4);
+            }, cancellationToken: cancellationToken, maxBatchSize: 4)
+            .ConfigureAwait(false);
 
             Assert.IsTrue(numberOfCalls < 10);
 
@@ -154,9 +158,9 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, async (el, ct) =>
             {
-                await Task.Delay(500, ct);
+                await Task.Delay(500, ct).ConfigureAwait(false);
                 Interlocked.Increment(ref numberOfCalls);
-            });
+            }).ConfigureAwait(false);
 
             Assert.AreEqual(10, numberOfCalls);
         }
@@ -175,11 +179,12 @@ namespace CSRakowski.Parallel.Tests
 
             var results = await ParallelAsync.ForEachAsync(input, async (el, ct) =>
             {
-                await Task.Delay(500);
+                await Task.Delay(500).ConfigureAwait(false);
 
                 Interlocked.Increment(ref numberOfCalls);
                 return el;
-            }, cancellationToken: cancellationToken, maxBatchSize: 4);
+            }, cancellationToken: cancellationToken, maxBatchSize: 4)
+            .ConfigureAwait(false);
 
             Assert.IsTrue(numberOfCalls < 10);
             var numberOfResults = results.Count();
@@ -203,7 +208,8 @@ namespace CSRakowski.Parallel.Tests
                 Interlocked.Increment(ref numberOfCalls);
 
                 return Task.FromResult(el);
-            }, maxBatchSize: 1, cancellationToken: cancellationToken);
+            }, maxBatchSize: 1, cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
             Assert.AreEqual(10, numberOfCalls);
             Assert.AreEqual(numberOfCalls, results.Count());
@@ -256,7 +262,8 @@ namespace CSRakowski.Parallel.Tests
                 var r = el + Interlocked.Increment(ref callCount);
 
                 return Task.FromResult(r);
-            }, maxBatchSize: 9, allowOutOfOrderProcessing: true, estimatedResultSize: numberOfElements);
+            }, maxBatchSize: 9, allowOutOfOrderProcessing: true, estimatedResultSize: numberOfElements)
+            .ConfigureAwait(false);
 
             Assert.AreEqual(numberOfElements, callCount);
             Assert.AreEqual(numberOfElements, results.Count());
@@ -274,7 +281,8 @@ namespace CSRakowski.Parallel.Tests
                 var r = el + Interlocked.Increment(ref callCount);
 
                 return TaskHelper.CompletedTask;
-            }, maxBatchSize: 9, allowOutOfOrderProcessing: true);
+            }, maxBatchSize: 9, allowOutOfOrderProcessing: true)
+            .ConfigureAwait(false);
 
             Assert.AreEqual(numberOfElements, callCount);
         }
@@ -293,9 +301,10 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, async (el, ct) =>
             {
-                await Task.Delay(500);
+                await Task.Delay(500).ConfigureAwait(false);
                 Interlocked.Increment(ref numberOfCalls);
-            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken);
+            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
             Assert.IsTrue(numberOfCalls < 10);
 
@@ -316,11 +325,12 @@ namespace CSRakowski.Parallel.Tests
 
             var results = await ParallelAsync.ForEachAsync(input, async (el, ct) =>
             {
-                await Task.Delay(500);
+                await Task.Delay(500).ConfigureAwait(false);
 
                 Interlocked.Increment(ref numberOfCalls);
                 return el;
-            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken);
+            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
             Assert.IsTrue(numberOfCalls < 10);
             var numberOfResults = results.Count();

@@ -19,12 +19,14 @@ namespace Profiling
 
             //await ParallelAsync.ForEachAsync(
             var results = await ParallelAsync.ForEachAsync(
-                                collection: input,
-                                func: AddOne,
-                                maxBatchSize: batchSize,
-                                allowOutOfOrderProcessing: outOfOrder,
-                                estimatedResultSize: numberOfElements,
-                                cancellationToken: CancellationToken.None);
+                                    collection: input,
+                                    func: AddOne,
+                                    maxBatchSize: batchSize,
+                                    allowOutOfOrderProcessing: outOfOrder,
+                                    estimatedResultSize: numberOfElements,
+                                    cancellationToken: CancellationToken.None
+                                )
+                                .ConfigureAwait(false);
 
             /*/
             return 1;
