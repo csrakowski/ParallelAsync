@@ -148,7 +148,7 @@ namespace CSRakowski.Parallel
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, estimatedResultSize);
 
-            var enumerator = collection.GetAsyncEnumerator();
+            var enumerator = collection.GetAsyncEnumerator(cancellationToken);
             try
             {
                 var hasNext = true;
@@ -208,7 +208,7 @@ namespace CSRakowski.Parallel
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, 0);
 
-            var enumerator = collection.GetAsyncEnumerator();
+            var enumerator = collection.GetAsyncEnumerator(cancellationToken);
             try
             {
                 var hasNext = true;
