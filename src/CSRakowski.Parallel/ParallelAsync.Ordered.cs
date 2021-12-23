@@ -131,7 +131,6 @@ namespace CSRakowski.Parallel
 
             while (collectionIndex < collection.Length && !cancellationToken.IsCancellationRequested)
             {
-                // TODO: Look into using Array.Copy for this?
                 var taskList = new Task<TResult>[batchSize];
 
                 int threadIndex;
