@@ -54,15 +54,15 @@ jobs:
 
     - name: "Benchmark result csv"
       run: |
-        cat .\BenchmarkDotNet.Artifacts\results\*.csv
+        cat ./BenchmarkDotNet.Artifacts/results/*.csv
       if: matrix.framework == 'net50'
 
     - name: "Benchmark result html"
       run: |
-        cat .\BenchmarkDotNet.Artifacts\results\*.html
+        cat ./BenchmarkDotNet.Artifacts/results/*.html
       if: matrix.framework == 'net50'
 
     - name: "Benchmark result markdown"
       run: |
-        cat .\BenchmarkDotNet.Artifacts\results\*.md
+        cat ./BenchmarkDotNet.Artifacts/results/*.md
       if: matrix.framework == 'net50'
