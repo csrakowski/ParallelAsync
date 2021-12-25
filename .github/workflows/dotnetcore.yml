@@ -21,13 +21,11 @@ jobs:
       uses: actions/setup-dotnet@v1.8.2
       with:
         dotnet-version: '3.1.x' # SDK Version to use.
-      if: matrix.framework == 'netcoreapp3.1'
 
     - name: Setup .Net 5.0
       uses: actions/setup-dotnet@v1.8.2
       with:
         dotnet-version: '5.0.x' # SDK Version to use.
-      if: matrix.framework == 'net50'
 
     - name: Dotnet info
       run: |
@@ -48,13 +46,23 @@ jobs:
       run: |
         dotnet test --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }}
 
-  #benchmark:
-  #  name: Run benchmarks
-
-  #  runs-on: ${{ matrix.os }}
-  #  needs: build
-  #  steps:
+  #Benchmarks:
     - name: Run Benchmarks
       run: |
         dotnet run --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }} --project ./tests/CSRakowski.Parallel.Benchmarks/
+      if: matrix.framework == 'net50'
+
+    - name: "Benchmark result csv"
+      run: |
+        cat .\BenchmarkDotNet.Artifacts\results\*.csv
+      if: matrix.framework == 'net50'
+
+    - name: "Benchmark result html"
+      run: |
+        cat .\BenchmarkDotNet.Artifacts\results\*.html
+      if: matrix.framework == 'net50'
+
+    - name: "Benchmark result markdown"
+      run: |
+        cat .\BenchmarkDotNet.Artifacts\results\*.md
       if: matrix.framework == 'net50'
