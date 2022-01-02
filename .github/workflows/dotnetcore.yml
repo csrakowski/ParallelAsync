@@ -66,3 +66,43 @@ jobs:
       run: |
         cat ./BenchmarkDotNet.Artifacts/results/*.md
       if: matrix.framework == 'net50'
+
+  build-netfx:
+    name: Build and test .NET Framework
+
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        framework: ['net45', 'net472', 'net48']
+    steps:
+
+    - name: Check out code onto host
+      uses: actions/checkout@v2
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Setup .Net 5.0
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x' # SDK Version to use.
+
+    - name: Dotnet info
+      run: |
+        dotnet --version
+        dotnet --info
+
+    - name: Clear nuget cache
+      run: |
+        dotnet clean
+        dotnet nuget locals all --clear
+
+    - name: Dotnet restore
+      run: |
+        dotnet restore
+
+    - name: Build and Run unit tests
+      continue-on-error: true
+      run: |
+        dotnet test --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }}
