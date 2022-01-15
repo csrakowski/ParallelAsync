@@ -45,6 +45,8 @@ namespace CSRakowski.Parallel.Tests
                 return TaskHelper.CompletedTask;
             }, maxBatchSize: 1)
             .ConfigureAwait(false);
+
+            Assert.IsTrue(true);
         }
 
         [Test]
@@ -107,6 +109,8 @@ namespace CSRakowski.Parallel.Tests
                 return TaskHelper.CompletedTask;
             }, maxBatchSize: 4, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
+
+            Assert.IsTrue(true);
         }
 
         [Test]
@@ -121,6 +125,8 @@ namespace CSRakowski.Parallel.Tests
                 return TaskHelper.CompletedTask;
             }, maxBatchSize: 4, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
+
+            Assert.IsTrue(true);
         }
 
         [Test]
@@ -135,7 +141,7 @@ namespace CSRakowski.Parallel.Tests
 
             cts.CancelAfter(250);
 
-            await ParallelAsync.ForEachAsync(input, async (el, ct) =>
+            await ParallelAsync.ForEachAsync(input, async (el) =>
             {
                 await Task.Delay(500).ConfigureAwait(false);
                 Interlocked.Increment(ref numberOfCalls);
@@ -175,7 +181,7 @@ namespace CSRakowski.Parallel.Tests
 
             cts.CancelAfter(250);
 
-            var results = await ParallelAsync.ForEachAsync(input, async (el, ct) =>
+            var results = await ParallelAsync.ForEachAsync(input, async (el) =>
             {
                 await Task.Delay(500).ConfigureAwait(false);
 
@@ -297,7 +303,7 @@ namespace CSRakowski.Parallel.Tests
 
             cts.CancelAfter(250);
 
-            await ParallelAsync.ForEachAsync(input, async (el, ct) =>
+            await ParallelAsync.ForEachAsync(input, async (el) =>
             {
                 await Task.Delay(500).ConfigureAwait(false);
                 Interlocked.Increment(ref numberOfCalls);
@@ -321,7 +327,7 @@ namespace CSRakowski.Parallel.Tests
 
             cts.CancelAfter(250);
 
-            var results = await ParallelAsync.ForEachAsync(input, async (el, ct) =>
+            var results = await ParallelAsync.ForEachAsync(input, async (el) =>
             {
                 await Task.Delay(500).ConfigureAwait(false);
 

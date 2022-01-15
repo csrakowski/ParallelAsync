@@ -207,7 +207,7 @@ namespace CSRakowski.Parallel
             }
             finally
             {
-                await enumerator.DisposeAsync();
+                await enumerator.DisposeAsync().ConfigureAwait(false);
             }
 
             ParallelAsyncEventSource.Log.RunStop(runId);
@@ -262,7 +262,7 @@ namespace CSRakowski.Parallel
             }
             finally
             {
-                await enumerator.DisposeAsync();
+                await enumerator.DisposeAsync().ConfigureAwait(false);
             }
 
             ParallelAsyncEventSource.Log.RunStop(runId);
