@@ -1,6 +1,7 @@
 ﻿using CSRakowski.Parallel.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,7 +41,7 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (func == null)
             {
@@ -79,7 +80,7 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (collection == null)
             {
@@ -119,7 +120,7 @@ namespace CSRakowski.Parallel
         /// <param name="estimatedResultSize">The estimated size of the result collection.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>The results of the operations</returns>
-        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplUnbatchedAsync<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, CancellationToken cancellationToken)
+        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplUnbatchedAsync<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, 1, false, estimatedResultSize);
@@ -178,7 +179,7 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (func == null)
             {
@@ -217,7 +218,7 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (collection == null)
             {
@@ -247,7 +248,7 @@ namespace CSRakowski.Parallel
             }
         }
 
-        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplUnbatchedAsync<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, CancellationToken cancellationToken)
+        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplUnbatchedAsync<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, 1, false, estimatedResultSize);
@@ -281,7 +282,7 @@ namespace CSRakowski.Parallel
             }
             finally
             {
-                await enumerator.DisposeAsync();
+                await enumerator.DisposeAsync().ConfigureAwait(false);
             }
 
             ParallelAsyncEventSource.Log.RunStop(runId);
