@@ -8,7 +8,7 @@
     <PackageId>CSRakowski.ParallelAsync</PackageId>
     <Title>CSRakowski.ParallelAsync</Title>
     <Description>A .NET utility library for running async methods in parallel batches</Description>
-    <Copyright>Christiaan Rakowski - 2017-2021</Copyright>
+    <Copyright>Christiaan Rakowski - 2017-2022</Copyright>
     <PackageProjectUrl>https://github.com/csrakowski/ParallelAsync</PackageProjectUrl>
     <!--<PackageLicenseUrl>https://github.com/csrakowski/ParallelAsync/blob/master/LICENSE</PackageLicenseUrl>-->
     <PackageLicenseUrl></PackageLicenseUrl>
