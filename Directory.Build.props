@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+	<Authors>Christiaan Rakowski</Authors>
+	<Copyright>Christiaan Rakowski - 2017-2022</Copyright>
+	<Version>1.5.4-a</Version>
+	<LangVersion>latest</LangVersion>
+  </PropertyGroup>
+</Project>

@@ -5,10 +5,6 @@
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
 
-    <Authors>Christiaan Rakowski</Authors>
-    <Copyright>Christiaan Rakowski - 2018-2022</Copyright>
-    <LangVersion>latest</LangVersion>
-    <Version>1.0.0</Version>
     <RootNamespace>CSRakowski.Parallel.Benchmarks</RootNamespace>
     <AssemblyName>CSRakowski.Parallel.Benchmarks</AssemblyName>
 
