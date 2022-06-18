@@ -16,7 +16,7 @@
     <PackageTags>Parallel, Async, Batching</PackageTags>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>CSRakowski.Parallel.snk</AssemblyOriginatorKeyFile>
-    <PackageReleaseNotes>* Updated target frameworks
+    <PackageReleaseNotes>* Added .NET 6.0 TargetFramework
     </PackageReleaseNotes>
     <RootNamespace>CSRakowski.Parallel</RootNamespace>
     <AssemblyName>CSRakowski.Parallel</AssemblyName>
