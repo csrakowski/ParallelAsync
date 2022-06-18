@@ -105,8 +105,7 @@ namespace CSRakowski.Parallel
             }
             else
             {
-                throw new NotImplementedException();
-                //return ForEachAsyncStreamImplOrdered<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
+                return ForEachAsyncStreamImplOrderedAsync<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
             }
         }
 
@@ -142,6 +141,78 @@ namespace CSRakowski.Parallel
                 batchId++;
 
                 yield return resultElement;
+            }
+
+            ParallelAsyncEventSource.Log.RunStop(runId);
+        }
+
+        /// <summary>
+        /// Default implementation to run the specified async method for each item of the input <see cref="IEnumerable{T}"/> in an batched manner, whilst preserving ordering as much as possible.
+        /// </summary>
+        /// <typeparam name="TResult">The result item type</typeparam>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/> of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="batchSize">The batch size to use</param>
+        /// <param name="estimatedResultSize">The estimated size of the result collection.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>The results of the operations</returns>
+        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplOrderedAsync<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            long runId = ParallelAsyncEventSource.Log.GetRunId();
+            ParallelAsyncEventSource.Log.RunStart(runId, batchSize, false, estimatedResultSize);
+
+            using (var enumerator = collection.GetEnumerator())
+            {
+                var hasNext = true;
+                int batchId = 0;
+
+                while (hasNext && !cancellationToken.IsCancellationRequested)
+                {
+                    var taskList = new Task<TResult>[batchSize];
+
+                    int threadIndex;
+                    for (threadIndex = 0; threadIndex < batchSize; threadIndex++)
+                    {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
+
+                        hasNext = enumerator.MoveNext();
+
+                        if (!hasNext)
+                        {
+                            break;
+                        }
+
+                        var element = enumerator.Current;
+
+                        var task = func(element, cancellationToken);
+                        taskList[threadIndex] = task;
+                    }
+
+                    // If we reach the end, we need to ensure there are no NULLs in the taskList as Task.WhenAll breaks on those.
+                    if (threadIndex < batchSize)
+                    {
+                        var temp = new Task<TResult>[threadIndex];
+                        Array.Copy(taskList, temp, threadIndex);
+                        taskList = temp;
+                    }
+
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Length);
+
+                    var batchResults = await Task.WhenAll(taskList).ConfigureAwait(false);
+
+                    foreach (var batchResult in batchResults)
+                    {
+                        yield return batchResult;
+                    }
+
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
+
+                    batchId++;
+                }
             }
 
             ParallelAsyncEventSource.Log.RunStop(runId);
@@ -243,8 +314,7 @@ namespace CSRakowski.Parallel
             }
             else
             {
-                throw new NotImplementedException();
-                //return ForEachAsyncStreamImplOrderedAsync<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
+                return ForEachAsyncStreamImplOrderedAsync<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
             }
         }
 
@@ -278,6 +348,71 @@ namespace CSRakowski.Parallel
                     batchId++;
 
                     yield return resultElement;
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync().ConfigureAwait(false);
+            }
+
+            ParallelAsyncEventSource.Log.RunStop(runId);
+        }
+
+        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplOrderedAsync<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            long runId = ParallelAsyncEventSource.Log.GetRunId();
+            ParallelAsyncEventSource.Log.RunStart(runId, batchSize, false, estimatedResultSize);
+
+            var enumerator = collection.GetAsyncEnumerator(cancellationToken);
+            try
+            {
+                var hasNext = true;
+                int batchId = 0;
+
+                while (hasNext && !cancellationToken.IsCancellationRequested)
+                {
+                    var taskList = new Task<TResult>[batchSize];
+
+                    int threadIndex;
+                    for (threadIndex = 0; threadIndex < batchSize; threadIndex++)
+                    {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
+
+                        hasNext = await enumerator.MoveNextAsync().ConfigureAwait(false);
+
+                        if (!hasNext)
+                        {
+                            break;
+                        }
+
+                        var element = enumerator.Current;
+
+                        var task = func(element, cancellationToken);
+                        taskList[threadIndex] = task;
+                    }
+
+                    // If we reach the end, we need to ensure there are no NULLs in the taskList as Task.WhenAll breaks on those.
+                    if (threadIndex < batchSize)
+                    {
+                        var temp = new Task<TResult>[threadIndex];
+                        Array.Copy(taskList, temp, threadIndex);
+                        taskList = temp;
+                    }
+
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Length);
+
+                    var batchResults = await Task.WhenAll(taskList).ConfigureAwait(false);
+                    foreach (var batchResult in batchResults)
+                    {
+                        yield return batchResult;
+                    }
+
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
+
+                    batchId++;
                 }
             }
             finally

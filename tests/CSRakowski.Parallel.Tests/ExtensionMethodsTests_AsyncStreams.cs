@@ -22,91 +22,82 @@ namespace CSRakowski.Parallel.Tests
         [Test]
         public async Task ParallelAsync_Runs_With_Default_Settings()
         {
-            Assert.ThrowsAsync<NotImplementedException>(async () =>
+            var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
+
+            var parallelAsync = input.AsParallelAsync();
+
+            Assert.IsNotNull(parallelAsync);
+
+            var list = new List<int>();
+
+            await foreach (var item in parallelAsync.ForEachAsyncStream((el) => Task.FromResult(el * 2)).ConfigureAwait(false))
             {
-                var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
+                list.Add(item);
+            }
 
-                var parallelAsync = input.AsParallelAsync();
+            Assert.AreEqual(10, list.Count);
 
-                Assert.IsNotNull(parallelAsync);
-
-                var list = new List<int>();
-
-                await foreach (var item in parallelAsync.ForEachAsyncStream((el) => Task.FromResult(el * 2)).ConfigureAwait(false))
-                {
-                    list.Add(item);
-                }
-
-                Assert.AreEqual(10, list.Count);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var expected = 2 * (1 + i);
-                    Assert.AreEqual(expected, list[i]);
-                }
-            });
+            for (int i = 0; i < list.Count; i++)
+            {
+                var expected = 2 * (1 + i);
+                Assert.AreEqual(expected, list[i]);
+            }
         }
 
         [Test]
         public async Task ParallelAsync_Runs_With_Default_Settings2()
         {
-            Assert.ThrowsAsync<NotImplementedException>(async () =>
+            var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
+
+            var parallelAsync = input.AsParallelAsync();
+
+            Assert.IsNotNull(parallelAsync);
+
+            var list = new List<int>();
+
+            await foreach (var item in parallelAsync.ForEachAsyncStream((el, ct) => Task.FromResult(el * 2)).ConfigureAwait(false))
             {
-                var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
+                list.Add(item);
+            }
 
-                var parallelAsync = input.AsParallelAsync();
+            Assert.AreEqual(10, list.Count);
 
-                Assert.IsNotNull(parallelAsync);
-
-                var list = new List<int>();
-
-                await foreach (var item in parallelAsync.ForEachAsyncStream((el, ct) => Task.FromResult(el * 2)).ConfigureAwait(false))
-                {
-                    list.Add(item);
-                }
-
-                Assert.AreEqual(10, list.Count);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var expected = 2 * (1 + i);
-                    Assert.AreEqual(expected, list[i]);
-                }
-            });
+            for (int i = 0; i < list.Count; i++)
+            {
+                var expected = 2 * (1 + i);
+                Assert.AreEqual(expected, list[i]);
+            }
         }
 
         [Test]
         public async Task ParallelAsync_Supports_Full_Fluent_Usage()
         {
-            Assert.ThrowsAsync<NotImplementedException>(async () =>
+            var asyncEnumerable = Enumerable
+                                .Range(1, 10)
+                                .AsAsyncEnumerable()
+                                .AsParallelAsync()
+                                .WithEstimatedResultSize(10)
+                                .WithMaxDegreeOfParallelism(2)
+                                .WithOutOfOrderProcessing(false)
+                                .ForEachAsyncStream((el) => Task.FromResult(el * 2), CancellationToken.None)
+                                .ConfigureAwait(false);
+
+            Assert.IsNotNull(asyncEnumerable);
+
+            var list = new List<int>();
+
+            await foreach (var item in asyncEnumerable)
             {
-                var asyncEnumerable = Enumerable
-                                    .Range(1, 10)
-                                    .AsAsyncEnumerable()
-                                    .AsParallelAsync()
-                                    .WithEstimatedResultSize(10)
-                                    .WithMaxDegreeOfParallelism(2)
-                                    .WithOutOfOrderProcessing(false)
-                                    .ForEachAsyncStream((el) => Task.FromResult(el * 2), CancellationToken.None)
-                                    .ConfigureAwait(false);
+                list.Add(item);
+            }
 
-                Assert.IsNotNull(asyncEnumerable);
+            Assert.AreEqual(10, list.Count);
 
-                var list = new List<int>();
-
-                await foreach (var item in asyncEnumerable)
-                {
-                    list.Add(item);
-                }
-
-                Assert.AreEqual(10, list.Count);
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var expected = 2 * (1 + i);
-                    Assert.AreEqual(expected, list[i]);
-                }
-            });
+            for (int i = 0; i < list.Count; i++)
+            {
+                var expected = 2 * (1 + i);
+                Assert.AreEqual(expected, list[i]);
+            }
         }
     }
 
