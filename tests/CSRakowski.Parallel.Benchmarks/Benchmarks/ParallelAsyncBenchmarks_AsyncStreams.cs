@@ -37,8 +37,7 @@ namespace CSRakowski.Parallel.Benchmarks
             InputNumbersAsync = InputNumbers.AsAsyncEnumerable();
         }
 
-        //[Params(1, 4, 8)]
-        [Params(1)]
+        [Params(1, 4, 8)]
         public int MaxBatchSize { get; set; }
 
         [Params(false, true)]

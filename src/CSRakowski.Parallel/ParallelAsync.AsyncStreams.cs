@@ -96,16 +96,15 @@ namespace CSRakowski.Parallel
 
             if (maxBatchSizeToUse == 1)
             {
-                return ForEachAsyncStreamImplUnbatchedAsync<TResult, TIn>(collection, func, estimatedResultSize, cancellationToken);
+                return ForEachAsyncStreamImplUnbatched<TResult, TIn>(collection, func, estimatedResultSize, cancellationToken);
             }
             else if (allowOutOfOrderProcessing)
             {
-                throw new NotImplementedException();
-                //return ForEachAsyncStreamImplUnordered<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
+                return ForEachAsyncStreamImplUnordered<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
             }
             else
             {
-                return ForEachAsyncStreamImplOrderedAsync<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
+                return ForEachAsyncStreamImplOrdered<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
             }
         }
 
@@ -119,7 +118,7 @@ namespace CSRakowski.Parallel
         /// <param name="estimatedResultSize">The estimated size of the result collection.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>The results of the operations</returns>
-        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplUnbatchedAsync<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplUnbatched<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, 1, false, estimatedResultSize);
@@ -157,7 +156,7 @@ namespace CSRakowski.Parallel
         /// <param name="estimatedResultSize">The estimated size of the result collection.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
         /// <returns>The results of the operations</returns>
-        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplOrderedAsync<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
+        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplOrdered<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
         {
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, batchSize, false, estimatedResultSize);
@@ -208,6 +207,76 @@ namespace CSRakowski.Parallel
                     {
                         yield return batchResult;
                     }
+
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
+
+                    batchId++;
+                }
+            }
+
+            ParallelAsyncEventSource.Log.RunStop(runId);
+        }
+
+        /// <summary>
+        /// Implementation to run the specified async method for each item of the input collection in an batched manner, allowing out of order processing.
+        /// </summary>
+        /// <typeparam name="TResult">The result item type</typeparam>
+        /// <typeparam name="TIn">The input item type</typeparam>
+        /// <param name="collection">The collection of items to use as input arguments</param>
+        /// <param name="func">The async method to run for each item</param>
+        /// <param name="batchSize">The batch size to use</param>
+        /// <param name="estimatedResultSize">The estimated size of the result collection.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+        /// <returns>The results of the operations</returns>
+        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplUnordered<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            long runId = ParallelAsyncEventSource.Log.GetRunId();
+            ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, estimatedResultSize);
+
+            using (var enumerator = collection.GetEnumerator())
+            {
+                var hasNext = true;
+                int batchId = 0;
+                var taskList = ListHelpers.GetList<Task<TResult>>(batchSize);
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    // check the hasNext from the previous run, if false; don't call MoveNext() again
+                    // call MoveNext() and assign it to the hasNext variable, then check if this run still had a next
+                    if (hasNext && (hasNext = enumerator.MoveNext()))
+                    {
+                        var element = enumerator.Current;
+
+                        var task = func(element, cancellationToken);
+                        taskList.Add(task);
+
+                        if (taskList.Count < batchSize)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (!hasNext && taskList.Count == 0)
+                    {
+                        break;
+                    }
+
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Count);
+
+                    await Task.WhenAny(taskList).ConfigureAwait(false);
+
+#pragma warning disable PH_S026 // Blocking Wait in Async Method
+#pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
+
+                    var completed = taskList.FindAll(t => t.IsCompleted);
+                    foreach (var t in completed)
+                    {
+                        taskList.Remove(t);
+                        yield return t.Result;
+                    }
+
+#pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method
+#pragma warning restore PH_S026 // Blocking Wait in Async Method
 
                     ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
@@ -309,8 +378,7 @@ namespace CSRakowski.Parallel
             }
             else if (allowOutOfOrderProcessing)
             {
-                throw new NotImplementedException();
-                //return ForEachAsyncStreamImplUnorderedAsync<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
+                return ForEachAsyncStreamImplUnorderedAsync<TResult, TIn>(collection, func, maxBatchSizeToUse, estimatedResultSize, cancellationToken);
             }
             else
             {
@@ -409,6 +477,70 @@ namespace CSRakowski.Parallel
                     {
                         yield return batchResult;
                     }
+
+                    ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
+
+                    batchId++;
+                }
+            }
+            finally
+            {
+                await enumerator.DisposeAsync().ConfigureAwait(false);
+            }
+
+            ParallelAsyncEventSource.Log.RunStop(runId);
+        }
+
+        private static async IAsyncEnumerable<TResult> ForEachAsyncStreamImplUnorderedAsync<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int batchSize, int estimatedResultSize, [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            long runId = ParallelAsyncEventSource.Log.GetRunId();
+            ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, estimatedResultSize);
+
+            var enumerator = collection.GetAsyncEnumerator(cancellationToken);
+            try
+            {
+                var hasNext = true;
+                int batchId = 0;
+                var taskList = ListHelpers.GetList<Task<TResult>>(batchSize);
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    // check the hasNext from the previous run, if false; don't call MoveNext() again
+                    // call MoveNext() and assign it to the hasNext variable, then check if this run still had a next
+                    if (hasNext && (hasNext = await enumerator.MoveNextAsync().ConfigureAwait(false)))
+                    {
+                        var element = enumerator.Current;
+
+                        var task = func(element, cancellationToken);
+                        taskList.Add(task);
+
+                        if (taskList.Count < batchSize)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (!hasNext && taskList.Count == 0)
+                    {
+                        break;
+                    }
+
+                    ParallelAsyncEventSource.Log.BatchStart(runId, batchId, taskList.Count);
+
+                    await Task.WhenAny(taskList).ConfigureAwait(false);
+
+#pragma warning disable PH_S026 // Blocking Wait in Async Method
+#pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
+
+                    var completed = taskList.FindAll(t => t.IsCompleted);
+                    foreach (var t in completed)
+                    {
+                        taskList.Remove(t);
+                        yield return t.Result;
+                    }
+
+#pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method
+#pragma warning restore PH_S026 // Blocking Wait in Async Method
 
                     ParallelAsyncEventSource.Log.BatchStop(runId, batchId);
 
