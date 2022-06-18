@@ -28,5 +28,24 @@ namespace CSRakowski.Parallel.Benchmarks
         {
             return Task.CompletedTask;
         }
+
+        public static Task<double> Compute_Double(int number)
+        {
+            var cosh = Math.Cosh(number);
+            var sinh = Math.Sinh(number);
+
+            var base16 = Math.Log(number, 16);
+            var cosh16 = Math.Cosh(base16);
+            var sinh16 = Math.Sinh(base16);
+
+            double result = number;
+            result *= cosh;
+            result *= sinh;
+            result *= base16;
+            result *= cosh16;
+            result *= sinh16;
+
+            return Task.FromResult(result);
+        }
     }
 }

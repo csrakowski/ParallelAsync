@@ -21,6 +21,7 @@ namespace CSRakowski.Parallel.Benchmarks
     [SimpleJob(RuntimeMoniker.Net48, baseline: true)]
     [SimpleJob(RuntimeMoniker.NetCoreApp31, baseline: false)]
     [SimpleJob(RuntimeMoniker.Net50, baseline: false)]
+    [SimpleJob(RuntimeMoniker.Net60, baseline: false)]
     public class ParallelAsyncBenchmarks
     {
         private const int NumberOfItemsInCollection = 10000;
