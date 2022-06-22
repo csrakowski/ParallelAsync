@@ -61,7 +61,7 @@ namespace CSRakowski.Parallel.Tests
                 await Task.Delay(500, ct).ConfigureAwait(false);
                 Interlocked.Increment(ref numberOfCalls);
                 return el;
-            }, maxBatchSize: 1, estimatedResultSize: 10);
+            }, maxBatchSize: 4, estimatedResultSize: 10);
 
             await foreach (var result in asyncEnumerable)
             {
@@ -83,7 +83,7 @@ namespace CSRakowski.Parallel.Tests
                 await Task.Delay(500, ct).ConfigureAwait(false);
                 Interlocked.Increment(ref numberOfCalls);
                 return el;
-            }, maxBatchSize: 1, estimatedResultSize: 10);
+            }, maxBatchSize: 4, estimatedResultSize: 10);
 
             await foreach (var result in asyncEnumerable)
             {
