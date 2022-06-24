@@ -57,17 +57,19 @@ namespace CSRakowski.Parallel.Benchmarks
             return result.Count();
         }
 
-        #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
         [Benchmark(Baseline = true), BenchmarkCategory("ForEachAsyncStream", "IEnumerable")]
         public async Task<int> IEnumerable_ForEachAsyncStream()
         {
             int count = 0;
 
+            #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+
             await foreach (var r in ParallelAsync.ForEachAsyncStream(InputNumbers, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None))
             {
                 count++;
             }
+
+            #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 
             return count;
         }
@@ -77,15 +79,16 @@ namespace CSRakowski.Parallel.Benchmarks
         {
             int count = 0;
 
+            #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+
             await foreach (var r in ParallelAsync.ForEachAsyncStream(InputNumbersAsync, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None))
             {
                 count++;
             }
 
+            #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+
             return count;
         }
-
-        #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
     }
 }
