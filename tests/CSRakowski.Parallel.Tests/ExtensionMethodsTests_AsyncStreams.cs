@@ -99,6 +99,35 @@ namespace CSRakowski.Parallel.Tests
                 Assert.AreEqual(expected, list[i]);
             }
         }
+
+        [Test]
+        public async Task ParallelAsync_Can_Chain_Together_AsyncStreams()
+        {
+            var input = Enumerable.Range(1, 40).ToList().AsAsyncEnumerable();
+
+            var parallelAsync = input.AsParallelAsync();
+
+            Assert.IsNotNull(parallelAsync);
+
+            var list = new List<int>();
+
+            IAsyncEnumerable<int> intermediateResult = parallelAsync.ForEachAsyncStream((el, ct) => Task.FromResult(el * 2));
+
+            var intermediateParallelAsync = intermediateResult.AsParallelAsync();
+
+            await foreach (var item in intermediateParallelAsync.ForEachAsyncStream((el, ct) => Task.FromResult(el * 2)).ConfigureAwait(false))
+            {
+                list.Add(item);
+            }
+
+            Assert.AreEqual(10, list.Count);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                var expected = 4 * (1 + i);
+                Assert.AreEqual(expected, list[i]);
+            }
+        }
     }
 
     #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER

@@ -9,6 +9,7 @@ using CSRakowski.Parallel;
 using CSRakowski.Parallel.Helpers;
 using CSRakowski.Parallel.Tests.Helpers;
 using CSRakowski.AsyncStreamsPreparations;
+using CSRakowski.Parallel.Extensions;
 
 namespace CSRakowski.Parallel.Tests
 {
@@ -245,6 +246,24 @@ namespace CSRakowski.Parallel.Tests
 
             Assert.AreEqual("maxBatchSize", ex9.ParamName);
             Assert.AreEqual("maxBatchSize", ex10.ParamName);
+        }
+
+        [Test]
+        public async Task ParallelAsync_Can_Chain_Together_AsyncStreams()
+        {
+            var input = Enumerable.Range(1, 40).ToList().AsAsyncEnumerable();
+
+            var intermediateResult = ParallelAsync.ForEachAsyncStream(input, (el) => Task.FromResult(el * 2), maxBatchSize: 3, estimatedResultSize: 10);
+
+            var asyncEnumerable = ParallelAsync.ForEachAsyncStream(intermediateResult, (el) => Task.FromResult(el * 2), maxBatchSize: 3, estimatedResultSize: 10);
+
+            int i = 0;
+            await foreach (var el in asyncEnumerable)
+            {
+                var expected = 4 * (1 + i);
+                Assert.AreEqual(expected, el);
+                i++;
+            }
         }
     }
 
