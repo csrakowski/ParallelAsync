@@ -32,6 +32,9 @@ var files = await fileUrls
 
 # Release notes
 
+### 1.6.0
+* Added support for Async Streams, so you produce an IAsyncEnumerable<T>.
+
 ### 1.5.4
 * Added .NET 6.0 TargetFramework
 
