@@ -10,7 +10,7 @@ namespace CSRakowski.Parallel.Extensions
     /// <summary>
     /// Extension methods to allow using the functionalities of <see cref="ParallelAsync"/> with a fluent syntax
     /// </summary>
-    public static class ParallelAsyncEx
+    public static partial class ParallelAsyncEx
     {
         #region With.. Configuration methods
 
