@@ -120,7 +120,7 @@ namespace CSRakowski.Parallel.Tests
                 list.Add(item);
             }
 
-            Assert.AreEqual(10, list.Count);
+            Assert.AreEqual(40, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
