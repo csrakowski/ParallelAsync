@@ -30,6 +30,29 @@ var files = await fileUrls
                     });
 ```
 
+In version 1.6, support for Async Streams has been added.
+This allows you to chain together multiple invocations by passing along an `IAsyncEnumerable<T>`, sort of like a pipeline:
+
+```cs
+using CSRakowski.Parallel;
+
+List<string> fileUrls = GetFileUrls();
+
+var fileDataStream = ParallelAsync.ForEachAsyncStream(fileUrls, (url) => {
+    return DownloadFileAsync(url);
+}, maxBatchSize: 4, allowOutOfOrderProcessing: true);
+
+var resultStream = ParallelAsync.ForEachAsyncStream(fileDataStream, (fileData) => {
+    return ParseFileAsync(fileData);
+}, maxBatchSize: 4, allowOutOfOrderProcessing: true);
+
+await foreach (var result in resultStream)
+{
+    HandleResult(result);
+}
+```
+
+
 # Release notes
 
 ### 1.6.0
