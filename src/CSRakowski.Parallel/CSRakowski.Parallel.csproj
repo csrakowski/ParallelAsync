@@ -23,18 +23,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DebugSymbols>true</DebugSymbols>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CSRakowski.Parallel.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup Condition="! ( '$(TargetFramework)' == 'net60' or '$(TargetFramework)' == 'net50' or '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'netstandard2.1' )">

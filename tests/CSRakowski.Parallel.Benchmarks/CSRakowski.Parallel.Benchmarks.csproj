@@ -7,21 +7,6 @@
 
     <RootNamespace>CSRakowski.Parallel.Benchmarks</RootNamespace>
     <AssemblyName>CSRakowski.Parallel.Benchmarks</AssemblyName>
-
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

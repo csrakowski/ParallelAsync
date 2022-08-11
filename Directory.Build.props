@@ -1,8 +1,22 @@
 <Project>
-  <PropertyGroup>
-	<Authors>Christiaan Rakowski</Authors>
-	<Copyright>Christiaan Rakowski - 2017-2022</Copyright>
-	<Version>1.6.0</Version>
-	<LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Authors>Christiaan Rakowski</Authors>
+		<Copyright>Christiaan Rakowski - 2017-2022</Copyright>
+		<Version>1.6.0</Version>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+	</PropertyGroup>
 </Project>
