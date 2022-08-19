@@ -15,20 +15,20 @@ jobs:
     steps:
 
     - name: Check out code onto host
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup .Net 3.1
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '3.1.x' # SDK Version to use.
 
     - name: Setup .Net 5.0
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '5.0.x' # SDK Version to use.
 
     - name: Setup .Net 6.0
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.0.x' # SDK Version to use.
 
@@ -83,13 +83,13 @@ jobs:
     steps:
 
     - name: Check out code onto host
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.1
 
     - name: Setup .Net 6.0
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.0.x' # SDK Version to use.
 
