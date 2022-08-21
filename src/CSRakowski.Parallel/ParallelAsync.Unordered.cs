@@ -30,6 +30,34 @@ namespace CSRakowski.Parallel
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, estimatedResultSize);
 
+
+#if false && NET6_0_OR_GREATER
+
+            var concurrentResult = new System.Collections.Concurrent.ConcurrentBag<TResult>();
+
+            try
+            {
+                var options = new System.Threading.Tasks.ParallelOptions
+                {
+                    CancellationToken = cancellationToken,
+                    MaxDegreeOfParallelism = batchSize
+                };
+
+                await System.Threading.Tasks.Parallel.ForEachAsync<TIn>(collection, options, async (i, ct) =>
+                {
+                    var r = await func(i, ct).ConfigureAwait(false);
+                    concurrentResult.Add(r);
+                }).ConfigureAwait(false);
+            }
+            catch (TaskCanceledException)
+            {
+                // Expected
+            }
+
+            result.AddRange(concurrentResult);
+
+#else
+
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
@@ -80,6 +108,8 @@ namespace CSRakowski.Parallel
                     batchId++;
                 }
             }
+
+#endif
 
             ParallelAsyncEventSource.Log.RunStop(runId);
 
@@ -100,6 +130,25 @@ namespace CSRakowski.Parallel
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, 0);
 
+#if false && NET6_0_OR_GREATER
+
+            try
+            {
+                var options = new System.Threading.Tasks.ParallelOptions
+                {
+                    CancellationToken = cancellationToken,
+                    MaxDegreeOfParallelism = batchSize
+                };
+
+                await System.Threading.Tasks.Parallel.ForEachAsync<TIn>(collection, options, (i, ct) => new ValueTask(func(i, ct))).ConfigureAwait(false);
+            }
+            catch (TaskCanceledException)
+            {
+                // Expected
+            }
+
+#else
+
             using (var enumerator = collection.GetEnumerator())
             {
                 var hasNext = true;
@@ -140,6 +189,8 @@ namespace CSRakowski.Parallel
                 }
             }
 
+#endif
+
             ParallelAsyncEventSource.Log.RunStop(runId);
         }
 
@@ -153,6 +204,32 @@ namespace CSRakowski.Parallel
 
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, estimatedResultSize);
+
+#if false && NET6_0_OR_GREATER
+
+            var concurrentResult = new System.Collections.Concurrent.ConcurrentBag<TResult>();
+
+            try
+            {
+                var options = new System.Threading.Tasks.ParallelOptions
+                {
+                    CancellationToken = cancellationToken,
+                    MaxDegreeOfParallelism = batchSize
+                };
+
+                await System.Threading.Tasks.Parallel.ForEachAsync<TIn>(collection, options, async (i, ct) =>
+                {
+                    var r = await func(i, ct).ConfigureAwait(false);
+                    concurrentResult.Add(r);
+                }).ConfigureAwait(false);
+            }
+            catch (TaskCanceledException)
+            {
+                // Expected
+            }
+
+            result.AddRange(concurrentResult);
+#else
 
             var enumerator = collection.GetAsyncEnumerator(cancellationToken);
             try
@@ -210,6 +287,8 @@ namespace CSRakowski.Parallel
                 await enumerator.DisposeAsync().ConfigureAwait(false);
             }
 
+#endif
+
             ParallelAsyncEventSource.Log.RunStop(runId);
 
             return result;
@@ -219,6 +298,25 @@ namespace CSRakowski.Parallel
         {
             long runId = ParallelAsyncEventSource.Log.GetRunId();
             ParallelAsyncEventSource.Log.RunStart(runId, batchSize, true, 0);
+
+#if false && NET6_0_OR_GREATER
+
+            try
+            {
+                var options = new System.Threading.Tasks.ParallelOptions
+                {
+                    CancellationToken = cancellationToken,
+                    MaxDegreeOfParallelism = batchSize
+                };
+
+                await System.Threading.Tasks.Parallel.ForEachAsync<TIn>(collection, options, (i, ct) => new ValueTask(func(i, ct))).ConfigureAwait(false);
+            }
+            catch (TaskCanceledException)
+            {
+                // Expected
+            }
+
+#else
 
             var enumerator = collection.GetAsyncEnumerator(cancellationToken);
             try
@@ -264,6 +362,8 @@ namespace CSRakowski.Parallel
             {
                 await enumerator.DisposeAsync().ConfigureAwait(false);
             }
+
+#endif
 
             ParallelAsyncEventSource.Log.RunStop(runId);
         }

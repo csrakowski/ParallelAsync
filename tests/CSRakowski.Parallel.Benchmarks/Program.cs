@@ -16,7 +16,10 @@ namespace CSRakowski.Parallel.Benchmarks
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<ParallelAsyncBenchmarks_AsyncStreams>();
+#if NET6_0_OR_GREATER
+
+            var summary = BenchmarkRunner.Run<CompareWith_Parallel_ForEachAsync>();
+#endif
         }
     }
 }
