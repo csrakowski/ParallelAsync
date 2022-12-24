@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net45;net60;net50;netstandard2.1;netstandard2.0;netstandard1.1</TargetFrameworks>
+    <TargetFrameworks>net472;net452;net60;net50;netstandard2.1;netstandard2.0;netstandard1.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company />
     <PackageId>CSRakowski.ParallelAsync</PackageId>
@@ -16,7 +16,7 @@
     <PackageTags>Parallel, Async, Batching</PackageTags>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>CSRakowski.Parallel.snk</AssemblyOriginatorKeyFile>
-    <PackageReleaseNotes>* Added support for Async Streams, so you produce an IAsyncEnumerable{T}.
+    <PackageReleaseNotes>* Updated to latest `CSRakowski.AsyncStreamsPreparations`, which uses `Microsoft.Bcl.AsyncInterfaces`.
     </PackageReleaseNotes>
     <RootNamespace>CSRakowski.Parallel</RootNamespace>
     <AssemblyName>CSRakowski.Parallel</AssemblyName>
@@ -27,7 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="! ( '$(TargetFramework)' == 'net60' or '$(TargetFramework)' == 'net50' or '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'netstandard2.1' )">
-    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.4.2" />
+    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -69,6 +69,10 @@ namespace CSRakowski.Parallel.Benchmarks
                 count++;
             }
 
+            #else
+
+            await Task.CompletedTask;
+
             #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 
             return count;
@@ -85,6 +89,10 @@ namespace CSRakowski.Parallel.Benchmarks
             {
                 count++;
             }
+            
+            #else
+
+            await Task.CompletedTask;
 
             #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 

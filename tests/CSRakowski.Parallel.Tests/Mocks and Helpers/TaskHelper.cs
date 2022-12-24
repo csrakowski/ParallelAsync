@@ -25,7 +25,7 @@ namespace CSRakowski.Parallel.Tests.Helpers
                 var completedTask = s_completedTask;
                 if (completedTask == null)
                 {
-#if NET45
+#if NET452
                     s_completedTask = completedTask = Task.FromResult(true);
 #else
                     s_completedTask = completedTask = Task.CompletedTask;

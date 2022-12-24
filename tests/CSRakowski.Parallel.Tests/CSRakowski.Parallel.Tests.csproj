@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net48;net472;net45;net60;net50;netcoreapp3.1;</TargetFrameworks>
+    <TargetFrameworks>net48;net472;net452;net60;net50;netcoreapp3.1;</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
 
@@ -16,7 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.4.2" />
+    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.5.0" />
   </ItemGroup>
 
   <ItemGroup>
