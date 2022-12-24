@@ -8,9 +8,8 @@
     <Title>CSRakowski.ParallelAsync</Title>
     <Description>A .NET utility library for running async methods in parallel batches</Description>
     <PackageProjectUrl>https://github.com/csrakowski/ParallelAsync</PackageProjectUrl>
-    <!--<PackageLicenseUrl>https://github.com/csrakowski/ParallelAsync/blob/master/LICENSE</PackageLicenseUrl>-->
-    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/csrakowski/ParallelAsync</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>Parallel, Async, Batching</PackageTags>
@@ -31,9 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\"/>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>
