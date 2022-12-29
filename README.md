@@ -55,6 +55,9 @@ await foreach (var result in resultStream)
 
 # Release notes
 
+### 1.7.1
+* Updated to latest `CSRakowski.AsyncStreamsPreparations`, which uses `Microsoft.Bcl.AsyncInterfaces` (correctly...).
+
 ### 1.7.0
 * Updated to latest `CSRakowski.AsyncStreamsPreparations`, which uses `Microsoft.Bcl.AsyncInterfaces`.
 

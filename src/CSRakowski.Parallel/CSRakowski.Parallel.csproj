@@ -15,7 +15,7 @@
     <PackageTags>Parallel, Async, Batching</PackageTags>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>CSRakowski.Parallel.snk</AssemblyOriginatorKeyFile>
-    <PackageReleaseNotes>* Updated to latest `CSRakowski.AsyncStreamsPreparations`, which uses `Microsoft.Bcl.AsyncInterfaces`.
+    <PackageReleaseNotes>* Updated to latest `CSRakowski.AsyncStreamsPreparations`, which uses `Microsoft.Bcl.AsyncInterfaces` (correctly...).
     </PackageReleaseNotes>
     <RootNamespace>CSRakowski.Parallel</RootNamespace>
     <AssemblyName>CSRakowski.Parallel</AssemblyName>
@@ -25,8 +25,12 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CSRakowski.Parallel.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="! ( '$(TargetFramework)' == 'net60' or '$(TargetFramework)' == 'net50' or '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'netstandard2.1' )">
-    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.5.0" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net472'">
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
+  </ItemGroup>
+    
+  <ItemGroup Condition="'$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'netstandard1.1'">
+    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.5.1" />
   </ItemGroup>
 
   <ItemGroup>
