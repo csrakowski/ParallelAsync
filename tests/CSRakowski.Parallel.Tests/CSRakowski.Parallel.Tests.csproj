@@ -16,7 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.5.1" />
+    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.5.2" />
   </ItemGroup>
     
   <ItemGroup>

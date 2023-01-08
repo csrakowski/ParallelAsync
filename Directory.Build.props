@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Authors>Christiaan Rakowski</Authors>
 		<Copyright>Christiaan Rakowski - 2017-2023</Copyright>
-		<Version>1.7.1</Version>
+		<Version>1.7.2</Version>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
@@ -18,7 +18,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-		<DebugType>pdbonly</DebugType>
+		<DebugType>portable</DebugType>
 		<Optimize>true</Optimize>
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
