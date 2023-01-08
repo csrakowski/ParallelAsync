@@ -15,7 +15,7 @@
     <PackageTags>Parallel, Async, Batching</PackageTags>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>CSRakowski.Parallel.snk</AssemblyOriginatorKeyFile>
-    <PackageReleaseNotes>* Updated to latest `CSRakowski.AsyncStreamsPreparations`, which uses `Microsoft.Bcl.AsyncInterfaces` (correctly...).
+    <PackageReleaseNotes>* First attempt at enabling SourceLink.
     </PackageReleaseNotes>
     <RootNamespace>CSRakowski.Parallel</RootNamespace>
     <AssemblyName>CSRakowski.Parallel</AssemblyName>

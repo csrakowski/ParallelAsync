@@ -55,6 +55,9 @@ await foreach (var result in resultStream)
 
 # Release notes
 
+### 1.7.2
+* First attempt at enabling SourceLink.
+
 ### 1.7.1
 * Updated to latest `CSRakowski.AsyncStreamsPreparations`, which uses `Microsoft.Bcl.AsyncInterfaces` (correctly...).
 
