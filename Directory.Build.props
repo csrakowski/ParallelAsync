@@ -8,17 +8,16 @@
 
 	<PropertyGroup>
 		<DebugSymbols>true</DebugSymbols>
+		<DebugType>portable</DebugType>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-		<DebugType>full</DebugType>
 		<Optimize>false</Optimize>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-		<DebugType>portable</DebugType>
 		<Optimize>true</Optimize>
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
