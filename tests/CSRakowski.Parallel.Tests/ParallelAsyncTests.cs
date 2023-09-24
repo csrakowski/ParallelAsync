@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,32 +10,32 @@ using CSRakowski.Parallel.Tests.Helpers;
 
 namespace CSRakowski.Parallel.Tests
 {
-    [TestFixture, Category("ParallelAsync Base Tests")]
+    [Collection("ParallelAsync Base Tests")]
     public class ParallelAsyncTests
     {
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Batch_Basic_Work()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 1, estimatedResultSize: input.Length).ConfigureAwait(false);
+            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 1, estimatedResultSize: input.Length);
 
-            Assert.IsNotNull(results);
+            Assert.NotNull(results);
 
             var list = results as List<int>;
 
-            Assert.IsNotNull(list);
+            Assert.NotNull(list);
 
-            Assert.AreEqual(input.Length, list.Count);
+            Assert.Equal(input.Length, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
                 var expected = 2 * input[i];
-                Assert.AreEqual(expected, list[i]);
+                Assert.Equal(expected, list[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Batch_Basic_Work_Void()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -43,61 +43,60 @@ namespace CSRakowski.Parallel.Tests
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
                 return TaskHelper.CompletedTask;
-            }, maxBatchSize: 1)
-            .ConfigureAwait(false);
+            }, maxBatchSize: 1);
 
-            Assert.IsTrue(true);
+            Assert.True(true);
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Handle_Misaligned_Sizing()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
             var cancellationToken = CancellationToken.None;
 
-            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, estimatedResultSize: input.Length, cancellationToken: cancellationToken).ConfigureAwait(false);
+            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, estimatedResultSize: input.Length, cancellationToken: cancellationToken);
 
-            Assert.IsNotNull(results);
+            Assert.NotNull(results);
 
             var list = results as List<int>;
 
-            Assert.IsNotNull(list);
+            Assert.NotNull(list);
 
-            Assert.AreEqual(input.Length, list.Count);
+            Assert.Equal(input.Length, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
                 var expected = 2 * input[i];
-                Assert.AreEqual(expected, list[i]);
+                Assert.Equal(expected, list[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Handle_Misaligned_Sizing_Without_EstimatedSize()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
             var cancellationToken = CancellationToken.None;
 
-            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, cancellationToken: cancellationToken).ConfigureAwait(false);
+            var results = await ParallelAsync.ForEachAsync(input, (el) => Task.FromResult(el * 2), maxBatchSize: 4, cancellationToken: cancellationToken);
 
-            Assert.IsNotNull(results);
+            Assert.NotNull(results);
 
             var list = results as List<int>;
 
-            Assert.IsNotNull(list);
+            Assert.NotNull(list);
 
-            Assert.AreEqual(input.Length, list.Count);
+            Assert.Equal(input.Length, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
                 var expected = 2 * input[i];
-                Assert.AreEqual(expected, list[i]);
+                Assert.Equal(expected, list[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Handle_Misaligned_Sizing_Void()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -107,13 +106,12 @@ namespace CSRakowski.Parallel.Tests
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
                 return TaskHelper.CompletedTask;
-            }, maxBatchSize: 4, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+            }, maxBatchSize: 4, cancellationToken: cancellationToken);
 
-            Assert.IsTrue(true);
+            Assert.True(true);
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Handle_Misaligned_Sizing_Void_Without_EstimatedSize()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -123,13 +121,12 @@ namespace CSRakowski.Parallel.Tests
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
                 return TaskHelper.CompletedTask;
-            }, maxBatchSize: 4, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+            }, maxBatchSize: 4, cancellationToken: cancellationToken);
 
-            Assert.IsTrue(true);
+            Assert.True(true);
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Handle_Propagating_CancellationTokens()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -143,17 +140,16 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, async (el) =>
             {
-                await Task.Delay(500).ConfigureAwait(false);
+                await Task.Delay(500);
                 Interlocked.Increment(ref numberOfCalls);
-            }, cancellationToken: cancellationToken, maxBatchSize: 4)
-            .ConfigureAwait(false);
+            }, cancellationToken: cancellationToken, maxBatchSize: 4);
 
-            Assert.IsTrue(numberOfCalls < 10);
+            Assert.True(numberOfCalls < 10);
 
             cts.Dispose();
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Handle_Using_Default_CancellationTokens()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -162,14 +158,14 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, async (el, ct) =>
             {
-                await Task.Delay(500, ct).ConfigureAwait(false);
+                await Task.Delay(500, ct);
                 Interlocked.Increment(ref numberOfCalls);
-            }).ConfigureAwait(false);
+            });
 
-            Assert.AreEqual(10, numberOfCalls);
+            Assert.Equal(10, numberOfCalls);
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_TaskT_Can_Handle_Propagating_CancellationTokens()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -183,21 +179,20 @@ namespace CSRakowski.Parallel.Tests
 
             var results = await ParallelAsync.ForEachAsync(input, async (el) =>
             {
-                await Task.Delay(500).ConfigureAwait(false);
+                await Task.Delay(500);
 
                 Interlocked.Increment(ref numberOfCalls);
                 return el;
-            }, cancellationToken: cancellationToken, maxBatchSize: 4)
-            .ConfigureAwait(false);
+            }, cancellationToken: cancellationToken, maxBatchSize: 4);
 
-            Assert.IsTrue(numberOfCalls < 10);
+            Assert.True(numberOfCalls < 10);
             var numberOfResults = results.Count();
-            Assert.IsTrue(numberOfResults <= numberOfCalls, $"Expected less than, or equal to, {numberOfCalls}, but got {numberOfResults}");
+            Assert.True(numberOfResults <= numberOfCalls, $"Expected less than, or equal to, {numberOfCalls}, but got {numberOfResults}");
 
             cts.Dispose();
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_TaskT_No_Batching()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -212,49 +207,48 @@ namespace CSRakowski.Parallel.Tests
                 Interlocked.Increment(ref numberOfCalls);
 
                 return Task.FromResult(el);
-            }, maxBatchSize: 1, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+            }, maxBatchSize: 1, cancellationToken: cancellationToken);
 
-            Assert.AreEqual(10, numberOfCalls);
-            Assert.AreEqual(numberOfCalls, results.Count());
+            Assert.Equal(10, numberOfCalls);
+            Assert.Equal(numberOfCalls, results.Count());
 
             cts.Dispose();
         }
 
-        [Test]
-        public void ParallelAsync_Throws_On_Invalid_Inputs()
+        [Fact]
+        public async Task ParallelAsync_Throws_On_Invalid_Inputs()
         {
             var empty = new int[0];
             IEnumerable<int> nullEnumerable = null;
 
-            var ex1 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e) => TaskHelper.CompletedTask));
-            var ex2 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e, ct) => TaskHelper.CompletedTask));
+            var ex1 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e) => TaskHelper.CompletedTask));
+            var ex2 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e, ct) => TaskHelper.CompletedTask));
 
-            var ex3 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(nullEnumerable, (e) => Task.FromResult(e)));
-            var ex4 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(nullEnumerable, (e, ct) => Task.FromResult(e)));
+            var ex3 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(nullEnumerable, (e) => Task.FromResult(e)));
+            var ex4 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(nullEnumerable, (e, ct) => Task.FromResult(e)));
 
-            var ex5 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(empty, (Func<int, Task>)null));
-            var ex6 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(empty, (Func<int, CancellationToken, Task>)null));
+            var ex5 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(empty, (Func<int, Task>)null));
+            var ex6 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(empty, (Func<int, CancellationToken, Task>)null));
 
-            var ex7 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(empty, (Func<int, Task<int>>)null));
-            var ex8 = Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(empty, (Func<int, CancellationToken, Task<int>>)null));
+            var ex7 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(empty, (Func<int, Task<int>>)null));
+            var ex8 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(empty, (Func<int, CancellationToken, Task<int>>)null));
 
-            var ex9 = Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => ParallelAsync.ForEachAsync<int>(empty, (e) => TaskHelper.CompletedTask, -1));
+            var ex9 = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => ParallelAsync.ForEachAsync<int>(empty, (e) => TaskHelper.CompletedTask, -1));
 
-            Assert.AreEqual("collection", ex1.ParamName);
-            Assert.AreEqual("collection", ex2.ParamName);
-            Assert.AreEqual("collection", ex3.ParamName);
-            Assert.AreEqual("collection", ex4.ParamName);
+            Assert.Equal("collection", ex1.ParamName);
+            Assert.Equal("collection", ex2.ParamName);
+            Assert.Equal("collection", ex3.ParamName);
+            Assert.Equal("collection", ex4.ParamName);
 
-            Assert.AreEqual("func", ex5.ParamName);
-            Assert.AreEqual("func", ex6.ParamName);
-            Assert.AreEqual("func", ex7.ParamName);
-            Assert.AreEqual("func", ex8.ParamName);
+            Assert.Equal("func", ex5.ParamName);
+            Assert.Equal("func", ex6.ParamName);
+            Assert.Equal("func", ex7.ParamName);
+            Assert.Equal("func", ex8.ParamName);
 
-            Assert.AreEqual("maxBatchSize", ex9.ParamName);
+            Assert.Equal("maxBatchSize", ex9.ParamName);
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Batch_Basic_Work_Unordered()
         {
             const int numberOfElements = 100;
@@ -266,14 +260,13 @@ namespace CSRakowski.Parallel.Tests
                 var r = el + Interlocked.Increment(ref callCount);
 
                 return Task.FromResult(r);
-            }, maxBatchSize: 9, allowOutOfOrderProcessing: true, estimatedResultSize: input.Length)
-            .ConfigureAwait(false);
+            }, maxBatchSize: 9, allowOutOfOrderProcessing: true, estimatedResultSize: input.Length);
 
-            Assert.AreEqual(numberOfElements, callCount);
-            Assert.AreEqual(numberOfElements, results.Count());
+            Assert.Equal(numberOfElements, callCount);
+            Assert.Equal(numberOfElements, results.Count());
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Batch_Basic_Work_Void_Unordered()
         {
             const int numberOfElements = 100;
@@ -285,13 +278,12 @@ namespace CSRakowski.Parallel.Tests
                 var r = el + Interlocked.Increment(ref callCount);
 
                 return TaskHelper.CompletedTask;
-            }, maxBatchSize: 9, allowOutOfOrderProcessing: true)
-            .ConfigureAwait(false);
+            }, maxBatchSize: 9, allowOutOfOrderProcessing: true);
 
-            Assert.AreEqual(numberOfElements, callCount);
+            Assert.Equal(numberOfElements, callCount);
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Handle_Propagating_CancellationTokens_Unordered()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -305,17 +297,16 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, async (el) =>
             {
-                await Task.Delay(500).ConfigureAwait(false);
+                await Task.Delay(500);
                 Interlocked.Increment(ref numberOfCalls);
-            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken);
 
-            Assert.IsTrue(numberOfCalls < 10);
+            Assert.True(numberOfCalls < 10);
 
             cts.Dispose();
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_TaskT_Can_Handle_Propagating_CancellationTokens_Unordered()
         {
             var input = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -329,16 +320,15 @@ namespace CSRakowski.Parallel.Tests
 
             var results = await ParallelAsync.ForEachAsync(input, async (el) =>
             {
-                await Task.Delay(500).ConfigureAwait(false);
+                await Task.Delay(500);
 
                 Interlocked.Increment(ref numberOfCalls);
                 return el;
-            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+            }, allowOutOfOrderProcessing: true, maxBatchSize: 4, cancellationToken: cancellationToken);
 
-            Assert.IsTrue(numberOfCalls < 10);
+            Assert.True(numberOfCalls < 10);
             var numberOfResults = results.Count();
-            Assert.IsTrue(numberOfResults <= numberOfCalls, $"Expected less than, or equal to, {numberOfCalls}, but got {numberOfResults}");
+            Assert.True(numberOfResults <= numberOfCalls, $"Expected less than, or equal to, {numberOfCalls}, but got {numberOfResults}");
 
             cts.Dispose();
         }
