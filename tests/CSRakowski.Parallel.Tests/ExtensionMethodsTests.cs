@@ -122,8 +122,7 @@ namespace CSRakowski.Parallel.Tests
                                     .WithEstimatedResultSize(10)
                                     .WithMaxDegreeOfParallelism(2)
                                     .WithOutOfOrderProcessing(false)
-                                    .ForEachAsync((el) => Task.FromResult(el * 2), CancellationToken.None)
-;
+                                    .ForEachAsync((el) => Task.FromResult(el * 2), CancellationToken.None);
 
             Assert.NotNull(results);
 

@@ -30,7 +30,7 @@ namespace CSRakowski.Parallel.Tests
 
             var list = new List<int>();
 
-            await foreach (var item in parallelAsync.ForEachAsyncStream((el) => Task.FromResult(el * 2)).ConfigureAwait(false))
+            await foreach (var item in parallelAsync.ForEachAsyncStream((el) => Task.FromResult(el * 2)))
             {
                 list.Add(item);
             }
@@ -55,7 +55,7 @@ namespace CSRakowski.Parallel.Tests
 
             var list = new List<int>();
 
-            await foreach (var item in parallelAsync.ForEachAsyncStream((el, ct) => Task.FromResult(el * 2)).ConfigureAwait(false))
+            await foreach (var item in parallelAsync.ForEachAsyncStream((el, ct) => Task.FromResult(el * 2)))
             {
                 list.Add(item);
             }
@@ -79,8 +79,7 @@ namespace CSRakowski.Parallel.Tests
                                 .WithEstimatedResultSize(10)
                                 .WithMaxDegreeOfParallelism(2)
                                 .WithOutOfOrderProcessing(false)
-                                .ForEachAsyncStream((el) => Task.FromResult(el * 2), CancellationToken.None)
-                                .ConfigureAwait(false);
+                                .ForEachAsyncStream((el) => Task.FromResult(el * 2), CancellationToken.None);
 
             Assert.NotNull(asyncEnumerable);
 
@@ -115,7 +114,7 @@ namespace CSRakowski.Parallel.Tests
 
             var intermediateParallelAsync = intermediateResult.AsParallelAsync();
 
-            await foreach (var item in intermediateParallelAsync.ForEachAsyncStream((el, ct) => Task.FromResult(el * 2)).ConfigureAwait(false))
+            await foreach (var item in intermediateParallelAsync.ForEachAsyncStream((el, ct) => Task.FromResult(el * 2)))
             {
                 list.Add(item);
             }
