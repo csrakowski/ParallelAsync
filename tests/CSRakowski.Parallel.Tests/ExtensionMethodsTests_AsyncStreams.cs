@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSRakowski.Parallel;
-using NUnit.Framework;
+using Xunit;
 using CSRakowski.Parallel.Extensions;
 using System.Threading;
 using CSRakowski.Parallel.Helpers;
@@ -16,17 +16,17 @@ namespace CSRakowski.Parallel.Tests
 {
     #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 
-    [TestFixture, Category("ParallelAsync AsyncStreams Extension Methods Tests")]
+    [Collection("ParallelAsync AsyncStreams Extension Methods Tests")]
     public class ExtensionMethodsTests_AsyncStreams
     {
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Runs_With_Default_Settings()
         {
             var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
 
             var parallelAsync = input.AsParallelAsync();
 
-            Assert.IsNotNull(parallelAsync);
+            Assert.NotNull(parallelAsync);
 
             var list = new List<int>();
 
@@ -35,23 +35,23 @@ namespace CSRakowski.Parallel.Tests
                 list.Add(item);
             }
 
-            Assert.AreEqual(10, list.Count);
+            Assert.Equal(10, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
                 var expected = 2 * (1 + i);
-                Assert.AreEqual(expected, list[i]);
+                Assert.Equal(expected, list[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Runs_With_Default_Settings2()
         {
             var input = Enumerable.Range(1, 10).ToList().AsAsyncEnumerable();
 
             var parallelAsync = input.AsParallelAsync();
 
-            Assert.IsNotNull(parallelAsync);
+            Assert.NotNull(parallelAsync);
 
             var list = new List<int>();
 
@@ -60,16 +60,16 @@ namespace CSRakowski.Parallel.Tests
                 list.Add(item);
             }
 
-            Assert.AreEqual(10, list.Count);
+            Assert.Equal(10, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
                 var expected = 2 * (1 + i);
-                Assert.AreEqual(expected, list[i]);
+                Assert.Equal(expected, list[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Supports_Full_Fluent_Usage()
         {
             var asyncEnumerable = Enumerable
@@ -82,7 +82,7 @@ namespace CSRakowski.Parallel.Tests
                                 .ForEachAsyncStream((el) => Task.FromResult(el * 2), CancellationToken.None)
                                 .ConfigureAwait(false);
 
-            Assert.IsNotNull(asyncEnumerable);
+            Assert.NotNull(asyncEnumerable);
 
             var list = new List<int>();
 
@@ -91,23 +91,23 @@ namespace CSRakowski.Parallel.Tests
                 list.Add(item);
             }
 
-            Assert.AreEqual(10, list.Count);
+            Assert.Equal(10, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
                 var expected = 2 * (1 + i);
-                Assert.AreEqual(expected, list[i]);
+                Assert.Equal(expected, list[i]);
             }
         }
 
-        [Test]
+        [Fact]
         public async Task ParallelAsync_Can_Chain_Together_AsyncStreams()
         {
             var input = Enumerable.Range(1, 40).ToList().AsAsyncEnumerable();
 
             var parallelAsync = input.AsParallelAsync();
 
-            Assert.IsNotNull(parallelAsync);
+            Assert.NotNull(parallelAsync);
 
             var list = new List<int>();
 
@@ -120,12 +120,12 @@ namespace CSRakowski.Parallel.Tests
                 list.Add(item);
             }
 
-            Assert.AreEqual(40, list.Count);
+            Assert.Equal(40, list.Count);
 
             for (int i = 0; i < list.Count; i++)
             {
                 var expected = 4 * (1 + i);
-                Assert.AreEqual(expected, list[i]);
+                Assert.Equal(expected, list[i]);
             }
         }
     }
