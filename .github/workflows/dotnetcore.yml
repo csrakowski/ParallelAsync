@@ -15,20 +15,20 @@ jobs:
     steps:
 
     - name: Check out code onto host
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup .Net 3.1
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '3.1.x' # SDK Version to use.
 
     - name: Setup .Net 5.0
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '5.0.x' # SDK Version to use.
 
     - name: Setup .Net 6.0
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '6.0.x' # SDK Version to use.
 
@@ -49,7 +49,7 @@ jobs:
     - name: Build and Run unit tests
       continue-on-error: true
       run: |
-        dotnet test --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }}
+        dotnet test --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }} --logger trx --results-directory "TestResults-${{ matrix.os }}-${{ matrix.framework }}"
 
   #Benchmarks:
     - name: Run Benchmarks
@@ -72,6 +72,22 @@ jobs:
         cat ./BenchmarkDotNet.Artifacts/results/*.md
       if: matrix.framework == 'net60'
 
+    - name: Upload dotnet test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: dotnet-results-${{ matrix.os }}-${{ matrix.framework }}
+        path: TestResults-${{ matrix.os }}-${{ matrix.framework }}
+      # Use always() to always run this step to publish test results when there are test failures
+      if: ${{ always() }}
+      
+    - name: Upload BenchmarkDotNet results
+      uses: actions/upload-artifact@v3
+      with:
+        name: BenchmarkDotNet-${{ matrix.os }}-${{ matrix.framework }}
+        path: BenchmarkDotNet.Artifacts
+      # Use always() to always run this step to publish test results when there are test failures
+      if: ${{ always() }}
+
   build-netfx:
     name: Build and test .NET Framework
 
@@ -83,13 +99,13 @@ jobs:
     steps:
 
     - name: Check out code onto host
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v1.3.1
 
     - name: Setup .Net 6.0
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '6.0.x' # SDK Version to use.
 
@@ -110,4 +126,12 @@ jobs:
     - name: Build and Run unit tests
       continue-on-error: true
       run: |
-        dotnet test --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }}
+        dotnet test --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }} --logger trx --results-directory "TestResults-${{ matrix.os }}-${{ matrix.framework }}"
+
+    - name: Upload dotnet test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: dotnet-results-${{ matrix.os }}-${{ matrix.framework }}
+        path: TestResults-${{ matrix.os }}-${{ matrix.framework }}
+      # Use always() to always run this step to publish test results when there are test failures
+      if: ${{ always() }}
