@@ -42,7 +42,13 @@ namespace CSRakowski.Parallel.Tests
             Assert.Equal(10, collectionTSize);
 
             Assert.Equal(0, nullSize);
+
+#if NET8_0_OR_GREATER
+            // Due to .NET internal refactorings around the RangeIterator, the ListHelper now picks this up as an ICollection<T>, and we do actually get the actual size out of it.
+            Assert.Equal(10, enumerableSize);
+#else
             Assert.Equal(-1, enumerableSize);
+#endif
         }
 
         [Fact]

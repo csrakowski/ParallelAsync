@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest, ubuntu-latest]
-        framework: ['netcoreapp3.1', 'net50', 'net60']
+        framework: ['netcoreapp3.1', 'net50', 'net60', 'net80']
     steps:
 
     - name: Check out code onto host
@@ -31,6 +31,11 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '6.0.x' # SDK Version to use.
+
+    - name: Setup .Net 8.0
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x' # SDK Version to use.
 
     - name: Dotnet info
       run: |
@@ -55,22 +60,22 @@ jobs:
     - name: Run Benchmarks
       run: |
         dotnet run --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }} --project ./tests/CSRakowski.Parallel.Benchmarks/
-      if: matrix.framework == 'net60'
+      if: matrix.framework == 'net80'
 
     - name: "Benchmark result csv"
       run: |
         cat ./BenchmarkDotNet.Artifacts/results/*.csv
-      if: matrix.framework == 'net60'
+      if: matrix.framework == 'net80'
 
     - name: "Benchmark result html"
       run: |
         cat ./BenchmarkDotNet.Artifacts/results/*.html
-      if: matrix.framework == 'net60'
+      if: matrix.framework == 'net80'
 
     - name: "Benchmark result markdown"
       run: |
         cat ./BenchmarkDotNet.Artifacts/results/*.md
-      if: matrix.framework == 'net60'
+      if: matrix.framework == 'net80'
 
     - name: Upload dotnet test results
       uses: actions/upload-artifact@v3
@@ -104,10 +109,10 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.3.1
 
-    - name: Setup .Net 6.0
+    - name: Setup .Net 8.0
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '6.0.x' # SDK Version to use.
+        dotnet-version: '8.0.x' # SDK Version to use.
 
     - name: Dotnet info
       run: |
