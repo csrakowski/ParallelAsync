@@ -62,21 +62,6 @@ jobs:
         dotnet run --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }} --project ./tests/CSRakowski.Parallel.Benchmarks/
       if: matrix.framework == 'net80'
 
-    - name: "Benchmark result csv"
-      run: |
-        cat ./BenchmarkDotNet.Artifacts/results/*.csv
-      if: matrix.framework == 'net80'
-
-    - name: "Benchmark result html"
-      run: |
-        cat ./BenchmarkDotNet.Artifacts/results/*.html
-      if: matrix.framework == 'net80'
-
-    - name: "Benchmark result markdown"
-      run: |
-        cat ./BenchmarkDotNet.Artifacts/results/*.md
-      if: matrix.framework == 'net80'
-
     - name: Upload dotnet test results
       uses: actions/upload-artifact@v3
       with:
