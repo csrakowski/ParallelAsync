@@ -24,6 +24,7 @@ namespace CSRakowski.Parallel.Benchmarks
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
     [CategoriesColumn]
     [SimpleJob(RuntimeMoniker.Net60, baseline: true)]
+    [SimpleJob(RuntimeMoniker.Net80, baseline: false)]
     public class CompareWith_Parallel_ForEachAsync
     {
         private const int NumberOfItemsInCollection = 10000;

@@ -20,10 +20,13 @@ namespace CSRakowski.Parallel.Benchmarks
     [MemoryDiagnoser]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByCategory)]
     [CategoriesColumn]
-    [SimpleJob(RuntimeMoniker.Net48, baseline: true)]
+#if OS_WINDOWS
+    [SimpleJob(RuntimeMoniker.Net48, baseline: false)]
+#endif
     [SimpleJob(RuntimeMoniker.NetCoreApp31, baseline: false)]
     [SimpleJob(RuntimeMoniker.Net50, baseline: false)]
-    [SimpleJob(RuntimeMoniker.Net60, baseline: false)]
+    [SimpleJob(RuntimeMoniker.Net60, baseline: true)]
+    [SimpleJob(RuntimeMoniker.Net80, baseline: false)]
     public class ParallelAsyncBenchmarks_AsyncStreams
     {
         private const int NumberOfItemsInCollection = 10000;
@@ -62,18 +65,18 @@ namespace CSRakowski.Parallel.Benchmarks
         {
             int count = 0;
 
-            #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 
             await foreach (var r in ParallelAsync.ForEachAsyncStream(InputNumbers, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None))
             {
                 count++;
             }
 
-            #else
+#else
 
             await Task.CompletedTask;
 
-            #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+#endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 
             return count;
         }
@@ -83,18 +86,18 @@ namespace CSRakowski.Parallel.Benchmarks
         {
             int count = 0;
 
-            #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 
             await foreach (var r in ParallelAsync.ForEachAsyncStream(InputNumbersAsync, TestFunctions.JustAddOne_WithCancellationToken, MaxBatchSize, AllowOutOfOrder, NumberOfItemsInCollection, CancellationToken.None))
             {
                 count++;
             }
             
-            #else
+#else
 
             await Task.CompletedTask;
 
-            #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+#endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 
             return count;
         }
