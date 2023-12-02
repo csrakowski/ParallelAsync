@@ -4,6 +4,8 @@ A .NET utility library for running async methods in parallel batches.
 Available on NuGet: [![NuGet](https://img.shields.io/nuget/v/CSRakowski.ParallelAsync.svg)](https://www.nuget.org/packages/CSRakowski.ParallelAsync/)
  and GitHub: [![GitHub stars](https://img.shields.io/github/stars/csrakowski/ParallelAsync.svg)](https://github.com/csrakowski/ParallelAsync/)
 
+On the side, working on improving usage of [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8154/badge)](https://www.bestpractices.dev/projects/8154)
+
 Example usage:
 ```cs
 using CSRakowski.Parallel;
@@ -81,7 +83,7 @@ await foreach (var result in resultStream)
 
 ### 1.4.1
 * Updated dependencies
- 
+
 ### 1.4
 * Added gist support for `IAsyncEnumberable<T>`
 
