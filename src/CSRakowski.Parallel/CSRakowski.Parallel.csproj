@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net452;net60;net50;netstandard2.1;netstandard2.0;netstandard1.1</TargetFrameworks>
+    <TargetFrameworks>net472;net60;netstandard2.1;netstandard2.0;netstandard1.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company />
     <PackageId>CSRakowski.ParallelAsync</PackageId>
@@ -15,7 +15,7 @@
     <PackageTags>Parallel, Async, Batching</PackageTags>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>CSRakowski.Parallel.snk</AssemblyOriginatorKeyFile>
-    <PackageReleaseNotes>* First attempt at enabling SourceLink.
+    <PackageReleaseNotes>* Updated TargetFrameworks to remove old unsupported ones.
     </PackageReleaseNotes>
     <RootNamespace>CSRakowski.Parallel</RootNamespace>
     <AssemblyName>CSRakowski.Parallel</AssemblyName>
@@ -26,10 +26,10 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net472'">
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
   </ItemGroup>
     
-  <ItemGroup Condition="'$(TargetFramework)' == 'net452' or '$(TargetFramework)' == 'netstandard1.1'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
     <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.5.2" />
   </ItemGroup>
 
