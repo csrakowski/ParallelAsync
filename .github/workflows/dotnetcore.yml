@@ -11,31 +11,26 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest, ubuntu-latest]
-        framework: ['netcoreapp3.1', 'net50', 'net60', 'net80']
+        framework: ['net60', 'net80', 'net90']
     steps:
 
     - name: Check out code onto host
       uses: actions/checkout@v4
 
-    - name: Setup .Net 3.1
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '3.1.x' # SDK Version to use.
-
-    - name: Setup .Net 5.0
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '5.0.x' # SDK Version to use.
-
     - name: Setup .Net 6.0
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '6.0.x' # SDK Version to use.
 
     - name: Setup .Net 8.0
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x' # SDK Version to use.
+
+    - name: Setup .Net 9.0
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x' # SDK Version to use.
 
     - name: Dotnet info
       run: |
@@ -63,7 +58,7 @@ jobs:
       if: matrix.framework == 'net80'
 
     - name: Upload dotnet test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: dotnet-results-${{ matrix.os }}-${{ matrix.framework }}
         path: TestResults-${{ matrix.os }}-${{ matrix.framework }}
@@ -71,7 +66,7 @@ jobs:
       if: ${{ always() }}
       
     - name: Upload BenchmarkDotNet results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: BenchmarkDotNet-${{ matrix.os }}-${{ matrix.framework }}
         path: BenchmarkDotNet.Artifacts
@@ -85,7 +80,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        framework: ['net45', 'net472', 'net48']
+        framework: ['net472', 'net48']
     steps:
 
     - name: Check out code onto host
@@ -95,7 +90,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.3.1
 
     - name: Setup .Net 8.0
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x' # SDK Version to use.
 
@@ -119,7 +114,7 @@ jobs:
         dotnet test --no-restore --configuration Release --verbosity normal --framework=${{ matrix.framework }} --logger trx --results-directory "TestResults-${{ matrix.os }}-${{ matrix.framework }}"
 
     - name: Upload dotnet test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: dotnet-results-windows-latest-${{ matrix.framework }}
         path: TestResults-windows-latest-${{ matrix.framework }}

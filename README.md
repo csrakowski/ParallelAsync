@@ -57,6 +57,9 @@ await foreach (var result in resultStream)
 
 # Release notes
 
+### 1.8.0
+* Updated TargetFrameworks to remove old unsupported ones.
+
 ### 1.7.2
 * First attempt at enabling SourceLink.
 
