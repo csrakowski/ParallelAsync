@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.15.0" />
-    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.5.2" />
+    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETFramework' ">

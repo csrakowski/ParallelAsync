@@ -1,7 +1,7 @@
 <Project>
 	<PropertyGroup>
 		<Authors>Christiaan Rakowski</Authors>
-		<Copyright>Christiaan Rakowski - 2017-2024</Copyright>
+		<Copyright>Christiaan Rakowski - 2017-2025</Copyright>
 		<Version>1.8.0</Version>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
