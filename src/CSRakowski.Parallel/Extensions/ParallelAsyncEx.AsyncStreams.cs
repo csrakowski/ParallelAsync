@@ -28,7 +28,7 @@ namespace CSRakowski.Parallel.Extensions
         /// <returns>The results of the operations</returns>
         /// <exception cref="ArgumentNullException">Thrown when either <paramref name="parallelAsync"/> or <paramref name="func"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the configured maximum batch size is a negative number.</exception>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TInput, TResult>(this IParallelAsyncEnumerable<TInput> parallelAsync, Func<TInput, Task<TResult>> func, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TInput, TResult>(this IParallelAsyncEnumerable<TInput> parallelAsync, Func<TInput, Task<TResult>> func, CancellationToken cancellationToken = default)
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
@@ -53,7 +53,7 @@ namespace CSRakowski.Parallel.Extensions
         /// <returns>The results of the operations</returns>
         /// <exception cref="ArgumentNullException">Thrown when either <paramref name="parallelAsync"/> or <paramref name="func"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the configured maximum batch size is a negative number.</exception>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TInput, TResult>(this IParallelAsyncEnumerable<TInput> parallelAsync, Func<TInput, CancellationToken, Task<TResult>> func, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TInput, TResult>(this IParallelAsyncEnumerable<TInput> parallelAsync, Func<TInput, CancellationToken, Task<TResult>> func, CancellationToken cancellationToken = default)
         {
             var obj = EnsureValidEnumerable(parallelAsync);
 
@@ -71,5 +71,4 @@ namespace CSRakowski.Parallel.Extensions
     }
 
     #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
 }
