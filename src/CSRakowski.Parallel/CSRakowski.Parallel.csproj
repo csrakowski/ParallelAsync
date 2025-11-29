@@ -22,6 +22,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <!-- Suppress "NETSDK1215: Targeting .NET Standard prior to 2.0 is no longer recommended." This is expected for legacy compatibility. -->
+    <NoWarn>$(NoWarn);NETSDK1215</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CSRakowski.Parallel.xml</DocumentationFile>
   </PropertyGroup>
 
