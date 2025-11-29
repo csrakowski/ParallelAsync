@@ -14,8 +14,6 @@ using CSRakowski.AsyncStreamsPreparations;
 
 namespace CSRakowski.Parallel.Tests
 {
-    #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
     [Collection("ParallelAsync AsyncStreams Extension Methods Tests")]
     public class ExtensionMethodsTests_AsyncStreams
     {
@@ -128,7 +126,4 @@ namespace CSRakowski.Parallel.Tests
             }
         }
     }
-
-    #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
 }

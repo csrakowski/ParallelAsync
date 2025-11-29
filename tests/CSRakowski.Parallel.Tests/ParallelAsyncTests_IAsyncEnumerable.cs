@@ -44,7 +44,7 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
-                return TaskHelper.CompletedTask;
+                return Task.CompletedTask;
             }, maxBatchSize: 1);
 
             Assert.True(true);
@@ -107,7 +107,7 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
-                return TaskHelper.CompletedTask;
+                return Task.CompletedTask;
             }, maxBatchSize: 4, cancellationToken: cancellationToken);
 
             Assert.True(true);
@@ -122,7 +122,7 @@ namespace CSRakowski.Parallel.Tests
 
             await ParallelAsync.ForEachAsync(input, (el) =>
             {
-                return TaskHelper.CompletedTask;
+                return Task.CompletedTask;
             }, maxBatchSize: 4, cancellationToken: cancellationToken);
 
             Assert.True(true);
@@ -223,8 +223,8 @@ namespace CSRakowski.Parallel.Tests
             var empty = new int[0].AsAsyncEnumerable();
             IAsyncEnumerable<int> nullEnumerable = null;
 
-            var ex1 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e) => TaskHelper.CompletedTask));
-            var ex2 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e, ct) => TaskHelper.CompletedTask));
+            var ex1 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e) => Task.CompletedTask));
+            var ex2 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int>(nullEnumerable, (e, ct) => Task.CompletedTask));
 
             var ex3 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(nullEnumerable, (e) => Task.FromResult(e)));
             var ex4 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(nullEnumerable, (e, ct) => Task.FromResult(e)));
@@ -235,7 +235,7 @@ namespace CSRakowski.Parallel.Tests
             var ex7 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(empty, (Func<int, Task<int>>)null));
             var ex8 = await Assert.ThrowsAsync<ArgumentNullException>(() => ParallelAsync.ForEachAsync<int, int>(empty, (Func<int, CancellationToken, Task<int>>)null));
 
-            var ex9 = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => ParallelAsync.ForEachAsync<int>(empty, (e) => TaskHelper.CompletedTask, -1));
+            var ex9 = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => ParallelAsync.ForEachAsync<int>(empty, (e) => Task.CompletedTask, -1));
 
             Assert.Equal("collection", ex1.ParamName);
             Assert.Equal("collection", ex2.ParamName);
@@ -279,7 +279,7 @@ namespace CSRakowski.Parallel.Tests
             {
                 var r = el + Interlocked.Increment(ref callCount);
 
-                return TaskHelper.CompletedTask;
+                return Task.CompletedTask;
             }, maxBatchSize: 9, allowOutOfOrderProcessing: true);
 
             Assert.Equal(numberOfElements, callCount);

@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace CSRakowski.Parallel
 {
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
     public static partial class ParallelAsync
     {
         #region IEnumerable<T>        
@@ -41,12 +39,16 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
         {
+#if NET8_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(func);
+#else
             if (func == null)
             {
                 throw new ArgumentNullException(nameof(func));
             }
+#endif //NET8_0_OR_GREATER
 
             var funcWithCancellationToken = WrapFunc(func);
             return ForEachAsyncStream<TResult, TIn>(collection, funcWithCancellationToken, maxBatchSize, allowOutOfOrderProcessing, estimatedResultSize, cancellationToken);
@@ -80,8 +82,12 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
         {
+#if NET8_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(func);
+#else
             if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));
@@ -91,6 +97,7 @@ namespace CSRakowski.Parallel
             {
                 throw new ArgumentNullException(nameof(func));
             }
+#endif //NET8_0_OR_GREATER
 
             var maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
@@ -319,12 +326,16 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
         {
+#if NET8_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(func);
+#else
             if (func == null)
             {
                 throw new ArgumentNullException(nameof(func));
             }
+#endif //NET8_0_OR_GREATER
 
             var funcWithCancellationToken = WrapFunc(func);
             return ForEachAsyncStream<TResult, TIn>(collection, funcWithCancellationToken, maxBatchSize, allowOutOfOrderProcessing, estimatedResultSize, cancellationToken);
@@ -358,8 +369,12 @@ namespace CSRakowski.Parallel
         /// Setting this value to low, will mean a too small list will be allocated and you will have to pay a small performance hit for the resizing of the list during execution.
         /// </para>
         /// </remarks>
-        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<TResult> ForEachAsyncStream<TResult, TIn>(IAsyncEnumerable<TIn> collection, Func<TIn, CancellationToken, Task<TResult>> func, int maxBatchSize = 0, bool allowOutOfOrderProcessing = false, int estimatedResultSize = 0, CancellationToken cancellationToken = default)
         {
+#if NET8_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(func);
+#else
             if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));
@@ -369,6 +384,7 @@ namespace CSRakowski.Parallel
             {
                 throw new ArgumentNullException(nameof(func));
             }
+#endif //NET8_0_OR_GREATER
 
             int maxBatchSizeToUse = DetermineBatchSizeToUse(maxBatchSize);
 
@@ -555,8 +571,7 @@ namespace CSRakowski.Parallel
             ParallelAsyncEventSource.Log.RunStop(runId);
         }
 
-        #endregion IAsyncEnumerable<T>
+#endregion IAsyncEnumerable<T>
     }
 
-#endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 }

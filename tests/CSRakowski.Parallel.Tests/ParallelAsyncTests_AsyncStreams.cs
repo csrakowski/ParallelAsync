@@ -13,8 +13,6 @@ using CSRakowski.Parallel.Extensions;
 
 namespace CSRakowski.Parallel.Tests
 {
-    #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
     [Collection("ParallelAsync AsyncStreams Tests")]
     public class ParallelAsyncTests_AsyncStreams
     {
@@ -266,7 +264,4 @@ namespace CSRakowski.Parallel.Tests
             }
         }
     }
-
-    #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
 }
