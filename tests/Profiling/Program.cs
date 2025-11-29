@@ -32,7 +32,10 @@ namespace Profiling
             return 1;
             /*/
             var resultCount = results.Count();
-            return resultCount;
+
+            return (resultCount == numberOfElements)
+                        ? 0
+                        : numberOfElements - resultCount;
             //*/
         }
 
