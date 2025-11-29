@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;net80;net60;netstandard2.1;netstandard2.0;netstandard1.1</TargetFrameworks>
+    <TargetFrameworks>net80;net472;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Company />
     <PackageId>CSRakowski.ParallelAsync</PackageId>
@@ -22,20 +22,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <!-- Suppress "NETSDK1215: Targeting .NET Standard prior to 2.0 is no longer recommended." This is expected for legacy compatibility. -->
-    <NoWarn>$(NoWarn);NETSDK1215</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\CSRakowski.Parallel.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net472'">
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
-    <PackageReference Include="CSRakowski.AsyncStreamsPreparations" Version="1.6.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="[6.0.0,)" />
   </ItemGroup>
 
   <ItemGroup>

@@ -83,7 +83,7 @@ namespace CSRakowski.Parallel.Tests
                 Interlocked.Add(ref sum, el);
                 Interlocked.Increment(ref count);
 
-                return TaskHelper.CompletedTask;
+                return Task.CompletedTask;
             });
 
             Assert.Equal(55, sum);
@@ -106,7 +106,7 @@ namespace CSRakowski.Parallel.Tests
                 Interlocked.Add(ref sum, el);
                 Interlocked.Increment(ref count);
 
-                return TaskHelper.CompletedTask;
+                return Task.CompletedTask;
             });
 
             Assert.Equal(55, sum);

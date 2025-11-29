@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace CSRakowski.Parallel
 {
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
     public static partial class ParallelAsync
     {
         #region IEnumerable<T>        
@@ -576,5 +574,4 @@ namespace CSRakowski.Parallel
 #endregion IAsyncEnumerable<T>
     }
 
-#endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-        }
+}

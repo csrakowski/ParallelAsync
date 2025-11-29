@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace CSRakowski.Parallel.Extensions
 {
-    #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
-
     /// <summary>
     /// Extension methods to allow using the functionalities of <see cref="ParallelAsync"/> with a fluent syntax
     /// </summary>
@@ -69,6 +67,4 @@ namespace CSRakowski.Parallel.Extensions
 
         #endregion ForEachAsyncStream overloads
     }
-
-    #endif //NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 }
