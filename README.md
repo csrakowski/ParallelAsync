@@ -57,6 +57,9 @@ await foreach (var result in resultStream)
 
 # Release notes
 
+### 1.8.1
+* Dropped support for .NET 6.0
+
 ### 1.8.0
 * Updated TargetFrameworks to remove old unsupported ones.
 
