@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/SolutionItems/.github/">
+    <File Path=".github/copilot-instructions.md" />
+    <File Path=".github/dependabot.yml" />
+  </Folder>
+  <Folder Name="/SolutionItems/.github/workflows/">
+    <File Path=".github/workflows/dotnetcore.yml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/CSRakowski.Parallel/CSRakowski.Parallel.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CSRakowski.Parallel.Benchmarks/CSRakowski.Parallel.Benchmarks.csproj" />
+    <Project Path="tests/CSRakowski.Parallel.Tests/CSRakowski.Parallel.Tests.csproj" />
+    <Project Path="tests/Profiling/Profiling.csproj" Id="695e8128-39a1-4c05-b182-e6fd18786b0f">
+      <BuildDependency Project="src/CSRakowski.Parallel/CSRakowski.Parallel.csproj" />
+    </Project>
+  </Folder>
+</Solution>
