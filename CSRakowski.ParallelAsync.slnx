@@ -1,4 +1,14 @@
 <Solution>
+  <Folder Name="/docs/">
+    <File Path="docs/advanced-topics.md" />
+    <File Path="docs/api-reference.md" />
+    <File Path="docs/async-streams.md" />
+    <File Path="docs/basic-usage.md" />
+    <File Path="docs/fluent-api.md" />
+    <File Path="docs/getting-started.md" />
+    <File Path="docs/migration-guide.md" />
+    <File Path="docs/README.md" />
+  </Folder>
   <Folder Name="/SolutionItems/">
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
